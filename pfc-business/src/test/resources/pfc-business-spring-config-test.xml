@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
+    <!--  Data source. -->
+    <bean id="dataSource"
+        class="org.springframework.jdbc.datasource.SingleConnectionDataSource"
+        p:driverClassName="${jdbcDriver.className}"
+        p:url="${testDataSource.url}" p:username="${testDataSource.user}"
+        p:password="${testDataSource.password}" 
+        p:suppressClose="true" />
+        
+ <!--     <bean id="sessionFactory"
+        class="org.springframework.orm.hibernate3.LocalSessionFactoryBean"
+        p:dataSource-ref="dataSource"
+        p:configLocation="classpath:/pfc-business-hibernate-config-test.xml">
+        <property name="mappingResources">
+        	<list>
+        		<value>
+        			org/pfc/business/device/Device.hbm.xml
+        		</value>
+        	</list>
+        </property>
+    </bean> -->
+
+<!--  DAOs. 
+    <bean id="deviceDao"
+        class="org.pfc.business.device.DeviceDao"
+        p:sessionFactory-ref="sessionFactory" />      -->  
+        
+         <!--  Service layer.        
+    <bean id="deviceService"
+    	class="org.pfc.business.deviceservice.DeviceService"
+    	p:deviceDao-ref="deviceDao" />--> 
+</beans>

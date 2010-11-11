@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
+    <!-- Enable usage of @Autowired. -->
+    <context:annotation-config/>
+
+    <!-- Enable component scanning for defining beans with annotations. -->
+    <context:component-scan base-package="org.pfc.business"/>
+
+	<!--  Data source. -->
+	<bean id="dataSource"
+		class="org.springframework.jndi.JndiObjectFactoryBean"
+		p:jndiName="${dataSource.jndiName}"
+		p:resourceRef="true" />
+
+	<!-- ***********************************************************************
+	     To avoid requesting unnecessary connections (not necessary for
+	     MiniBank) with the Open Session in View filter, uncomment this and
+	     change "sessionFactory" bean (bellow) to use "dataSourceProxy" instead
+	     of "dataSource".
+	       ******************************************************************* -->
+	<bean id="dataSourceProxy" class="org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy"
+		p:targetDataSource-ref="dataSource"/>
+	   
+
+	<!-- Hibernate Session Factory 
+    <bean id="sessionFactory"
+        class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean"
+        p:dataSource-ref="dataSource"
+        p:configLocation="classpath:/pfc-business-hibernate-config.xml"/>-->
+    <bean id="sessionFactory"
+        class="org.springframework.orm.hibernate3.LocalSessionFactoryBean"
+        p:dataSource-ref="dataSource"
+        p:configLocation="classpath:/pfc-business-hibernate-config.xml">
+        <property name="mappingResources">
+        	<list>
+        		<value>
+        			org/pfc/business/device/Device.hbm.xml
+        		</value>
+        	</list>
+        </property>
+    </bean>
+
+    <!-- Transaction manager for a single Hibernate SessionFactory.  -->
+    <bean id="transactionManager"
+        class="org.springframework.orm.hibernate3.HibernateTransactionManager"
+        p:sessionFactory-ref="sessionFactory" />
+
+	<!-- Enable the configuration of transactional behavior based on
+	     annotations. -->
+    <tx:annotation-driven transaction-manager="transactionManager" />
+
+ 	<!--  DAOs. -->
+    <bean id="deviceDao"
+        class="org.pfc.business.device.DeviceDao"
+        p:sessionFactory-ref="sessionFactory" />
+      
+	<!--  Service layer. -->        
+    <bean id="deviceService"
+    	class="org.pfc.business.deviceservice.DeviceService"
+    	p:deviceDao-ref="deviceDao" />
+</beans>
