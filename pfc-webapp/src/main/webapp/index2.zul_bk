@@ -1,0 +1,76 @@
+<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit"?>
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+<window id="win" title="Lista de dispositivos" width="1200px" border="normal" apply="org.pfc.web.DeviceController2">
+<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAnfs7bKE82qgb3Zc2YyS-oBT2yXp_ZAY8_ufC3CFXhHIE1NvwkxSySz_REpPq-4WZA27OwgbtyR3VcA"
+    type="text/javascript"></script>
+    <hbox>
+	<grid fixedLayout="true">
+		<columns>
+			<column width="80px" />
+			<column />
+		</columns>
+		<rows>
+			<row>
+				<label value="Name" width="80px" /> 
+				<textbox id="name" value="@{newDev.name}" />
+			</row>
+			<row>
+				<label value="Description" width="80px" />
+				<textbox id="description" value="@{newDev.description}" />
+			</row>
+			<row>
+				<label value="IP address" width="80px" />
+				<textbox id="ipAddress" value="@{newDev.ipAddress}" />
+			</row>
+			<row>
+				<label value="Position" width="80px" />
+				<vbox>
+					<hbox>
+						<label value="Latitude: " width="80px" />
+						<doublebox id="lat" value="@{newDev.lat}" cols="20" />
+					</hbox>
+					<hbox>
+						<label value="Longitude: " width="80px" />
+						<doublebox id="lng" value="@{newDev.lng}" cols="20" />
+					</hbox>
+				</vbox>
+			</row>
+			<row>
+				<label />
+				<hbox>
+					<button id="add" label="Add" width="36px" height="24px"/>
+					<button id="delete" label="Delete" width="46px" height="24px"/>
+				</hbox>
+			</row>
+		</rows>
+	</grid>
+	<gmaps id="map" width="800px" height="500px" lat="43.354891546397745" lng="-8.416385650634766" showTypeCtrl="true" showSmallCtrl="true">
+		    <attribute name="onMapMove">
+		    	lat.setValue(self.lat);
+		    	lng.setValue(self.lng);
+		    </attribute>
+		</gmaps>
+	</hbox>
+	
+	<listbox id="box" multiple="true" model="@{win$composer.allDevices, load-after='add.onClick, delete.onClick'}"
+    	selectedItem="@{win$composer.current}">
+                <listhead sizable="true">
+                        <listheader label="Name" width="90px"/>
+                        <listheader label="Description" />
+                        <listheader label="IP" width="90px" />                       
+                </listhead>
+                <listitem self="@{each='device'}" value="@{device}">
+                        <listcell label="@{device.name}" />
+                        <listcell label="@{device.description}" />
+                        <listcell label="@{device.ipAddress}" />     
+                </listitem>
+    </listbox> 
+    <groupbox width="1150px">
+        <caption label="Device" />
+                Name: <textbox cols="25" value="@{win$composer.current.name}" />
+                Description: <textbox cols="41" value="@{win$composer.current.description}" />
+                IP Address: <textbox cols="17" value="@{win$composer.current.ipAddress}" />
+             	Latitude: <doublebox cols="5" value="@{win$composer.current.lat}" />
+            	Longitude: <doublebox cols="5" value="@{win$composer.current.lng}" />                
+    </groupbox>
+</window>
