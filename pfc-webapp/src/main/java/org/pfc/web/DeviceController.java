@@ -63,7 +63,6 @@ public class DeviceController extends GenericForwardComposer{
 	}
 	private IDeviceService deviceService;
 	
-	//@Autowired
 	public void setDeviceService(IDeviceService deviceService) {
 		this.deviceService = deviceService;
 	}
