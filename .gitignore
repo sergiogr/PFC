@@ -1,0 +1,9 @@
+# ignore eclipse configuration files
+.classpath
+.project
+.settings/
+
+#ignore target directory
+pfc-business/target
+pfc-webapp/target
+pfc-snmp/target
