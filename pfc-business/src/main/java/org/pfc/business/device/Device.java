@@ -2,37 +2,31 @@ package org.pfc.business.device;
 
 import com.vividsolutions.jts.geom.Point;
 
-//@Entity
-//@Table(name = "DEVICE")
+
 public class Device {
 
-//        @Id
-//        @GeneratedValue
-//        @Column(name = "DEV_ID")
+
         private Long id;
 
-//        @Column(name = "DEV_NAME")
         private String name;
 
-//        @Column(name = "DEV_DESC")
         private String description;
 
-//        @Column(name = "DEV_IP")
         private String ipAddress;
         
         private String publicCommunity;
         
         private String snmpPort;
 
-//        @Column(name = "DEV_POS")
-//        @Type(type = "org.hibernatespatial.GeometryUserType")
         private Point position;
         
         private double lat;
         
         private double lng;
 
-        public Device() {}
+        public Device() {
+        	
+        }
 
         public Device(String name, String description, String ipAddress, String publicCommunity, String snmpPort, Point position, double lat, double lng) {
                 this.name = name;

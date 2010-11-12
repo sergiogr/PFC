@@ -11,10 +11,7 @@ import org.pfc.business.util.exceptions.InstanceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-
-
-public class GenericDao<E, PK extends Serializable> implements
-IGenericDao<E, PK> {
+public class GenericDao<E, PK extends Serializable> implements IGenericDao<E, PK> {
 
 	private SessionFactory sessionFactory;
 

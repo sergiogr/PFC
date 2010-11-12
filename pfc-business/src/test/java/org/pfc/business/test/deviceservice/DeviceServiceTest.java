@@ -27,25 +27,14 @@ import com.vividsolutions.jts.geom.Point;
 @Transactional
 public class DeviceServiceTest {
 	
-//	@Autowired
 	private IDeviceDao deviceDao;
 
 	@Autowired
 	public void setDeviceDao(IDeviceDao deviceDao) {
 		this.deviceDao = deviceDao;
 	}
-//	@Autowired
+
 	private IDeviceService deviceService;
-	
-//	@BeforeClass
-//	public static void populateDb() throws Throwable {
-//		DbUtil.populateDb();
-//	}
-//
-//	@AfterClass
-//	public static void cleanDb() throws Throwable {
-//		DbUtil.cleanDb();
-//	}
 	
 	@Autowired
 	public void setDeviceService(IDeviceService deviceService) {
@@ -69,26 +58,10 @@ public class DeviceServiceTest {
 		deviceDao.save(new Device("APtest","Desc","1.1.1.1","public", "161",position, 0, 0));
 		List<Device> devices;
 		devices=deviceService.findAllDevice();
-//		System.out.println(devices.get(0).getName()+"\n Coordenada:"+devices.get(0).getPosition().getX());
 		System.out.println("Number of Devices: " + devices.size());
 		assertTrue(devices.size() == 1);
 		// Se comprueba que el posición se almacena correctamente.
 		assertEquals(devices.get(0).getPosition(), position);
-	
 	}
-
-//	@Test
-//	public void testFindAllDeviceInfos(){
-//		GeometryFactory geom = new GeometryFactory();
-//        Point position = geom.createPoint(new Coordinate(3, 3));
-//		deviceDao.save(new Device("APtest2","Desc","1.1.1.1",position, 0, 0));
-//		List<DeviceInfo> devices;
-//		devices=deviceService.findAllDeviceInfos();
-////		System.out.println(devices.get(0).getName()+"\n Coordenada:"+devices.get(0).getPosition().getX());
-//		System.out.println("Number of Devices: " + devices.size());
-//		assertTrue(devices.size() == 1);
-//		// Se comprueba que el posición se almacena correctamente.
-//		assertTrue(devices.get(0).getLat() == 3);
-//	
-//	}
+	
 }

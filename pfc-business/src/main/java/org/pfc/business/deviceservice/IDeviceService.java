@@ -12,8 +12,5 @@ public interface IDeviceService {
 	public void removeDevice(Long deviceId) throws InstanceNotFoundException;
 	
 	public List<Device> findAllDevice();
-	
-	public List<String> findAllNames();
 
-	public double getPosition(Long id) throws InstanceNotFoundException;
 }

@@ -8,6 +8,4 @@ public interface IDeviceDao extends IGenericDao<Device, Long> {
 
 	public List<Device> getAllDevices();
 	
-	public List<String> getAllNames();
-	
 }
