@@ -1,13 +1,38 @@
-<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit"?>
+<?page title="Página de inicio" ?>
+<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" ?>
 <?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
-<window id="win" title="Lista de dispositivos" width="1200px" border="normal" apply="org.pfc.web.DeviceController">
+<!--  <?component name="initPage" macroURI="/index.zul" inline="true" ?> -->
+
+<zk>
 <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAnfs7bKE82qgb3Zc2YyS-oBT2yXp_ZAY8_ufC3CFXhHIE1NvwkxSySz_REpPq-4WZA27OwgbtyR3VcA"
     type="text/javascript"></script>
-    <hbox>
-	<grid fixedLayout="true">
+<window id="win" title="Sistema de Monitorización de Red" apply="org.pfc.web.device.DeviceCRUDController" border="normal" width="1250px">
+
+
+<toolbarbutton id="addDevice" label="+" height="30px" />
+<toolbarbutton id="editDevice" label="e" height="30px" />
+<toolbarbutton id="delDevice" label="-" height="30px" />    
+<toolbarbutton id="addTestData" label="Añadir dispositivos de prueba" height="30px" />
+<hbox>
+<vbox>
+<listbox id="deviceListbox" mold="paging" rows="20" pageSize="20" model="@{win$composer.devices, load-after='addTestData.onClick, save.onClick, delDevice.onClick' }" 
+selectedItem="@{win$composer.current}" >
+                <listhead sizable="true">
+                        <listheader label="Name" />
+                        <listheader label="Description" />
+                        <listheader label="IP"  />                     
+                </listhead>
+                <listitem self="@{each='device'}" value="@{device}">
+                        <listcell label="@{device.name}" />
+                        <listcell label="@{device.description}" />
+                        <listcell label="@{device.ipAddress}" />    
+                </listitem>
+    </listbox> 
+
+<grid id="addForm" sizedByContent="true" visible="false">
 		<columns>
-			<column width="80px" />
-			<column />
+			<column width="150px" />
+			<column width="250px"/>
 		</columns>
 		<rows>
 			<row>
@@ -24,67 +49,44 @@
 			</row>
 				<row>
 				<label value="Public Community" width="80px" />
-				<textbox id="pubCommunity" />
+				<textbox id="pubCommunity" value="public" />
 			</row>
 				<row>
 				<label value="SNMP Port" width="80px" />
-				<textbox id="snmpPort" />
+				<textbox id="snmpPort" value="161"/>
 			</row>
 			<row>
 				<label value="Position" width="80px" />
 				<vbox>
 					<hbox>
 						<label value="Latitude: " width="80px" />
-						<doublebox id="lat" value="@{map.lat}" cols="20" />
+						<doublebox id="lat"  cols="20" />
 					</hbox>
 					<hbox>
 						<label value="Longitude: " width="80px" />
-						<doublebox id="lng" value="@{map.lng}" cols="20" />
+						<doublebox id="lng" cols="20" />
 					</hbox>
 				</vbox>
 			</row>
 			<row>
 				<label />
 				<hbox>
-					<button id="add" label="Add" width="36px" height="24px"/>
+					<button id="save" label="Save" width="50px" height="24px"/>
+					<button id="cancel" label="Cancel" width="50px" height="24px"/>
 				</hbox>
 			</row>
 		</rows>
 	</grid>
-	<gmaps id="map" width="800px" height="500px" lat="43.354891546397745" lng="-8.416385650634766" showTypeCtrl="true" showSmallCtrl="true">
-		    <attribute name="onMapMove">
-		    	lat.setValue(self.lat);
-		    	lng.setValue(self.lng);
-		    </attribute>
-		</gmaps>
-	</hbox>
-	
-	<listbox id="box" multiple="true" model="@{win$composer.allDevices, load-after='add.onClick, delete.onClick, update.onClick'}"
-    	selectedItem="@{win$composer.current}">
-                <listhead sizable="true">
-                        <listheader label="Name" width="90px"/>
-                        <listheader label="Description" />
-                        <listheader label="IP" width="90px" />                       
-                </listhead>
-                <listitem self="@{each='device'}" value="@{device}">
-                        <listcell label="@{device.name}" />
-                        <listcell label="@{device.description}" />
-                        <listcell label="@{device.ipAddress}" />     
-                </listitem>
-    </listbox> 
-    <groupbox width="1150px">
-        <caption label="Selected Device" />
-                Name: <textbox cols="25" value="@{win$composer.current.name}" />
-                Description: <textbox cols="41" value="@{win$composer.current.description}" />
-                IP Address: <textbox cols="17" value="@{win$composer.current.ipAddress}" />
-             	Latitude: <doublebox cols="5" value="@{win$composer.current.lat}" />
-            	Longitude: <doublebox cols="5" value="@{win$composer.current.lng}" />
-            	<button id="delete" label="Delete" width="46px" height="24px"/>               
-    </groupbox>
-    <groupbox width="1150px">
+	<groupbox width="400px">
     	<caption label="SNMP Query"/>
     	OID: <textbox id="oid" cols="40" value="1.3.6.1.2.1.1.5.0"/>
-    	<button id="update" label="SNMP Query" width="80px" height="44px"/>     	
+    	<button id="query" label="SNMP Query" width="80px" height="44px"/>     	
     	<label id="snmpGet" value="" />
     </groupbox>
+</vbox>
+<vbox>
+<gmaps id="map" width="900px" height="500px" lat="43.354891546397745" lng="-8.416385650634766" showTypeCtrl="true" showSmallCtrl="true" />
+</vbox>
+</hbox>
 </window>
+</zk>
