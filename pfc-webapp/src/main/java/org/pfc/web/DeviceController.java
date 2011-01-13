@@ -84,8 +84,8 @@ public class DeviceController extends GenericForwardComposer{
         name.setValue(null);
         description.setValue(null);
         ipAddress.setValue(null);
-        pubCommunity.setValue(null);
-        snmpPort.setValue(null);
+        pubCommunity.setValue("public");
+        snmpPort.setValue("161");
         renderMap(map);
 	}
 
@@ -100,7 +100,7 @@ public class DeviceController extends GenericForwardComposer{
 		}
 	}
 	
-	public void onClick$update() {
+	public void onClick$query() {
 		snmpGet.setValue("SNMP request to: "+current.getName()+" - Response: "+ this.snmpQuery());
 	}
 	

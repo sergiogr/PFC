@@ -9,6 +9,7 @@ import org.pfc.snmp.SnmpService;
 import org.zkoss.gmaps.Gmaps;
 import org.zkoss.gmaps.Gmarker;
 import org.zkoss.gmaps.event.MapDropEvent;
+import org.zkoss.gmaps.event.MapMoveEvent;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.util.GenericForwardComposer;
 import org.zkoss.zul.Doublebox;
@@ -57,6 +58,7 @@ public class DeviceCRUDController extends GenericForwardComposer {
 		super.doAfterCompose(comp);
 
 		renderMap(map);
+		map.setCenter(43.354891546397745,-8.416385650634766);
 	}
 
 	public Device getCurrent() {
@@ -100,6 +102,14 @@ public class DeviceCRUDController extends GenericForwardComposer {
 	public void onMapDrop$map(MapDropEvent event) {
 		lat.setValue(event.getLat());
 		lng.setValue(event.getLng());
+		
+		map.panTo(lat.getValue(), lng.getValue());
+
+	}
+	
+	public void onMapMove$map(MapMoveEvent event) {
+		lat.setValue(event.getLat());
+		lng.setValue(event.getLng());
 	}
 	
 	public void onClick$addTestData() {
@@ -140,6 +150,7 @@ public class DeviceCRUDController extends GenericForwardComposer {
 			map.getChildren().clear();
 			Gmarker m = new Gmarker(current.getName(),current.getLat(),current.getLng());
 			m.setDraggingEnabled(true);
+			map.setCenter(current.getLat(), current.getLng());
 			map.appendChild(m);
 			
 			win.getFellow("deviceListbox").setVisible(false);

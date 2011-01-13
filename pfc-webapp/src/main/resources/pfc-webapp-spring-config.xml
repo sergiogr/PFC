@@ -19,4 +19,7 @@
 <bean id="deviceController" class="org.pfc.web.DeviceController"
 	p:deviceService-ref="deviceService" scope="prototype"/>
  
+<bean id="deviceCRUDController" class="org.pfc.web.device.DeviceCRUDController"
+	p:deviceService-ref="deviceService" scope="prototype"/>
+ 
 </beans>

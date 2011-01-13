@@ -85,7 +85,7 @@ selectedItem="@{win$composer.current}" >
     </groupbox>
 </vbox>
 <vbox>
-<gmaps id="map" width="900px" height="500px" lat="43.354891546397745" lng="-8.416385650634766" showTypeCtrl="true" showSmallCtrl="true" />
+<gmaps id="map" width="900px" height="500px" showTypeCtrl="true" showSmallCtrl="true" />
 </vbox>
 </hbox>
 </window>
