@@ -102,101 +102,98 @@
                 <artifactId>spring-test</artifactId>
                 <version>2.5.6</version>
             </dependency>
-	<!-- BeanShell (required by ZK)-->
-
-	<dependency>
-	        <groupId>org.beanshell</groupId>
+			<!-- BeanShell (required by ZK)-->
+			<dependency>
+		        <groupId>org.beanshell</groupId>
                 <artifactId>bsh</artifactId>
                 <version>2.0b4</version>
            <!--      <scope>runtime</scope> -->
-        </dependency>
+    	    </dependency>
             <!--  ZKoss  -->
-                <dependency>
-      <groupId>org.zkoss.zk</groupId>
-      <artifactId>zk</artifactId>
-      <version>5.0.4</version>
-    </dependency>
-    <dependency>
-      <groupId>org.zkoss.zk</groupId>
-      <artifactId>zkplus</artifactId>
-      <version>5.0.4</version>
-    </dependency>
-    <dependency>
-      <groupId>org.zkoss.zk</groupId>
-      <artifactId>zul</artifactId>
-      <version>5.0.4</version>
-    </dependency>
-    <dependency>
-      <groupId>org.zkoss.common</groupId>
-      <artifactId>zcommon</artifactId>
-      <version>5.0.4</version>
-    </dependency>  
-  	<dependency>
-      <groupId>org.zkoss.common</groupId>
-      <artifactId>zweb</artifactId>
-      <version>5.0.4</version>
-    </dependency> 
+            <dependency>
+      			<groupId>org.zkoss.zk</groupId>
+     			<artifactId>zk</artifactId>
+      			<version>5.0.4</version>
+    		</dependency>
+   			<dependency>
+      			<groupId>org.zkoss.zk</groupId>
+      			<artifactId>zkplus</artifactId>
+      			<version>5.0.4</version>
+    		</dependency>
+    		<dependency>
+      			<groupId>org.zkoss.zk</groupId>
+      			<artifactId>zul</artifactId>
+      			<version>5.0.4</version>
+    		</dependency>
+   			<dependency>
+      			<groupId>org.zkoss.common</groupId>
+      			<artifactId>zcommon</artifactId>
+      			<version>5.0.4</version>
+    		</dependency>  
+  			<dependency>
+      			<groupId>org.zkoss.common</groupId>
+      			<artifactId>zweb</artifactId>
+      			<version>5.0.4</version>
+    		</dependency> 
+ 
+    		<dependency>
+    	  		<groupId>org.pfc</groupId>
+      			<artifactId>pfc-business</artifactId>
+      			<version>1.0.0</version>
+   			</dependency>
+   			<dependency>
+     	 		<groupId>org.pfc</groupId>
+      			<artifactId>pfc-snmp</artifactId>
+      			<version>1.0.0</version>
+   			</dependency>
    
-    <dependency>
-      <groupId>org.pfc</groupId>
-      <artifactId>pfc-business</artifactId>
-      <version>1.0.0</version>
-   </dependency>
-   <dependency>
-      <groupId>org.pfc</groupId>
-      <artifactId>pfc-snmp</artifactId>
-      <version>1.0.0</version>
-   </dependency>
-   
-   <!-- Servlet API -->
-   <dependency>
-   		<groupId>javax.servlet</groupId>
-        <artifactId>servlet-api</artifactId>
-        <version>2.3</version>
-        <scope>provided</scope>
- 	</dependency>
+   			<!-- Servlet API -->
+  		 	<dependency>
+   				<groupId>javax.servlet</groupId>
+        		<artifactId>servlet-api</artifactId>
+        		<version>2.3</version>
+        		<scope>provided</scope>
+ 			</dependency>
             
-    <!-- Hibernate Spatial for postgis. This will include Hibernate Spatial Core and JTS -->
-    <dependency>
-      	<groupId>org.hibernatespatial</groupId>
-       	<artifactId>hibernate-spatial-postgis</artifactId>
-     	<version>1.0</version>
-    </dependency>
+    		<!-- Hibernate Spatial for postgis. This will include Hibernate Spatial Core and JTS -->
+    		<dependency>
+      			<groupId>org.hibernatespatial</groupId>
+       			<artifactId>hibernate-spatial-postgis</artifactId>
+     			<version>1.0</version>
+    		</dependency>
 
-    <!-- the Postgis JDBC driver -->
-    <dependency>
-        <groupId>org.postgis</groupId>
-    	<artifactId>postgis-jdbc</artifactId>
-        <version>1.3.3</version>
-        <type>jar</type>
-        <scope>compile</scope>
-    </dependency>
+    		<!-- the Postgis JDBC driver -->
+    		<dependency>
+        		<groupId>org.postgis</groupId>
+    			<artifactId>postgis-jdbc</artifactId>
+        		<version>1.3.3</version>
+        		<scope>test</scope>
+    		</dependency>
 
-	<!-- Hibernate uses slf4j for logging, for our purposes here use the simple backend -->
-    <dependency>
-        <groupId>org.slf4j</groupId>
-    	<artifactId>slf4j-simple</artifactId>
-        <version>1.5.11</version>
-     </dependency>
+			<!-- Hibernate uses slf4j for logging, for our purposes here use the simple backend -->
+    		<dependency>
+       	 		<groupId>org.slf4j</groupId>
+    			<artifactId>slf4j-simple</artifactId>
+        		<version>1.5.11</version>
+     		</dependency>
             
-  	<dependency>
-    	<groupId>org.hibernate</groupId>
-        <artifactId>hibernate-commons-annotations</artifactId>
-        <version>3.3.0.ga</version>
-  	</dependency>
-        	
-  	<dependency>
-       	<groupId>org.hibernate</groupId>
-       	<artifactId>hibernate-entitymanager</artifactId>
-       	<version>3.3.2.GA</version>
-   	</dependency>
-   	  	<dependency>
-  		<groupId>org.snmp4j</groupId>
-  		<artifactId>snmp4j</artifactId>
-  		<version>1.11.1</version>
-  	</dependency>
- </dependencies>
- </dependencyManagement>
+  			<dependency>
+    			<groupId>org.hibernate</groupId>
+        		<artifactId>hibernate-commons-annotations</artifactId>
+        		<version>3.3.0.ga</version>
+  			</dependency>
+  			<dependency>
+       			<groupId>org.hibernate</groupId>
+       			<artifactId>hibernate-entitymanager</artifactId>
+       			<version>3.3.2.GA</version>
+   			</dependency>
+   	  		<dependency>
+  				<groupId>org.snmp4j</groupId>
+  				<artifactId>snmp4j</artifactId>
+  				<version>1.11.1</version>
+  			</dependency>
+ 		</dependencies>
+ 	</dependencyManagement>
     
     <!-- add repositories for JTS and Hibernate Spatial and Hibernate (JBoss) -->
     <repositories>
@@ -350,6 +347,12 @@
                         <artifactId>${jdbcDriver.artifactId}</artifactId>
                         <version>${jdbcDriver.version}</version>
                     </dependency>
+                        <!-- the Postgis JDBC driver -->
+    				<dependency>
+        				<groupId>org.postgis</groupId>
+    					<artifactId>postgis-jdbc</artifactId>
+        				<version>1.3.3</version>
+    				</dependency>
                 </dependencies>
             </plugin>          
         </plugins>

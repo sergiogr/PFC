@@ -49,21 +49,7 @@
      <groupId>org.beanshell</groupId>
      <artifactId>bsh</artifactId>
    </dependency>
-    <!-- JDBC driver -->
-   <dependency>
-       <groupId>${jdbcDriver.groupId}</groupId>
-       <artifactId>${jdbcDriver.artifactId}</artifactId>
-   </dependency> 
-   <!-- Hibernate Spatial for postgis. This will include Hibernate Spatial Core and JTS -->
-	<dependency>
-	   	<groupId>org.hibernatespatial</groupId>
-	   	<artifactId>hibernate-spatial-postgis</artifactId>
-	</dependency>
-   <!-- the Postgis JDBC driver-->
-	<dependency>
-    	<groupId>org.postgis</groupId>
-        <artifactId>postgis-jdbc</artifactId>
-    </dependency>  
+
  	<!-- Hibernate -->
    <dependency>
         <groupId>org.hibernate</groupId>

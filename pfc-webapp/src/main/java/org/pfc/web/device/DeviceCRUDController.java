@@ -1,5 +1,7 @@
 package org.pfc.web.device;
 
+
+
 import java.util.List;
 
 import org.pfc.business.device.Device;
@@ -13,11 +15,15 @@ import org.zkoss.gmaps.event.MapMoveEvent;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.util.GenericForwardComposer;
 import org.zkoss.zul.Doublebox;
-import org.zkoss.zul.Grid;
+//import org.zkoss.zul.Grid;
 import org.zkoss.zul.Label;
-import org.zkoss.zul.Listbox;
+//import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
+
+import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.GeometryFactory;
+import com.vividsolutions.jts.geom.Point;
 
 /**
  * 
@@ -32,8 +38,8 @@ public class DeviceCRUDController extends GenericForwardComposer {
 	private static final long serialVersionUID = 3190271104080945929L;
 	
 	private Window win;
-	private Listbox deviceList;
-	private Grid addForm;
+//	private Listbox deviceList;
+//	private Grid addForm;
 	private Gmaps map;
 	private Textbox name;
 	private Textbox description;
@@ -81,8 +87,11 @@ public class DeviceCRUDController extends GenericForwardComposer {
 		return deviceService.findAllDevice();
 	}
 	
+	/**
+	 * Realiza una consulta SNMP del OID especificado sobre el dispositivo seleccionado de la lista.
+	 * @return
+	 */
 	public String snmpQuery() {
-		
 		SnmpService snmp = new SnmpService();
 		return snmp.snmpGet(current.getPublicCommunity(), current.getIpAddress(), current.getSnmpPort(), oid.getValue());
 	}
@@ -99,6 +108,10 @@ public class DeviceCRUDController extends GenericForwardComposer {
 		}
 	}
 	
+	/**
+	 * Cuando arrastramos un Marker en el mapa actualiza 'lat' y 'lng' y centra el mapa en estar coordenadas.
+	 * @param event
+	 */
 	public void onMapDrop$map(MapDropEvent event) {
 		lat.setValue(event.getLat());
 		lng.setValue(event.getLng());
@@ -107,21 +120,36 @@ public class DeviceCRUDController extends GenericForwardComposer {
 
 	}
 	
+	/**
+	 * Cuando nos movemos por el mapa actualiza 'lat' y 'lng'
+	 * @param event
+	 */
 	public void onMapMove$map(MapMoveEvent event) {
 		lat.setValue(event.getLat());
 		lng.setValue(event.getLng());
 	}
 	
+	/**
+	 * Genera n dispositivos posicionados de forma aleatoria.
+	 */
 	public void onClick$addTestData() {
 		int n = 5;
 		for (int i=1; i<=n; i++) {
+			double x = map.getLat() + Math.random() % 0.02;
+			double y = map.getLng() + Math.random() % 0.02;
+			GeometryFactory geom = new GeometryFactory();
+	        Point pos = geom.createPoint(new Coordinate(x, y));
 			Device d = new Device("AP"+i,"AP de prueba "+i,"127.0.0.1","public","161",
-					null,43.354891546397745 + Math.random() % 0.02,-8.416385650634766 + Math.random()%0.02);
+					pos, x, y);
 			deviceService.createDevice(d);
 		}
 		renderMap(map);
 	}	
 	
+	/**
+	 * Muestra el formulario para añadir un nuevo dispositivo y posiciona 
+	 * un Marker en el mapa para situarlo en la posición correcta.
+	 */
 	public void onClick$addDevice() {
 		newDev = new Device();
 		lat.setValue(map.getLat());
@@ -134,6 +162,10 @@ public class DeviceCRUDController extends GenericForwardComposer {
 		win.getFellow("addForm").setVisible(true);
 	}
 	
+	/**
+	 * Muestra el formulario para editar el dispositivo seleccionado.
+	 * Si no tenemos ningún dispositivo seleccionado nos muestra una alerta.
+	 */
 	public void onClick$editDevice() {
 
 		if (current.getId() != null) {
@@ -161,6 +193,9 @@ public class DeviceCRUDController extends GenericForwardComposer {
 		}
 	}
 	
+	/**
+	 * Crea o actualiza en BD un dispositivo.
+	 */
 	public void onClick$save() {
 
 		newDev.setName(name.getValue());
@@ -170,6 +205,10 @@ public class DeviceCRUDController extends GenericForwardComposer {
 		newDev.setSnmpPort(snmpPort.getValue());
 		newDev.setLat(lat.getValue());
 		newDev.setLng(lng.getValue());
+		
+		GeometryFactory geom = new GeometryFactory();
+        Point position = geom.createPoint(new Coordinate(lat.getValue(), lng.getValue()));
+		newDev.setPosition(position);
 		
 		deviceService.createDevice(newDev);
         
@@ -185,6 +224,9 @@ public class DeviceCRUDController extends GenericForwardComposer {
 	
 	}
 
+	/**
+	 * Cancela una acción de añadir o editar un dispositivo.
+	 */
 	public void onClick$cancel() {
 		
 		name.setValue(null);
@@ -199,6 +241,9 @@ public class DeviceCRUDController extends GenericForwardComposer {
 	
 	}
 	
+	/**
+	 * Elimina el dispositivo seleccionado.
+	 */
 	public void onClick$delDevice() {
 		
 		try {

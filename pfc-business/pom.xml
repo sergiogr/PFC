@@ -52,32 +52,30 @@
 			<artifactId>servlet-api</artifactId>
 		</dependency>
 		<!-- Hibernate Spatial for postgis. This will include Hibernate Spatial Core and JTS -->
-        	<dependency>
-	            	<groupId>org.hibernatespatial</groupId>
-	            	<artifactId>hibernate-spatial-postgis</artifactId>
-        	</dependency>
+        <dependency>
+	       	<groupId>org.hibernatespatial</groupId>
+	       	<artifactId>hibernate-spatial-postgis</artifactId>
+        </dependency>
 
-        	<!-- the Postgis JDBC driver -->
-        	<dependency>
-        	    <groupId>org.postgis</groupId>
-        	    <artifactId>postgis-jdbc</artifactId>
-        	</dependency>
+       	<!-- the Postgis JDBC driver -->
+       	<dependency>
+       	    <groupId>org.postgis</groupId>
+       	    <artifactId>postgis-jdbc</artifactId>
+       	</dependency>
 
 	    <!-- Hibernate uses slf4j for logging, for our purposes here use the simple backend -->
-            <dependency>
-    	         <groupId>org.slf4j</groupId>
-                 <artifactId>slf4j-simple</artifactId>
-            </dependency>
-            
-         	<dependency>
-         	   <groupId>org.hibernate</groupId>
-         	   <artifactId>hibernate-commons-annotations</artifactId>
-        	</dependency>
-        	
-        	<dependency>
-            	<groupId>org.hibernate</groupId>
-            	<artifactId>hibernate-entitymanager</artifactId>
-        	</dependency>
+        <dependency>
+  	         <groupId>org.slf4j</groupId>
+             <artifactId>slf4j-simple</artifactId>
+		</dependency>
+		<dependency>
+        	<groupId>org.hibernate</groupId>
+         	<artifactId>hibernate-commons-annotations</artifactId>
+        </dependency>	
+        <dependency>
+           	<groupId>org.hibernate</groupId>
+           	<artifactId>hibernate-entitymanager</artifactId>
+        </dependency>
 	</dependencies>
 
 </project>
