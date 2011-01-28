@@ -20,6 +20,7 @@
         <property name="hbm2ddl.auto">create</property>
         
 		<mapping class="org.pfc.business.device.Device" /> 
+		<mapping class="org.pfc.business.product.Product" />
 		
 	</session-factory>
 </hibernate-configuration>

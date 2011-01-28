@@ -50,9 +50,15 @@
     <bean id="deviceDao"
         class="org.pfc.business.device.DeviceDao"
         p:sessionFactory-ref="sessionFactory" />
+    <bean id="productDao"
+        class="org.pfc.business.product.ProductDao"
+        p:sessionFactory-ref="sessionFactory" />
       
 	<!--  Service layer. -->        
     <bean id="deviceService"
     	class="org.pfc.business.deviceservice.DeviceService"
     	p:deviceDao-ref="deviceDao" />
+    <bean id="productService"
+    	class="org.pfc.business.productservice.ProductService"
+    	p:productDao-ref="productDao" />
 </beans>

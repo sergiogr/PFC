@@ -42,7 +42,6 @@ public class Device {
                 this.lng = lng;
         }
 
-
 		@Id
 		@GeneratedValue
 		@Column(name = "devId")
@@ -119,13 +118,13 @@ public class Device {
 			this.lng = lng;
 		}
 
-		public void setVersion(long version) {
-			this.version = version;
-		}
-
 		@Version
 		public long getVersion() {
 			return version;
+		}
+		
+		public void setVersion(long version) {
+			this.version = version;
 		}
     
 }

@@ -23,8 +23,7 @@ public class DeviceDao extends GenericDao<Device, Long> implements IDeviceDao{
 		Session session = getSession();
 		session.beginTransaction();
 		Criteria q = session.createCriteria(Device.class);
-		List<Device> results = q.list();
-		return results;
+		return q.list();
 	}
 
 }
