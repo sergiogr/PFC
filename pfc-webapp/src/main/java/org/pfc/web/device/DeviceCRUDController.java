@@ -102,7 +102,7 @@ public class DeviceCRUDController extends GenericForwardComposer {
 		m.getChildren().clear();
 		List<Device> devices = deviceService.findAllDevice();
 		for (Device d:devices){
-			Gmarker marker = new Gmarker(d.getName(),d.getLat(),d.getLng());
+			Gmarker marker = new Gmarker(d.getDeviceName(),d.getLat(),d.getLng());
 			marker.setDraggingEnabled(false);
 			m.appendChild(marker);
 		}
@@ -168,19 +168,18 @@ public class DeviceCRUDController extends GenericForwardComposer {
 	 */
 	public void onClick$editDevice() {
 
-		if (current.getId() != null) {
+		if (current.getDeviceId() != null) {
 			newDev = current;
-			name.setValue(current.getName());
+			name.setValue(current.getDeviceName());
 			description.setValue(current.getDescription());
 			ipAddress.setValue(current.getIpAddress());
 			pubCommunity.setValue(current.getPublicCommunity());
 			snmpPort.setValue(current.getSnmpPort());
 			lat.setValue(current.getLat());
 			lng.setValue(current.getLng());
-			
 
 			map.getChildren().clear();
-			Gmarker m = new Gmarker(current.getName(),current.getLat(),current.getLng());
+			Gmarker m = new Gmarker(current.getDeviceName(),current.getLat(),current.getLng());
 			m.setDraggingEnabled(true);
 			map.setCenter(current.getLat(), current.getLng());
 			map.appendChild(m);
@@ -198,7 +197,7 @@ public class DeviceCRUDController extends GenericForwardComposer {
 	 */
 	public void onClick$save() {
 
-		newDev.setName(name.getValue());
+		newDev.setDeviceName(name.getValue());
 		newDev.setDescription(description.getValue());
 		newDev.setIpAddress(ipAddress.getValue());
 		newDev.setPublicCommunity(pubCommunity.getValue());
@@ -248,9 +247,9 @@ public class DeviceCRUDController extends GenericForwardComposer {
 		
 		try {
 			
-			if (current.getId() != null) {
-				deviceService.removeDevice(current.getId());
-				current.setId(null);
+			if (current.getDeviceId() != null) {
+				deviceService.removeDevice(current.getDeviceId());
+				current.setDeviceId(null);
 				renderMap(map);
 			}
 			else {
@@ -263,8 +262,8 @@ public class DeviceCRUDController extends GenericForwardComposer {
 	
 	public void onClick$query() {
 		
-		if (current.getId() != null) {
-			snmpGet.setValue("SNMP request to: "+current.getName()+" - Response: "+ this.snmpQuery());
+		if (current.getDeviceId() != null) {
+			snmpGet.setValue("SNMP request to: "+current.getDeviceName()+" - Response: "+ this.snmpQuery());
 		}
 		else {
 			alert("Selecciona el dispositivo que quieres consultar");

@@ -23,7 +23,7 @@ selectedItem="@{win$composer.current}" >
                         <listheader label="IP"  />                     
                 </listhead>
                 <listitem self="@{each='device'}" value="@{device}">
-                        <listcell label="@{device.name}" />
+                        <listcell label="@{device.deviceName}" />
                         <listcell label="@{device.description}" />
                         <listcell label="@{device.ipAddress}" />    
                 </listitem>
@@ -55,7 +55,7 @@ selectedItem="@{win$composer.current}" >
 				<label value="SNMP Port" width="80px" />
 				<textbox id="snmpPort" value="161"/>
 			</row>
-			<row>
+			<row> 
 				<label value="Position" width="80px" />
 				<vbox>
 					<hbox>

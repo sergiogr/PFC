@@ -48,7 +48,7 @@ public class DeviceServiceTest {
         Point position = geom.createPoint(new Coordinate(43.354891546397745, -8.416385650634766));
 		Device device = deviceService.createDevice(new Device("AP1","descripcion","10.0.0.1", "public", "161", position, 0, 0));
 
-		assertTrue(deviceDao.exists(device.getId()));
+		assertTrue(deviceDao.exists(device.getDeviceId()));
 	}
 
 	@Test
@@ -56,11 +56,9 @@ public class DeviceServiceTest {
 		GeometryFactory geom = new GeometryFactory();
         Point position = geom.createPoint(new Coordinate(5, 5));
 		deviceDao.save(new Device("APtest","Desc","1.1.1.1","public", "161",position, 0, 0));
-		List<Device> devices;
-		devices=deviceService.findAllDevice();
-		System.out.println("Number of Devices: " + devices.size());
+		List<Device> devices=deviceService.findAllDevice();
 		assertTrue(devices.size() == 1);
-		// Se comprueba que el posición se almacena correctamente.
+		// Se comprueba que la posición se almacena correctamente.
 		assertEquals(devices.get(0).getPosition(), position);
 	}
 	

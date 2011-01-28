@@ -37,8 +37,5 @@ public class DeviceInfo {
 	public double getLng() {
 		return lng;
 	}
-	
-	
-	
 
 }

@@ -1,35 +1,38 @@
 package org.pfc.business.device;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Version;
+
 import com.vividsolutions.jts.geom.Point;
 
-
+/**
+ * 
+ * @author Sergio García Ramos <sergio.garcia@udc.es>
+ *
+ */
+@Entity
+@Table(name = "Device")
 public class Device {
 
-
-        private Long id;
-
-        private String name;
-
+        private Long deviceId;
+        private String deviceName;
         private String description;
-
         private String ipAddress;
-        
         private String publicCommunity;
-        
         private String snmpPort;
-
         private Point position;
-        
         private double lat;
-        
         private double lng;
+        private long version;
 
-        public Device() {
-        	
-        }
+        public Device() {}
 
-        public Device(String name, String description, String ipAddress, String publicCommunity, String snmpPort, Point position, double lat, double lng) {
-                this.name = name;
+        public Device(String deviceName, String description, String ipAddress, String publicCommunity, String snmpPort, Point position, double lat, double lng) {
+                this.deviceName = deviceName;
                 this.description = description;
                 this.ipAddress = ipAddress;
                 this.publicCommunity = publicCommunity;
@@ -39,20 +42,25 @@ public class Device {
                 this.lng = lng;
         }
 
-		public Long getId() {
-			return id;
+
+		@Id
+		@GeneratedValue
+		@Column(name = "devId")
+		public Long getDeviceId() {
+			return deviceId;
 		}
 
-		public void setId(Long id) {
-			this.id = id;
+		public void setDeviceId(Long deviceId) {
+			this.deviceId = deviceId;
 		}
 
-		public String getName() {
-			return name;
+		@Column(name = "devName")
+		public String getDeviceName() {
+			return deviceName;
 		}
 
-		public void setName(String name) {
-			this.name = name;
+		public void setDeviceName(String deviceName) {
+			this.deviceName = deviceName;
 		}
 
 		public String getDescription() {
@@ -109,6 +117,15 @@ public class Device {
 
 		public void setLng(double lng) {
 			this.lng = lng;
+		}
+
+		public void setVersion(long version) {
+			this.version = version;
+		}
+
+		@Version
+		public long getVersion() {
+			return version;
 		}
     
 }

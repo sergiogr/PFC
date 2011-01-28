@@ -9,7 +9,11 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 
-
+/**
+ * 
+ * @author Sergio García Ramos <sergio.garcia@udc.es>
+ *
+ */
 @Repository
 public class DeviceDao extends GenericDao<Device, Long> implements IDeviceDao{
 

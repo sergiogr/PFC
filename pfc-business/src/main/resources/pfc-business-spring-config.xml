@@ -31,23 +31,11 @@
 		p:targetDataSource-ref="dataSource"/>
 	   
 
-	<!-- Hibernate Session Factory 
+	<!-- Hibernate Session Factory -->
     <bean id="sessionFactory"
         class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean"
         p:dataSource-ref="dataSource"
-        p:configLocation="classpath:/pfc-business-hibernate-config.xml"/>-->
-    <bean id="sessionFactory"
-        class="org.springframework.orm.hibernate3.LocalSessionFactoryBean"
-        p:dataSource-ref="dataSource"
-        p:configLocation="classpath:/pfc-business-hibernate-config.xml">
-        <property name="mappingResources">
-        	<list>
-        		<value>
-        			org/pfc/business/device/Device.hbm.xml
-        		</value>
-        	</list>
-        </property>
-    </bean>
+        p:configLocation="classpath:/pfc-business-hibernate-config.xml"/>
 
     <!-- Transaction manager for a single Hibernate SessionFactory.  -->
     <bean id="transactionManager"

@@ -19,7 +19,7 @@
 		 <!-- Drop and re-create the database schema on startup -->
         <property name="hbm2ddl.auto">create</property>
         
-		<!-- <mapping class="org/pfc/business/device/Device.hbm.xml" /> -->
+		<mapping class="org.pfc.business.device.Device" /> 
 		
 	</session-factory>
 </hibernate-configuration>

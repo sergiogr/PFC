@@ -9,6 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * 
+ * @author Sergio García Ramos <sergio.garcia@udc.es>
+ *
+ */
 @Service("deviceService")
 @Transactional
 public class DeviceService implements IDeviceService {
@@ -29,10 +34,29 @@ public class DeviceService implements IDeviceService {
     	deviceDao.remove(deviceId);
     }    
     
+	public Device editDevice(Long deviceId, DeviceInfo deviceInfo) throws InstanceNotFoundException {
+		
+		Device device = deviceDao.find(deviceId);
+		
+		device.setDeviceName(deviceInfo.getDeviceName());
+		device.setDescription(deviceInfo.getDescription());
+		device.setIpAddress(deviceInfo.getIpAddress());
+		device.setLat(deviceInfo.getLat());
+		device.setLng(deviceInfo.getLng());
+		//NOTA: faltan datos SNMP y Position
+		return device;
+		
+	}
+    
+    @Transactional(readOnly = true)
+    public Device findDevice(Long deviceId) throws InstanceNotFoundException {
+    	return deviceDao.find(deviceId);
+    }
+    
     @Transactional(readOnly = true)
     public List<Device> findAllDevice() {
     	return deviceDao.getAllDevices();
     }
-
+    
 }
 
