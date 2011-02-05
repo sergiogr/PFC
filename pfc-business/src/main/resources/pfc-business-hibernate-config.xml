@@ -21,6 +21,7 @@
         
 		<mapping class="org.pfc.business.device.Device" /> 
 		<mapping class="org.pfc.business.product.Product" />
+		<mapping class="org.pfc.business.mibobject.MibObject" />
 		
 	</session-factory>
 </hibernate-configuration>
