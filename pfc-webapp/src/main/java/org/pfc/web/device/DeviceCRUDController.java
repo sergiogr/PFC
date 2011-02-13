@@ -15,9 +15,9 @@ import org.zkoss.gmaps.event.MapMoveEvent;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.util.GenericForwardComposer;
 import org.zkoss.zul.Doublebox;
-//import org.zkoss.zul.Grid;
+import org.zkoss.zul.Grid;
 import org.zkoss.zul.Label;
-//import org.zkoss.zul.Listbox;
+import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 
@@ -38,8 +38,8 @@ public class DeviceCRUDController extends GenericForwardComposer {
 	private static final long serialVersionUID = 3190271104080945929L;
 	
 	private Window win;
-//	private Listbox deviceList;
-//	private Grid addForm;
+	private Listbox deviceList;
+	private Grid deviceForm;
 	private Gmaps map;
 	private Textbox name;
 	private Textbox description;
@@ -158,8 +158,8 @@ public class DeviceCRUDController extends GenericForwardComposer {
 		
 		map.appendChild(m);
 
-		win.getFellow("deviceListbox").setVisible(false);
-		win.getFellow("addForm").setVisible(true);
+		deviceList.setVisible(false);
+		deviceForm.setVisible(true);
 	}
 	
 	/**
@@ -184,8 +184,8 @@ public class DeviceCRUDController extends GenericForwardComposer {
 			map.setCenter(current.getLat(), current.getLng());
 			map.appendChild(m);
 			
-			win.getFellow("deviceListbox").setVisible(false);
-			win.getFellow("addForm").setVisible(true);	
+			deviceList.setVisible(false);
+			deviceForm.setVisible(true);	
 		}
 		else {
 			alert("Selecciona el dispositivo que quieres editar");	
@@ -218,8 +218,8 @@ public class DeviceCRUDController extends GenericForwardComposer {
         snmpPort.setValue("161");
         renderMap(map);
         
-        win.getFellow("deviceListbox").setVisible(true);
-        win.getFellow("addForm").setVisible(false);
+		deviceList.setVisible(true);
+		deviceForm.setVisible(false);
 	
 	}
 
@@ -234,8 +234,8 @@ public class DeviceCRUDController extends GenericForwardComposer {
         pubCommunity.setValue("public");
         snmpPort.setValue("161");
         
-        win.getFellow("deviceListbox").setVisible(true);
-        win.getFellow("addForm").setVisible(false);
+		deviceList.setVisible(true);
+		deviceForm.setVisible(false);
         renderMap(map);
 	
 	}

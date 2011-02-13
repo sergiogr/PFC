@@ -15,7 +15,7 @@
 <toolbarbutton id="addTestData" label="Añadir dispositivos de prueba" height="30px" />
 <hbox>
 <vbox>
-<listbox id="deviceListbox" mold="paging" rows="20" pageSize="20" model="@{win$composer.devices, load-after='addTestData.onClick, save.onClick, delDevice.onClick' }" 
+<listbox id="deviceList" mold="paging" rows="20" pageSize="20" model="@{win$composer.devices, load-after='addTestData.onClick, save.onClick, delDevice.onClick' }" 
 selectedItem="@{win$composer.current}" >
                 <listhead sizable="true">
                         <listheader label="Name" />
@@ -29,7 +29,7 @@ selectedItem="@{win$composer.current}" >
                 </listitem>
     </listbox> 
 
-<grid id="addForm" sizedByContent="true" visible="false">
+<grid id="deviceForm" sizedByContent="true" visible="false">
 		<columns>
 			<column width="150px" />
 			<column width="250px"/>
