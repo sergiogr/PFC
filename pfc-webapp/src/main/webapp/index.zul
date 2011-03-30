@@ -1,12 +1,13 @@
 <?page title="Página de inicio" ?>
 <?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" ?>
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="/common/layout/template.zul"?>
 <?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
 <!--  <?component name="initPage" macroURI="/index.zul" inline="true" ?> -->
 
 <zk>
 <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAnfs7bKE82qgb3Zc2YyS-oBT2yXp_ZAY8_ufC3CFXhHIE1NvwkxSySz_REpPq-4WZA27OwgbtyR3VcA"
     type="text/javascript"></script>
-<window id="win" title="Sistema de Monitorización de Red" apply="org.pfc.web.device.DeviceCRUDController" border="normal" width="1250px">
+<window self="@{define(content)}" id="win" title="Devices" apply="org.pfc.web.device.DeviceCRUDController" border="normal" width="1250px">
 
 
 <toolbarbutton id="addDevice" label="+" height="30px" />
