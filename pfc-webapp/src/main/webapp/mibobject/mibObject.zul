@@ -1,0 +1,68 @@
+<?page title="Gestión de Objetos MIB" ?>
+<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" ?>
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="/common/layout/template.zul"?>
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+<?component name="dual-listbox" extends="div" class="org.pfc.web.product.DualListbox"?>
+<zk>
+	<window self="@{define(content)}" id="mibObjectWin" title="Gestión de objetos MIB" apply="org.pfc.web.mibobject.MibObjectCRUDController">
+		
+		<listbox id="mibObjectList" mold="paging" model="@{mibObjectWin$composer.mibObjects, load-after='save.onClick, delMibObject.onClick, editMibObject.onClick' }"
+		selectedItem="@{mibObjectWin$composer.current}">
+			<listhead sizable="true">
+				<listheader label="Name" />
+				<listheader label="Description" />
+				<listheader label="OID" />
+				<listheader label="MIB" />
+			</listhead>
+			<listitem self="@{each='mibObject'}" value="@{mibObject}">
+				<listcell label="@{mibObject.mibObjectName}" />
+				<listcell label="@{mibObject.description}" />
+				<listcell label="@{mibObject.oid}" />
+				<listcell label="@{mibObject.mib}" />
+			</listitem>
+			<listfoot>
+				<listfooter>
+					<button id="addMibObject" label="Add" />
+					<button id="delMibObject" label="Remove" />
+					<button id="editMibObject" label="Edit" />
+				</listfooter>
+			</listfoot>
+		</listbox>
+		<grid id="mibObjectForm">
+			<columns>
+				<column width="200px"/>
+				<column/>
+			</columns>
+			<rows>
+				<row>
+					<label value="Name" />
+					<textbox id="name" />
+				</row>
+				<row>
+					<label value="Description" />
+					<textbox id="description" />
+				</row>
+				<row>
+					<label value="OID" />
+					<textbox id="oid" />
+				</row>
+				<row>
+					<label value="MIB" />
+					<textbox id="mib" />
+				</row>
+				<row>
+					<label />
+					<dual-listbox id="dualLBox" />
+				</row>
+				<row>
+					<label />
+					<hbox>
+						<button id="save" label="Save" width="50px" height="24px"/>
+						<button id="cancel" label="Cancel" width="50px" height="24px"/>
+					</hbox>
+				</row>
+		</rows>
+
+		</grid>
+	</window>
+</zk>

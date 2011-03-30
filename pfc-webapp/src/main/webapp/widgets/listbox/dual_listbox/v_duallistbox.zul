@@ -1,0 +1,12 @@
+<!-- View of customized component DualListbox -->
+<hlayout height="300px">  
+    <listbox id="candidateLb" vflex="true" width="390px" multiple="true" rows="8" />
+    <zscript><![CDATA[
+        String imgPath = "/widgets/listbox/dual_listbox/img";
+    ]]></zscript>
+    <vlayout spacing="10px">
+        <image style="cursor:pointer" id="chooseBtn" src="${imgPath}/rightarrow_g.png" />
+        <image style="cursor:pointer" id="removeBtn" src="${imgPath}/leftarrow_g.png" />
+    </vlayout>
+    <listbox id="chosenLb" vflex="true" width="390px" multiple="true" rows="8" />
+</hlayout>

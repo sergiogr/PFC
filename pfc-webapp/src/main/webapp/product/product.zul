@@ -1,0 +1,61 @@
+<?page title="Gestión de Productos" ?>
+<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" ?>
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="/common/layout/template.zul"?>
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+<?component name="dual-listbox" extends="div" class="org.pfc.web.product.DualListbox"?>
+<zk>
+	<window self="@{define(content)}" id="productWin" title="Gestión de productos" apply="org.pfc.web.product.ProductCRUDController">
+		
+		<listbox id="productList" mold="paging" model="@{productWin$composer.products, load-after='save.onClick, delProduct.onClick' }" selectedItem="@{productWin$composer.current}">
+			<listhead sizable="true">
+				<listheader label="Name" />
+				<listheader label="Manufacturer" />
+				<listheader label="Description" />
+			</listhead>
+			<listitem self="@{each='product'}" value="@{product}">
+				<listcell label="@{product.productName}" />
+				<listcell label="@{product.manufacturer}" />
+				<listcell label="@{product.description}" />
+			</listitem>
+			<listfoot>
+				<listfooter>
+					<button id="addProduct" label="Add" />
+					<button id="delProduct" label="Remove" />
+					<button id="editProduct" label="Edit" />
+				</listfooter>
+			</listfoot>
+		</listbox>
+		<grid id="productForm">
+			<columns>
+				<column width="200px"/>
+				<column/>
+			</columns>
+			<rows>
+				<row>
+					<label value="Name" />
+					<textbox id="name" />
+				</row>
+				<row>
+					<label value="Manufacturer" />
+					<textbox id="manufacturer" />
+				</row>
+				<row>
+					<label value="Description" />
+					<textbox id="description" />
+				</row>
+				<row>
+					<label />
+					<dual-listbox id="dualLBox" />
+				</row>
+				<row>
+					<label />
+					<hbox>
+						<button id="save" label="Save" width="50px" height="24px"/>
+						<button id="cancel" label="Cancel" width="50px" height="24px"/>
+					</hbox>
+				</row>
+		</rows>
+
+		</grid>
+	</window>
+</zk>
