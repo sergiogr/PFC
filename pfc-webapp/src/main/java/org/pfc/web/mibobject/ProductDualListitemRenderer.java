@@ -16,16 +16,17 @@ public class ProductDualListitemRenderer extends DualListitemRenderer {
 	
 	@Override
 	protected void doRender(Listitem item, Object data) throws Exception {
-		Product mibObject = (Product) data;
-		new Listcell(mibObject.getProductName()).setParent(item);
-		new Listcell(mibObject.getDescription()).setParent(item);
-		
+		Product product = (Product) data;
+		new Listcell(product.getProductName()).setParent(item);
+		new Listcell(product.getDescription()).setParent(item);
+		new Listcell(product.getManufacturer()).setParent(item);
 	}
 	
 	public Listhead getListhead() {
 		Listhead lh = new Listhead();
 		new Listheader("Name", null, "80px").setParent(lh);
 		new Listheader("Description", null, "80px").setParent(lh);
+		new Listheader("Manufacturer", null, "80px").setParent(lh);
 		return lh;
 		
 	}

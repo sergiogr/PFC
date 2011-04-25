@@ -5,10 +5,12 @@ import java.util.List;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.util.GenericForwardComposer;
 import org.zkoss.zul.Grid;
+import org.zkoss.zul.Intbox;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Textbox;
 
+import org.pfc.business.mibobject.MibObject;
 import org.pfc.business.product.Product;
 import org.pfc.business.productservice.IProductService;
 import org.pfc.business.util.exceptions.InstanceNotFoundException;
@@ -32,6 +34,8 @@ public class ProductCRUDController extends GenericForwardComposer {
 	private Textbox description;
 	private DualListbox dualLBox;
 	
+	private Intbox nMibObjs;
+	
 	private Product current = new Product();
 	private Product newProd;
 	
@@ -52,6 +56,7 @@ public class ProductCRUDController extends GenericForwardComposer {
 	@Override
 	public void doAfterCompose(Component comp) throws Exception {
 		super.doAfterCompose(comp);
+		System.out.println("*** Products size"+productService.findAllProducts().size());
 		dualLBox.setModel(new ListModelList(productService.findAllMibObjects()));
 		dualLBox.setRenderer(new MibObjectDualListitemRenderer());
 		productForm.setVisible(false);
@@ -65,16 +70,23 @@ public class ProductCRUDController extends GenericForwardComposer {
 		goToAddForm();
 	}
 	
+	public void onClick$addTestData() {
+		productService.createProduct(new Product("AP-700", "Punto de acceso Wifi", "Proxim"));
+		productService.createProduct(new Product("AP-4000", "Punto de acceso Wifi", "Proxim"));
+		productService.createProduct(new Product("AP-4000MR", "Punto de acceso Wifi Mesh", "Proxim"));
+		
+	}
 
 	@SuppressWarnings("unchecked")
 	public void onClick$save() {
 		newProd.setProductName(name.getValue());
 		newProd.setManufacturer(manufacturer.getValue());
 		newProd.setDescription(description.getValue());
+		newProd.setMibObjects(dualLBox.getChosenDataList());
 		
 		productService.createProduct(newProd);
 		
-		productService.addMibObjectsToProduct(newProd.getProductId(), dualLBox.getChosenDataList());
+//		productService.addMibObjectsToProduct(newProd.getProductId(), dualLBox.getChosenDataList());
 		goToList();
 	}
 	
@@ -91,6 +103,9 @@ public class ProductCRUDController extends GenericForwardComposer {
 	
 	private void goToEditForm() {
 		newProd = current;
+		List<MibObject>	chosen = current.getMibObjects();
+		List<MibObject> candidate = productService.findAllMibObjects();
+		dualLBox.setModel(candidate, chosen);
 		
 		name.setValue(current.getProductName());
 		manufacturer.setValue(current.getManufacturer());
@@ -135,4 +150,9 @@ public class ProductCRUDController extends GenericForwardComposer {
 		}
 	}
 	
+	
+	public void onSelect$productList() {
+		nMibObjs.setValue(current.getMibObjects().size());
+
+	}
 }

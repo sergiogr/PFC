@@ -100,6 +100,17 @@ public class DualListbox extends Div implements IdSpace {
         chosenDataModel.clear();
     }
  
+    @SuppressWarnings("unchecked")
+	public void setModel(List candidate, List chosen) {
+    	for (Object obj : new ArrayList(chosen)) {
+    		
+    		candidate.remove(obj);
+    		
+    	}
+    	candidateLb.setModel(this.candidateModel = new ListModelList(candidate));
+    	chosenLb.setModel(this.chosenDataModel = new ListModelList(chosen));
+    }
+    
     /**
      * @return current chosen data list
      */

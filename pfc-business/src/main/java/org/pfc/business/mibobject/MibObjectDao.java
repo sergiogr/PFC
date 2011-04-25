@@ -2,8 +2,6 @@ package org.pfc.business.mibobject;
 
 import java.util.List;
 
-import org.hibernate.Criteria;
-import org.hibernate.Session;
 import org.pfc.business.util.genericdao.GenericDao;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,10 +16,20 @@ public class MibObjectDao extends GenericDao<MibObject, Long> implements IMibObj
 	@SuppressWarnings("unchecked")
 	@Transactional
 	public List<MibObject> getAllMibObjects() {
-		Session session = getSession();
-		session.beginTransaction();
-		Criteria q = session.createCriteria(MibObject.class);
-		return q.list();
+//		Session session = getSession();
+//		session.beginTransaction();
+//		Criteria q = session.createCriteria(MibObject.class);
+//		return q.list();
+		return getSession().createQuery(
+				"SELECT m FROM MibObject m ORDER BY m.mibObjectName").list();
 	}
 
+//	@SuppressWarnings("unchecked")
+//	@Transactional
+//	public List<MibObject> getMibObjectsByProduct(Long productId) {
+//		
+//		return getSession().createQuery(
+//				"SELECT DISTINCT m FROM MibObject m LEFT JOIN m.products p WHERE p.productId = :productId").setParameter("productId", productId).list();
+//		
+//	}
 }

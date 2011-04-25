@@ -127,5 +127,6 @@ public class Device {
 			this.version = version;
 		}
     
+		
 }
 

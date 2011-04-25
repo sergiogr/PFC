@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
@@ -89,12 +90,13 @@ public class Product {
 
 	@ManyToMany(
 			targetEntity=org.pfc.business.mibobject.MibObject.class,
-			cascade={CascadeType.PERSIST, CascadeType.MERGE}
+			cascade={CascadeType.PERSIST, CascadeType.MERGE},
+			fetch=FetchType.EAGER
 	)
 	@JoinTable(
 			name="Product_MibObject",
-			joinColumns=@JoinColumn(name="prodId"),
-			inverseJoinColumns=@JoinColumn(name="mibObjId")
+			joinColumns={@JoinColumn(name="prodId")},
+			inverseJoinColumns={@JoinColumn(name="mibObjId")}
 	)
 	public List<MibObject> getMibObjects() {
 		return mibObjects;
@@ -102,6 +104,56 @@ public class Product {
 	
 	public void setMibObjects(List<MibObject> mibObjects) {
 		this.mibObjects = mibObjects;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((description == null) ? 0 : description.hashCode());
+		result = prime * result
+				+ ((manufacturer == null) ? 0 : manufacturer.hashCode());
+		result = prime * result
+				+ ((productId == null) ? 0 : productId.hashCode());
+		result = prime * result
+				+ ((productName == null) ? 0 : productName.hashCode());
+		result = prime * result + (int) (version ^ (version >>> 32));
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Product other = (Product) obj;
+		if (description == null) {
+			if (other.description != null)
+				return false;
+		} else if (!description.equals(other.description))
+			return false;
+		if (manufacturer == null) {
+			if (other.manufacturer != null)
+				return false;
+		} else if (!manufacturer.equals(other.manufacturer))
+			return false;
+		if (productId == null) {
+			if (other.productId != null)
+				return false;
+		} else if (!productId.equals(other.productId))
+			return false;
+		if (productName == null) {
+			if (other.productName != null)
+				return false;
+		} else if (!productName.equals(other.productName))
+			return false;
+		if (version != other.version)
+			return false;
+		return true;
 	}
 
 	

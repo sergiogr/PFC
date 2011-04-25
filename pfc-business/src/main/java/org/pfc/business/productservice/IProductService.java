@@ -27,10 +27,14 @@ public interface IProductService {
 	
 	public MibObject findMibObject(Long mibObjectId) throws InstanceNotFoundException;
 	
+//	public List<MibObject> findMibObjectsByProduct(Long productId) throws InstanceNotFoundException;
+//	
+//	public List<Product> findProductsByMibObject(Long mibObjectId) throws InstanceNotFoundException;
+
 	public List<MibObject> findAllMibObjects();
 	
-	public void addMibObjectsToProduct(Long productId, List<MibObject> mibObjects);
-
-	public void addProductsToMibObject(Long mibObjectId, List<Product> products);
+//	public void addMibObjectsToProduct(Long productId, List<MibObject> mibObjects);
+//
+//	public void addProductsToMibObject(Long mibObjectId, List<Product> products);
 
 }

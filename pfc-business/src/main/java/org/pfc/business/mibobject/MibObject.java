@@ -6,8 +6,11 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Version;
@@ -99,7 +102,13 @@ public class MibObject {
 	@ManyToMany(
 			targetEntity=org.pfc.business.product.Product.class,
 			cascade={CascadeType.PERSIST, CascadeType.MERGE},
-			mappedBy="mibObjects")
+			fetch=FetchType.EAGER
+	)
+	@JoinTable(
+			name="Product_MibObject",
+			joinColumns={@JoinColumn(name="mibObjId")},
+			inverseJoinColumns={@JoinColumn(name="prodId")}
+	)
 	public List<Product> getProducts() {
 		return products;
 	}
@@ -107,5 +116,62 @@ public class MibObject {
 	public void setProducts(List<Product> products) {
 		this.products = products;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((description == null) ? 0 : description.hashCode());
+		result = prime * result + ((mib == null) ? 0 : mib.hashCode());
+		result = prime * result
+				+ ((mibObjectId == null) ? 0 : mibObjectId.hashCode());
+		result = prime * result
+				+ ((mibObjectName == null) ? 0 : mibObjectName.hashCode());
+		result = prime * result + ((oid == null) ? 0 : oid.hashCode());
+		result = prime * result + (int) (version ^ (version >>> 32));
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		MibObject other = (MibObject) obj;
+		if (description == null) {
+			if (other.description != null)
+				return false;
+		} else if (!description.equals(other.description))
+			return false;
+		if (mib == null) {
+			if (other.mib != null)
+				return false;
+		} else if (!mib.equals(other.mib))
+			return false;
+		if (mibObjectId == null) {
+			if (other.mibObjectId != null)
+				return false;
+		} else if (!mibObjectId.equals(other.mibObjectId))
+			return false;
+		if (mibObjectName == null) {
+			if (other.mibObjectName != null)
+				return false;
+		} else if (!mibObjectName.equals(other.mibObjectName))
+			return false;
+		if (oid == null) {
+			if (other.oid != null)
+				return false;
+		} else if (!oid.equals(other.oid))
+			return false;
+		if (version != other.version)
+			return false;
+		return true;
+	}
+	
+	
 	
 }

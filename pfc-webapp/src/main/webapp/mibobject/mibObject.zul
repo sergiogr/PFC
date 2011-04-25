@@ -6,7 +6,7 @@
 <zk>
 	<window self="@{define(content)}" id="mibObjectWin" title="Gestión de objetos MIB" apply="org.pfc.web.mibobject.MibObjectCRUDController">
 		
-		<listbox id="mibObjectList" mold="paging" model="@{mibObjectWin$composer.mibObjects, load-after='save.onClick, delMibObject.onClick, editMibObject.onClick' }"
+		<listbox id="mibObjectList" mold="paging" model="@{mibObjectWin$composer.mibObjects, load-after='save.onClick, delMibObject.onClick, addTestData.onClick' }"
 		selectedItem="@{mibObjectWin$composer.current}">
 			<listhead sizable="true">
 				<listheader label="Name" />
@@ -25,6 +25,8 @@
 					<button id="addMibObject" label="Add" />
 					<button id="delMibObject" label="Remove" />
 					<button id="editMibObject" label="Edit" />
+					<button id="addTestData" label="Add Test Data" />
+					<intbox id="nProducts" />
 				</listfooter>
 			</listfoot>
 		</listbox>
@@ -52,13 +54,14 @@
 				</row>
 				<row>
 					<label />
-					<dual-listbox id="dualLBox" />
+					<dual-listbox id="mibObjDualLb" />
 				</row>
 				<row>
 					<label />
 					<hbox>
 						<button id="save" label="Save" width="50px" height="24px"/>
 						<button id="cancel" label="Cancel" width="50px" height="24px"/>
+						<intbox id="nChosen" />
 					</hbox>
 				</row>
 		</rows>

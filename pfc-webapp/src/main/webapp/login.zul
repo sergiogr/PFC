@@ -1,0 +1,14 @@
+<?page title="Network Monitor System - Login"?>
+<window id="loginWin" border="normal" width="300px"
+	title="Login Page" >
+	
+	<grid>
+		<rows>
+			<row> Name: <textbox id="nameTb" /></row>
+			<row> Password: <textbox id="passwordTb" type="password" /></row>
+		</rows>	
+	</grid>
+	<button id="confirmBtn" label="Confirm" />
+	<label id="msgLbl" />
+	
+</window>

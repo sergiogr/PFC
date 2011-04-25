@@ -20,7 +20,10 @@
 	
 <bean id="productCRUDController" class="org.pfc.web.product.ProductCRUDController"
 	p:productService-ref="productService" scope="prototype"/>
- 
+
+<bean id="mibObjectCRUDController" class="org.pfc.web.mibobject.MibObjectCRUDController"
+	p:productService-ref="productService" scope="prototype"/>
+	 
  <bean id="dualComposer" class="org.pfc.web.product.DualComposer"
 	p:productService-ref="productService" scope="prototype"/>
  

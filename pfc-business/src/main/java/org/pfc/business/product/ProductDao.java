@@ -2,8 +2,6 @@ package org.pfc.business.product;
 
 import java.util.List;
 
-import org.hibernate.Criteria;
-import org.hibernate.Session;
 import org.pfc.business.util.genericdao.GenericDao;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,10 +15,17 @@ public class ProductDao extends GenericDao<Product, Long> implements IProductDao
 	@SuppressWarnings("unchecked")
 	@Transactional
 	public List<Product> getAllProducts() {
-		Session session = getSession();
-		session.beginTransaction();
-		Criteria q = session.createCriteria(Product.class);
-		return q.list();
+//		Session session = getSession();
+//		session.beginTransaction();
+//		Criteria q = session.createCriteria(Product.class);
+//		return q.list();
+		return getSession().createQuery("SELECT p FROM Product p ORDER BY p.productName").list();
 	}
 
+//	@SuppressWarnings("unchecked")
+//	@Transactional
+//	public List<Product> getProductsByMibObject(Long mibObjectId) {
+//		return getSession().createQuery(
+//				"SELECT DISTINCT p FROM Product p LEFT JOIN p.mibObjects m WHERE m.mibObjectId = :mibObjectId").setParameter("mibObjectId", mibObjectId).list();
+//	}
 }
