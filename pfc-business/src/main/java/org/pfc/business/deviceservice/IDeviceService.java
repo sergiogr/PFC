@@ -3,6 +3,7 @@ package org.pfc.business.deviceservice;
 import java.util.List;
 
 import org.pfc.business.device.Device;
+import org.pfc.business.mibobject.MibObject;
 import org.pfc.business.util.exceptions.InstanceNotFoundException;
 
 /**
@@ -21,5 +22,7 @@ public interface IDeviceService {
 	public Device findDevice(Long deviceId) throws InstanceNotFoundException;
 	
 	public List<Device> findAllDevice();
+	
+    public List<MibObject> getMibObjects(Long deviceId) throws InstanceNotFoundException;
 
 }

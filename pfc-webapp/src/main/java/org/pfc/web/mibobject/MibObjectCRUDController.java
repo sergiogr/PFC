@@ -73,8 +73,13 @@ public class MibObjectCRUDController extends GenericForwardComposer {
 	}
 	
 	public void onClick$addTestData() {
+		productService.createMibObject(new MibObject("sysDesc", "Descripción del equipo", "1.3.6.1.2.1.1.1.0", "MIB-II"));
+		productService.createMibObject(new MibObject("sysUpTime", "Tiempo desde la última vez que el equipo fue reiniciado", "1.3.6.1.2.1.1.3.0", "MIB-II"));
+		productService.createMibObject(new MibObject("sysContact", "Información de contacto de la persona que gestiona el eqipo", "1.3.6.1.2.1.1.4.0", "MIB-II"));
 		productService.createMibObject(new MibObject("sysName", "Nombre del sistema", "1.3.6.1.2.1.1.5.0", "MIB-II"));
 		productService.createMibObject(new MibObject("sysLocation", "Localización del sistema", "1.3.6.1.2.1.1.6.0", "MIB-II"));
+		productService.createMibObject(new MibObject("sysServices", "Conjunto de servicios que ofrece el equipo", "1.3.6.1.2.1.1.7.0", "MIB-II"));
+
 	}
 	
 	@SuppressWarnings("unchecked")

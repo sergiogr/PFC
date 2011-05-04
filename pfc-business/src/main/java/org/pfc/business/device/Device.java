@@ -2,10 +2,15 @@ package org.pfc.business.device;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Version;
+
+import org.pfc.business.product.Product;
 
 import com.vividsolutions.jts.geom.Point;
 
@@ -28,6 +33,7 @@ public class Device {
         private double lat;
         private double lng;
         private long version;
+        private Product product;
 
         public Device() {}
 
@@ -126,7 +132,18 @@ public class Device {
 		public void setVersion(long version) {
 			this.version = version;
 		}
+
+		@ManyToOne(optional=true, fetch=FetchType.EAGER)
+		@JoinColumn(name="prodId")
+		public Product getProduct() {
+			return product;
+		}
+
+		public void setProduct(Product product) {
+			this.product = product;
+		}
     
+		
 		
 }
 

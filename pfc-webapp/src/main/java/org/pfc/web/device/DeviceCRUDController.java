@@ -2,10 +2,14 @@ package org.pfc.web.device;
 
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.pfc.business.device.Device;
 import org.pfc.business.deviceservice.IDeviceService;
+import org.pfc.business.mibobject.MibObject;
+import org.pfc.business.product.Product;
+import org.pfc.business.productservice.IProductService;
 import org.pfc.business.util.exceptions.InstanceNotFoundException;
 import org.pfc.snmp.SnmpService;
 import org.zkoss.gmaps.Gmaps;
@@ -18,8 +22,8 @@ import org.zkoss.zul.Doublebox;
 import org.zkoss.zul.Grid;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.Listbox;
+import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Textbox;
-import org.zkoss.zul.Window;
 
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
@@ -37,7 +41,7 @@ public class DeviceCRUDController extends GenericForwardComposer {
 	 */
 	private static final long serialVersionUID = 3190271104080945929L;
 	
-	private Window win;
+//	private Window win;
 	private Listbox deviceList;
 	private Grid deviceForm;
 	private Gmaps map;
@@ -50,14 +54,26 @@ public class DeviceCRUDController extends GenericForwardComposer {
 	private Doublebox lng;
 	private Label snmpGet;
 	private Textbox oid;
+	private Listbox productList;
+	private Listbox mibObjectList;
 	
 	private Device current = new Device();
 	private Device newDev;
+	private MibObject mibObject = new MibObject();
+	private Product selectedProduct;
+	
 	private IDeviceService deviceService; 
 	
 	public void setDeviceService(IDeviceService deviceService) {
 		this.deviceService = deviceService;
 	}	
+	
+	private IProductService productService;
+	
+	public void setProductService(IProductService productService) {
+		this.productService = productService;
+	}
+	
 
 	@Override
 	public void doAfterCompose(Component comp) throws Exception {
@@ -82,9 +98,44 @@ public class DeviceCRUDController extends GenericForwardComposer {
 	public void setNewDev(Device newDev) {
 		this.newDev = newDev;
 	}
+	
+	public MibObject getMibObject() {
+		return mibObject;
+	}
+
+
+	public void setMibObject(MibObject mibObject) {
+		this.mibObject = mibObject;
+	}
+
+	
+
+	public Product getSelectedProduct() {
+		return selectedProduct;
+	}
+
+
+	public void setSelectedProduct(Product selectedProduct) {
+		this.selectedProduct = selectedProduct;
+	}
+
 
 	public List<Device> getDevices() {
 		return deviceService.findAllDevice();
+	}
+	
+	public List<Product> getProducts() {
+		return productService.findAllProducts();
+	}
+	
+	public List<MibObject> getMibObjects() throws InstanceNotFoundException {
+		if (current.getProduct() == null) {
+			return new ArrayList<MibObject>();
+		}else {
+			System.out.println("MibObjects "+ current.getProduct().getProductName() +": "+ deviceService.getMibObjects(current.getDeviceId()).size());;
+	//		return current.getProduct().getMibObjects();
+			return deviceService.getMibObjects(current.getDeviceId());
+		}
 	}
 	
 	/**
@@ -172,12 +223,14 @@ public class DeviceCRUDController extends GenericForwardComposer {
 			newDev = current;
 			name.setValue(current.getDeviceName());
 			description.setValue(current.getDescription());
+			
+			selectedProduct = current.getProduct();
+
 			ipAddress.setValue(current.getIpAddress());
 			pubCommunity.setValue(current.getPublicCommunity());
 			snmpPort.setValue(current.getSnmpPort());
 			lat.setValue(current.getLat());
 			lng.setValue(current.getLng());
-
 			map.getChildren().clear();
 			Gmarker m = new Gmarker(current.getDeviceName(),current.getLat(),current.getLng());
 			m.setDraggingEnabled(true);
@@ -204,7 +257,7 @@ public class DeviceCRUDController extends GenericForwardComposer {
 		newDev.setSnmpPort(snmpPort.getValue());
 		newDev.setLat(lat.getValue());
 		newDev.setLng(lng.getValue());
-		
+		newDev.setProduct((Product) productList.getSelectedItem().getValue());
 		GeometryFactory geom = new GeometryFactory();
         Point position = geom.createPoint(new Coordinate(lat.getValue(), lng.getValue()));
 		newDev.setPosition(position);
@@ -268,5 +321,14 @@ public class DeviceCRUDController extends GenericForwardComposer {
 		else {
 			alert("Selecciona el dispositivo que quieres consultar");
 		}
+	}
+	
+//	public void onSelect$deviceList() {
+//		mibObjectList.setModel(new ListModelList(current.getProduct().getMibObjects()));
+//	}
+	
+	public void onSelect$mibObjectList() {
+		MibObject curMibObject = (MibObject) mibObjectList.getSelectedItem().getValue();
+		oid.setValue(curMibObject.getOid());
 	}
 }

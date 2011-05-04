@@ -12,6 +12,8 @@ import org.junit.runner.RunWith;
 import org.pfc.business.device.Device;
 import org.pfc.business.device.IDeviceDao;
 import org.pfc.business.deviceservice.IDeviceService;
+import org.pfc.business.product.IProductDao;
+import org.pfc.business.product.Product;
 import org.pfc.business.util.exceptions.InstanceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -33,6 +35,13 @@ public class DeviceServiceTest {
 	public void setDeviceDao(IDeviceDao deviceDao) {
 		this.deviceDao = deviceDao;
 	}
+	
+	private IProductDao productDao;
+	
+	@Autowired
+	public void serProductdao(IProductDao productDao) {
+		this.productDao = productDao;
+	}
 
 	private IDeviceService deviceService;
 	
@@ -49,6 +58,24 @@ public class DeviceServiceTest {
 		Device device = deviceService.createDevice(new Device("AP1","descripcion","10.0.0.1", "public", "161", position, 0, 0));
 
 		assertTrue(deviceDao.exists(device.getDeviceId()));
+	}
+	
+	@Test
+	public void testCreateDeviceWithProduct() {
+		Product product = new Product("AP-700", "Punto de acceso Wifi", "Proxim");
+		productDao.save(product);
+		
+		GeometryFactory geom = new GeometryFactory();
+        Point position = geom.createPoint(new Coordinate(43.354891546397745, -8.416385650634766));
+
+        Device device = new Device("AP1","descripcion","10.0.0.1", "public", "161", position, 0, 0);
+        device.setProduct(product);
+        
+        device = deviceService.createDevice(device);
+        
+        assertTrue(deviceDao.exists(device.getDeviceId()));
+        assertEquals(device.getProduct(), product);
+
 	}
 
 	@Test

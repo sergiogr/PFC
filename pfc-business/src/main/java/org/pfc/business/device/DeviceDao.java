@@ -23,7 +23,9 @@ public class DeviceDao extends GenericDao<Device, Long> implements IDeviceDao{
 		Session session = getSession();
 		session.beginTransaction();
 		Criteria q = session.createCriteria(Device.class);
+		// Avoid duplicated elements in the devices list.
+		q.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		return q.list();
 	}
-
+	
 }

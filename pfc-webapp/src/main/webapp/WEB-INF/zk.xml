@@ -5,5 +5,15 @@
 -->
  
 <zk>
-
+ <session-config>
+ <!-- -1 value means session should never timeout -->
+         <session-timeout>-1</session-timeout>
+ </session-config>
+ <system-config>
+<disable-event-thread>false</disable-event-thread>
+</system-config>
+<listener>
+    <description>ThreadLocal Synchronization Listener</description>
+    <listener-class>org.zkoss.zkplus.util.ThreadLocalListener</listener-class>
+</listener>
 </zk>

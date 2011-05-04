@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.pfc.business.device.Device;
 import org.pfc.business.device.IDeviceDao;
+import org.pfc.business.mibobject.MibObject;
 import org.pfc.business.util.exceptions.InstanceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -56,6 +57,11 @@ public class DeviceService implements IDeviceService {
     @Transactional(readOnly = true)
     public List<Device> findAllDevice() {
     	return deviceDao.getAllDevices();
+    }
+    
+    @Transactional(readOnly = true)
+    public List<MibObject> getMibObjects(Long deviceId) throws InstanceNotFoundException {
+    	return deviceDao.find(deviceId).getProduct().getMibObjects();
     }
     
 }

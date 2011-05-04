@@ -16,7 +16,8 @@
     <context:component-scan base-package="org.pfc"/>
 
 <bean id="deviceCRUDController" class="org.pfc.web.device.DeviceCRUDController"
-	p:deviceService-ref="deviceService" scope="prototype"/>
+	p:deviceService-ref="deviceService"
+	p:productService-ref="productService" scope="prototype" />
 	
 <bean id="productCRUDController" class="org.pfc.web.product.ProductCRUDController"
 	p:productService-ref="productService" scope="prototype"/>
