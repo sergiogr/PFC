@@ -36,7 +36,7 @@ public class Product {
 	public Product() {}
 	
 	public Product(String productName, String description, String manufacturer) {
-		super();
+
 		this.productName = productName;
 		this.description = description;
 		this.manufacturer = manufacturer;
@@ -128,7 +128,7 @@ public class Product {
 			return true;
 		if (obj == null)
 			return false;
-		if (getClass() != obj.getClass())
+		if (!(obj instanceof Product))
 			return false;
 		Product other = (Product) obj;
 		if (description == null) {
@@ -155,8 +155,5 @@ public class Product {
 			return false;
 		return true;
 	}
-
-	
-	
 
 }

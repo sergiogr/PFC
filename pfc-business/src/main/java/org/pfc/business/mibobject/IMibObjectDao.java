@@ -16,12 +16,5 @@ public interface IMibObjectDao extends IGenericDao<MibObject, Long> {
 	 * @return The list of all {@link MibObject} entities found.
 	 */
 	public List<MibObject> getAllMibObjects();
-	
-//	/**
-//	 * 
-//	 * @param productId
-//	 * @return The list of all {@link MibObject} entities found for a {@link Product}.
-//	 */
-//	public List<MibObject> getMibObjectsByProduct(Long productId);
 
 }

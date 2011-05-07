@@ -17,26 +17,4 @@
         p:password="${testDataSource.password}" 
         p:suppressClose="true" />
         
- <!--     <bean id="sessionFactory"
-        class="org.springframework.orm.hibernate3.LocalSessionFactoryBean"
-        p:dataSource-ref="dataSource"
-        p:configLocation="classpath:/pfc-business-hibernate-config-test.xml">
-        <property name="mappingResources">
-        	<list>
-        		<value>
-        			org/pfc/business/device/Device.hbm.xml
-        		</value>
-        	</list>
-        </property>
-    </bean> -->
-
-<!--  DAOs. 
-    <bean id="deviceDao"
-        class="org.pfc.business.device.DeviceDao"
-        p:sessionFactory-ref="sessionFactory" />      -->  
-        
-         <!--  Service layer.        
-    <bean id="deviceService"
-    	class="org.pfc.business.deviceservice.DeviceService"
-    	p:deviceDao-ref="deviceDao" />--> 
 </beans>

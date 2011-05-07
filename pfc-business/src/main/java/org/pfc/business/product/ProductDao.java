@@ -22,10 +22,4 @@ public class ProductDao extends GenericDao<Product, Long> implements IProductDao
 		return getSession().createQuery("SELECT p FROM Product p ORDER BY p.productName").list();
 	}
 
-//	@SuppressWarnings("unchecked")
-//	@Transactional
-//	public List<Product> getProductsByMibObject(Long mibObjectId) {
-//		return getSession().createQuery(
-//				"SELECT DISTINCT p FROM Product p LEFT JOIN p.mibObjects m WHERE m.mibObjectId = :mibObjectId").setParameter("mibObjectId", mibObjectId).list();
-//	}
 }

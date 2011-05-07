@@ -47,7 +47,6 @@ public class ProductServiceTest {
 		this.productService = productService;
 	}
 
-
 	@Test
 	public void testCreateProduct() {
 		Product product = productService.createProduct(new Product("AP-700", "Punto de acceso Wifi", "Proxim"));
@@ -65,7 +64,6 @@ public class ProductServiceTest {
 		
 		assertTrue(products.size() == 3);		
 	}
-
 	
 	@Test
 	public void testCreateMibObject() {
@@ -85,72 +83,18 @@ public class ProductServiceTest {
 		mibObject.setProducts(listProd);
 		productService.createMibObject(mibObject);
 		System.out.println(mibObjectDao.find(mibObject.getMibObjectId()).getProducts().size());
+		
 		assertEquals(mibObject, productService.findMibObject(mibObject.getMibObjectId()));
 		
 	}
 	
-//	@Test
-//	public void testAddMibObjectsToProduct() throws InstanceNotFoundException {
-//		Product product = productService.createProduct(new Product("AP-700", "Punto de acceso Wifi", "Proxim"));
-//		MibObject mibObject1 = productService.createMibObject(new MibObject("sysName", "Nombre del sistema", "1.3.6.1.2.1.1.5.0", "MIB-II"));
-//		MibObject mibObject2 = productService.createMibObject(new MibObject("sysLocation", "Localización del sistema", "1.3.6.1.2.1.1.6.0", "MIB-II"));
-//		
-//		List<MibObject> mibObjects = new ArrayList<MibObject>();
-//		mibObjects.add(mibObject1);
-//		mibObjects.add(mibObject2);
-//		
-//		productService.addMibObjectsToProduct(product.getProductId(), mibObjects);
-//		
-//		assertTrue(productDao.find(product.getProductId()).getMibObjects().size() == 2);
-//	 	
-//	}
-//	
-//	@Test
-//	public void testAddProductsToMibObject() throws InstanceNotFoundException {
-//		
-//		MibObject mibObject = productService.createMibObject(new MibObject("sysName", "Nombre del sistema", "1.3.6.1.2.1.1.5.0", "MIB-II"));
-//		Product product1 = productService.createProduct(new Product("AP-700", "Punto de acceso Wifi", "Proxim"));
-//		Product product2 = productService.createProduct(new Product("AP-4000", "Punto de acceso Wifi", "Proxim"));
-//		List<Product> products = new ArrayList<Product>();
-//		products.add(product1);
-//		products.add(product2);
-//		
-//		productService.addProductsToMibObject(mibObject.getMibObjectId(), products);
-//		
-//		assertTrue(mibObjectDao.find(mibObject.getMibObjectId()).getProducts().size() == 2);
-//	 	
-//	}
-//	
-//	@Test
-//	public void testFindMibObjectsByProduct() throws InstanceNotFoundException {
-//		Product product = productService.createProduct(new Product("AP-700", "Punto de acceso Wifi", "Proxim"));
-//		MibObject mibObject1 = productService.createMibObject(new MibObject("sysName", "Nombre del sistema", "1.3.6.1.2.1.1.5.0", "MIB-II"));
-//		MibObject mibObject2 = productService.createMibObject(new MibObject("sysLocation", "Localización del sistema", "1.3.6.1.2.1.1.6.0", "MIB-II"));
-//		
-//		List<MibObject> mibObjects = new ArrayList<MibObject>();
-//		mibObjects.add(mibObject1);
-//		mibObjects.add(mibObject2);
-//		
-//		productService.addMibObjectsToProduct(product.getProductId(), mibObjects);
-//		
-//		assertTrue(productService.findMibObjectsByProduct(product.getProductId()).size() == 2);
-//		assertTrue(productService.findMibObjectsByProduct(product.getProductId()).contains(mibObject1));
-//		assertTrue(productService.findMibObjectsByProduct(product.getProductId()).contains(mibObject2));
-//	}
-//	
-//	@Test
-//	public void testFindProductsByMibObject() throws InstanceNotFoundException {
-//		MibObject mibObject = productService.createMibObject(new MibObject("sysName", "Nombre del sistema", "1.3.6.1.2.1.1.5.0", "MIB-II"));
-//		Product product1 = productService.createProduct(new Product("AP-700", "Punto de acceso Wifi", "Proxim"));
-//		Product product2 = productService.createProduct(new Product("AP-4000", "Punto de acceso Wifi", "Proxim"));
-//		List<Product> products = new ArrayList<Product>();
-//		products.add(product1);
-//		products.add(product2);
-//		
-//		productService.addProductsToMibObject(mibObject.getMibObjectId(), products);
-//		
-//		assertTrue(productService.findProductsByMibObject(mibObject.getMibObjectId()).size() == 2);
-//		assertTrue(productService.findProductsByMibObject(mibObject.getMibObjectId()).contains(product1));
-//		assertTrue(productService.findProductsByMibObject(mibObject.getMibObjectId()).contains(product2));
-//	}
+	@Test
+	public void testFindAllMibObjects() {
+		mibObjectDao.save( new MibObject("sysName", "Nombre del sistema", "1.3.6.1.2.1.1.5.0", "MIB-II"));
+		mibObjectDao.save( new MibObject("sysLocation", "Posición del equipo", "1.3.6.1.2.1.1.6.0", "MIB-II"));
+		List<MibObject> mibObjects = productService.findAllMibObjects();
+		
+		assertTrue(mibObjects.size() == 2);
+	}
+
 }

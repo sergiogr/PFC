@@ -24,12 +24,4 @@ public class MibObjectDao extends GenericDao<MibObject, Long> implements IMibObj
 				"SELECT m FROM MibObject m ORDER BY m.mibObjectName").list();
 	}
 
-//	@SuppressWarnings("unchecked")
-//	@Transactional
-//	public List<MibObject> getMibObjectsByProduct(Long productId) {
-//		
-//		return getSession().createQuery(
-//				"SELECT DISTINCT m FROM MibObject m LEFT JOIN m.products p WHERE p.productId = :productId").setParameter("productId", productId).list();
-//		
-//	}
 }

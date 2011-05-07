@@ -139,7 +139,7 @@ public class MibObject {
 			return true;
 		if (obj == null)
 			return false;
-		if (getClass() != obj.getClass())
+		if (!(obj instanceof MibObject))
 			return false;
 		MibObject other = (MibObject) obj;
 		if (description == null) {
@@ -170,8 +170,6 @@ public class MibObject {
 		if (version != other.version)
 			return false;
 		return true;
-	}
-	
-	
+	}	
 	
 }

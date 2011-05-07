@@ -18,10 +18,4 @@ public interface IProductDao extends IGenericDao<Product, Long> {
 	 */
 	public List<Product> getAllProducts();
 	
-//	/**
-//	 * 
-//	 * @param mibObjectId
-//	 * @return The list of all {@link Product} entities found for a {@link MibObject}.
-//	 */
-//	public List<Product> getProductsByMibObject(Long mibObjectId);
 }

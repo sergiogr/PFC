@@ -22,7 +22,6 @@ import org.zkoss.zul.Doublebox;
 import org.zkoss.zul.Grid;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.Listbox;
-import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Textbox;
 
 import com.vividsolutions.jts.geom.Coordinate;
@@ -132,8 +131,6 @@ public class DeviceCRUDController extends GenericForwardComposer {
 		if (current.getProduct() == null) {
 			return new ArrayList<MibObject>();
 		}else {
-			System.out.println("MibObjects "+ current.getProduct().getProductName() +": "+ deviceService.getMibObjects(current.getDeviceId()).size());;
-	//		return current.getProduct().getMibObjects();
 			return deviceService.getMibObjects(current.getDeviceId());
 		}
 	}

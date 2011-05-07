@@ -71,46 +71,4 @@ public class ProductService implements IProductService {
 		return mibObjectDao.getAllMibObjects();
 	}
 
-//	@Transactional(readOnly = true)
-//	public List<MibObject> findMibObjectsByProduct(Long productId) throws InstanceNotFoundException {
-//		return productDao.find(productId).getMibObjects();
-//		//return mibObjectDao.getMibObjectsByProduct(productId);
-//	}
-//	
-//	@Transactional(readOnly = true)
-//	public List<Product> findProductsByMibObject(Long mibObjectId) throws InstanceNotFoundException {
-//		return mibObjectDao.find(mibObjectId).getProducts();
-//		//return productDao.getProductsByMibObject(mibObjectId);
-//	}
-//	
-//	public void addMibObjectsToProduct(Long productId, List<MibObject> mibObjects) {
-//		
-//		Product product;
-//		try {
-//			product = productDao.find(productId);
-////			product.getMibObjects().clear();
-////			product.getMibObjects().addAll(mibObjects);
-//			product.setMibObjects(mibObjects);
-//			productDao.save(product);
-//		} catch (InstanceNotFoundException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//
-//	}
-//
-//public void addProductsToMibObject(Long mibObjectId, List<Product> products) {
-//		
-//		MibObject mibObject;
-//		try {
-//			mibObject = mibObjectDao.find(mibObjectId);
-//
-//			mibObject.setProducts(products);
-//			mibObjectDao.save(mibObject);
-//		} catch (InstanceNotFoundException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//
-//	}
 }
