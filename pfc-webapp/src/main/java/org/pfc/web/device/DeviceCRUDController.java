@@ -107,8 +107,6 @@ public class DeviceCRUDController extends GenericForwardComposer {
 		this.mibObject = mibObject;
 	}
 
-	
-
 	public Product getSelectedProduct() {
 		return selectedProduct;
 	}

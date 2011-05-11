@@ -1,6 +1,7 @@
 package org.pfc.web.product;
 
 import org.pfc.business.mibobject.MibObject;
+import org.pfc.web.widgets.duallistbox.DualListitemRenderer;
 import org.zkoss.zul.Listcell;
 import org.zkoss.zul.Listhead;
 import org.zkoss.zul.Listheader;

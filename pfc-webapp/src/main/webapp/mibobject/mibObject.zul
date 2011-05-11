@@ -2,9 +2,9 @@
 <?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" ?>
 <?init class="org.zkoss.zk.ui.util.Composition" arg0="/common/layout/template.zul"?>
 <?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
-<?component name="dual-listbox" extends="div" class="org.pfc.web.product.DualListbox"?>
+<?component name="dual-listbox" extends="div" class="org.pfc.web.widgets.duallistbox.DualListbox"?>
 <zk>
-	<window self="@{define(content)}" id="mibObjectWin" title="Gestión de objetos MIB" apply="org.pfc.web.mibobject.MibObjectCRUDController">
+	<window self="@{define(content)}" id="mibObjectWin" apply="org.pfc.web.mibobject.MibObjectCRUDController">
 		
 		<listbox id="mibObjectList" mold="paging" model="@{mibObjectWin$composer.mibObjects, load-after='save.onClick, delMibObject.onClick, addTestData.onClick' }"
 		selectedItem="@{mibObjectWin$composer.current}">

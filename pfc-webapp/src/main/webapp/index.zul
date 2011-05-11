@@ -2,12 +2,10 @@
 <?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" ?>
 <?init class="org.zkoss.zk.ui.util.Composition" arg0="/common/layout/template.zul"?>
 <?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
-<!--  <?component name="initPage" macroURI="/index.zul" inline="true" ?> -->
-
 <zk>
 <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAnfs7bKE82qgb3Zc2YyS-oBT2yXp_ZAY8_ufC3CFXhHIE1NvwkxSySz_REpPq-4WZA27OwgbtyR3VcA"
     type="text/javascript"></script>
-<window self="@{define(content)}" id="win" title="Devices" apply="org.pfc.web.device.DeviceCRUDController" border="normal" width="1250px">
+<window self="@{define(content)}" id="win" apply="org.pfc.web.device.DeviceCRUDController" border="normal" width="1250px">
 
 
 <toolbarbutton id="addDevice" label="+" height="30px" />
@@ -50,7 +48,7 @@ selectedItem="@{win$composer.current}" >
 			</row>
 			<row>
 				<label value="Product" width="80px" />
-				<listbox id="productList" mold="select"  model="@{win$composer.products }" selectedItem="@{win$composer.selectedProduct}">
+				<listbox id="productList" mold="select"  model="@{win$composer.products load-after='deviceList.onSelect'}" selectedItem="@{win$composer.selectedProduct}">
 					<listitem self="@{each='product'}" value="@{product}">
 						<listcell label="@{product.productName}" />
 					</listitem>
@@ -89,7 +87,7 @@ selectedItem="@{win$composer.current}" >
 	<groupbox width="400px">
     	<caption label="SNMP Query"/>
     	OID: <textbox id="oid" cols="40" value="1.3.6.1.2.1.1.5.0"/>
-    	<listbox id="mibObjectList" mold="select"  model="@{win$composer.mibObjects, load-after='deviceList.onSelect' }" selectedItem="@{win$composer.mibObject}">
+    	<listbox id="mibObjectList" mold="select"  model="@{win$composer.mibObjects }" selectedItem="@{win$composer.mibObject}">
 			<listitem self="@{each='mibObject'}" value="@{mibObject}">
 				<listcell label="@{mibObject.mibObjectName}" />
 			</listitem>

@@ -6,7 +6,7 @@ import org.pfc.business.mibobject.MibObject;
 import org.pfc.business.product.Product;
 import org.pfc.business.productservice.IProductService;
 import org.pfc.business.util.exceptions.InstanceNotFoundException;
-import org.pfc.web.product.DualListbox;
+import org.pfc.web.widgets.duallistbox.DualListbox;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.util.GenericForwardComposer;
 import org.zkoss.zul.Grid;

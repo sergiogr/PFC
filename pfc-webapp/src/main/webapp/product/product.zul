@@ -2,9 +2,9 @@
 <?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" ?>
 <?init class="org.zkoss.zk.ui.util.Composition" arg0="/common/layout/template.zul"?>
 <?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
-<?component name="dual-listbox" extends="div" class="org.pfc.web.product.DualListbox"?>
+<?component name="dual-listbox" extends="div" class="org.pfc.web.widgets.duallistbox.DualListbox"?>
 <zk>
-	<window self="@{define(content)}" id="productWin" title="Gestión de productos" apply="org.pfc.web.product.ProductCRUDController">
+	<window self="@{define(content)}" id="productWin" apply="org.pfc.web.product.ProductCRUDController">
 		
 		<listbox id="productList" mold="paging" model="@{productWin$composer.products, load-after='save.onClick, delProduct.onClick, addTestData.onClick' }" selectedItem="@{productWin$composer.current}">
 			<listhead sizable="true">

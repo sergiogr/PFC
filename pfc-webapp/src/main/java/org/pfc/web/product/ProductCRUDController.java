@@ -14,6 +14,7 @@ import org.pfc.business.mibobject.MibObject;
 import org.pfc.business.product.Product;
 import org.pfc.business.productservice.IProductService;
 import org.pfc.business.util.exceptions.InstanceNotFoundException;
+import org.pfc.web.widgets.duallistbox.DualListbox;
 
 /**
  * 
