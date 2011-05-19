@@ -2,7 +2,8 @@
 <borderlayout>
 <north title="Network Monitoring System" >
 <toolbar id="menu">
-<toolbarbutton label="Devices" href="/index.zul" />
+<toolbarbutton label="Home" href="/index.zul" />
+<toolbarbutton label="Devices" href="/device/device.zul" />
 <toolbarbutton label="Products" href="/product/product.zul" />
 <toolbarbutton label="MibObjects" href="/mibobject/mibObject.zul" />
 </toolbar>

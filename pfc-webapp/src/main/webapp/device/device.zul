@@ -1,0 +1,83 @@
+<?page title="Gestión de Productos" ?>
+<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" ?>
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="/common/layout/template.zul"?>
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+<zk>
+<window self="@{define(content)}" id="deviceWin" apply="org.pfc.web.device.DeviceCRUDController">
+	<listbox id="deviceLb" model="@{deviceWin.model, load-after='deleteDeviceBtn.onClick, saveBtn.onClick' }" selectedItem="@{deviceWin.selected}">
+		<listhead>
+			<listheader label="Name" />
+			<listheader label="Description" />
+			<listheader label="IP" />
+		</listhead>
+		<listitem self="@{each=device}">
+			<listcell label="@{device.deviceName}" />
+			<listcell label="@{device.description}" />
+			<listcell label="@{device.ipAddress}" />
+		</listitem>
+		<listfoot>
+			<listfooter>
+				<button id="addDeviceBtn" label="New" />
+				<button id="editDeviceBtn" label="Edit" />
+				<button id="deleteDeviceBtn" label="Delete" />
+			</listfooter>
+		</listfoot>
+	</listbox>
+	<grid id="deviceForm" visible="false" >
+		<rows>
+			<row>
+				<label value="Device Name" />
+				<textbox id="deviceNameTb" value="@{deviceWin.selected.deviceName,save-when=none}" />
+			</row>
+			<row>
+				<label value="Description" />
+				<textbox id="descriptionTb" value="@{deviceWin.selected.description}" />
+			</row>
+			<row>
+				<label value="Product" />
+				<listbox id="productLb" mold="select" selectedItem="@{deviceWin.selected.product}" 
+				model="@{deviceWin.productModel}">
+					<listitem self="@{each=product}" value="@{product}" >
+						<listcell label="@{product.productName}" />
+					</listitem>
+				</listbox>
+			</row>
+			<row>
+				<label value="IP Address" /> 
+				<textbox id="ipAddressTb" value="@{deviceWin.selected.ipAddress,save-when=none}" />
+			</row>
+			<row>
+				<label value="Public Community" />
+				<textbox id="pubCommunityTb" value="public" />
+			</row>
+			<row>
+				<label value="SNMP port" />
+				<textbox id="snmpPortTb" value="161" />
+			</row>
+			<row>
+				<label value="Position" />
+				<vbox>
+					<hbox>
+						<label value="Latitude" />
+						<doublebox id="latitudeDb"  value="@{deviceWin.selected.position.x}" />
+					</hbox>
+					<hbox>
+						<label value="Longitude" />
+						<doublebox id="longitudeDb" value="@{deviceWin.selected.position.y}"/>
+					</hbox>
+				</vbox>
+			</row>
+			<row>
+				<hbox/>
+				<hbox>
+					<div>
+						<button id="saveBtn" label="Save" />
+						<button id="cancelBtn" label="Cancel" />
+					</div>
+				</hbox>
+			</row>
+		</rows>
+	</grid>
+
+</window>
+</zk>

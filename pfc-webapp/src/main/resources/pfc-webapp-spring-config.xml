@@ -15,6 +15,10 @@
     <!-- Enable component scanning for defining beans with annotations. -->
     <context:component-scan base-package="org.pfc"/>
 
+<bean id="homeController" class="org.pfc.web.device.HomeController"
+	p:deviceService-ref="deviceService"
+	p:productService-ref="productService" scope="prototype" />
+	
 <bean id="deviceCRUDController" class="org.pfc.web.device.DeviceCRUDController"
 	p:deviceService-ref="deviceService"
 	p:productService-ref="productService" scope="prototype" />
