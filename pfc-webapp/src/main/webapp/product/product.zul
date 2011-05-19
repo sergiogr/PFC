@@ -6,7 +6,7 @@
 <zk>
 	<window self="@{define(content)}" id="productWin" apply="org.pfc.web.product.ProductCRUDController">
 		
-		<listbox id="productList" mold="paging" model="@{productWin$composer.products, load-after='save.onClick, delProduct.onClick, addTestData.onClick' }" selectedItem="@{productWin$composer.current}">
+		<listbox id="productList" width="1250px" mold="paging" model="@{productWin$composer.products, load-after='save.onClick, delProduct.onClick, addTestData.onClick' }" selectedItem="@{productWin$composer.current}">
 			<listhead sizable="true">
 				<listheader label="Name" />
 				<listheader label="Manufacturer" />
@@ -27,7 +27,7 @@
 				</listfooter>
 			</listfoot>
 		</listbox>
-		<grid id="productForm">
+		<grid id="productForm" width="1250px">
 			<columns>
 				<column width="200px"/>
 				<column/>

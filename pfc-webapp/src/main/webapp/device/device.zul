@@ -3,8 +3,8 @@
 <?init class="org.zkoss.zk.ui.util.Composition" arg0="/common/layout/template.zul"?>
 <?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
 <zk>
-<window self="@{define(content)}" id="deviceWin" apply="org.pfc.web.device.DeviceCRUDController">
-	<listbox id="deviceLb" model="@{deviceWin.model, load-after='deleteDeviceBtn.onClick, saveBtn.onClick' }" selectedItem="@{deviceWin.selected}">
+<window self="@{define(content)}" id="deviceWin" apply="org.pfc.web.device.DeviceCRUDController" width="100%">
+	<listbox id="deviceLb" width="1250px" model="@{deviceWin.model, load-after='deleteDeviceBtn.onClick, saveBtn.onClick' }" selectedItem="@{deviceWin.selected}">
 		<listhead>
 			<listheader label="Name" />
 			<listheader label="Description" />
@@ -23,7 +23,7 @@
 			</listfooter>
 		</listfoot>
 	</listbox>
-	<grid id="deviceForm" visible="false" >
+	<grid id="deviceForm" width="1250px" visible="false" >
 		<rows>
 			<row>
 				<label value="Device Name" />
