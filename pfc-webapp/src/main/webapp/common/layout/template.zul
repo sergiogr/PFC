@@ -6,6 +6,8 @@
 <toolbarbutton label="Devices" href="/device/device.zul" />
 <toolbarbutton label="Products" href="/product/product.zul" />
 <toolbarbutton label="MibObjects" href="/mibobject/mibObject.zul" />
+<toolbarbutton label="Map" href="/map/mapView.zul" />
+<toolbarbutton label="SNMP" href="" />
 </toolbar>
 </north>
 
