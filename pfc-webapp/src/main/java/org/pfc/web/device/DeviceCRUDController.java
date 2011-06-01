@@ -129,7 +129,7 @@ public class DeviceCRUDController extends GenericForwardComposer {
 		if (selected == null) {
 			Device newDev =  new Device(deviceNameTb.getValue(),descriptionTb.getValue(),
 				ipAddressTb.getValue(),pubCommunityTb.getValue(), snmpPortTb.getValue(), 
-				position, 0, 0);
+				position);
 			if (productLb.getSelectedItem() != null) {
 				newDev.setProduct((Product) productLb.getSelectedItem().getValue());
 			}

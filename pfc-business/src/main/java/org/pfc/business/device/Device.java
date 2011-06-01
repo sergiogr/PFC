@@ -30,22 +30,18 @@ public class Device {
         private String publicCommunity;
         private String snmpPort;
         private Point position;
-        private double lat;
-        private double lng;
         private long version;
         private Product product;
 
         public Device() {}
 
-        public Device(String deviceName, String description, String ipAddress, String publicCommunity, String snmpPort, Point position, double lat, double lng) {
+        public Device(String deviceName, String description, String ipAddress, String publicCommunity, String snmpPort, Point position) {
                 this.deviceName = deviceName;
                 this.description = description;
                 this.ipAddress = ipAddress;
                 this.publicCommunity = publicCommunity;
                 this.snmpPort = snmpPort;
                 this.position = position;
-                this.lat = lat;
-                this.lng = lng;
         }
 
 		@Id
@@ -108,22 +104,6 @@ public class Device {
 			return position;
 		}
 
-		public double getLat() {
-			return lat;
-		}
-
-		public void setLat(double lat) {
-			this.lat = lat;
-		}
-
-		public double getLng() {
-			return lng;
-		}
-
-		public void setLng(double lng) {
-			this.lng = lng;
-		}
-
 		@Version
 		public long getVersion() {
 			return version;
@@ -155,11 +135,6 @@ public class Device {
 					+ ((deviceName == null) ? 0 : deviceName.hashCode());
 			result = prime * result
 					+ ((ipAddress == null) ? 0 : ipAddress.hashCode());
-			long temp;
-			temp = Double.doubleToLongBits(lat);
-			result = prime * result + (int) (temp ^ (temp >>> 32));
-			temp = Double.doubleToLongBits(lng);
-			result = prime * result + (int) (temp ^ (temp >>> 32));
 			result = prime * result
 					+ ((position == null) ? 0 : position.hashCode());
 			result = prime
@@ -201,12 +176,6 @@ public class Device {
 				if (other.ipAddress != null)
 					return false;
 			} else if (!ipAddress.equals(other.ipAddress))
-				return false;
-			if (Double.doubleToLongBits(lat) != Double
-					.doubleToLongBits(other.lat))
-				return false;
-			if (Double.doubleToLongBits(lng) != Double
-					.doubleToLongBits(other.lng))
 				return false;
 			if (position == null) {
 				if (other.position != null)

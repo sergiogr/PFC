@@ -148,7 +148,7 @@ public class HomeController extends GenericForwardComposer {
 		m.getChildren().clear();
 		List<Device> devices = deviceService.findAllDevice();
 		for (Device d:devices){
-			Gmarker marker = new Gmarker(d.getDeviceName(),d.getLat(),d.getLng());
+			Gmarker marker = new Gmarker(d.getDeviceName(),d.getPosition().getX(),d.getPosition().getY());
 			marker.setDraggingEnabled(false);
 			m.appendChild(marker);
 		}
@@ -186,7 +186,7 @@ public class HomeController extends GenericForwardComposer {
 			GeometryFactory geom = new GeometryFactory();
 	        Point pos = geom.createPoint(new Coordinate(x, y));
 			Device d = new Device("AP"+i,"AP de prueba "+i,"127.0.0.1","public","161",
-					pos, x, y);
+					pos);
 			deviceService.createDevice(d);
 		}
 		renderMap(map);
@@ -224,12 +224,10 @@ public class HomeController extends GenericForwardComposer {
 			ipAddress.setValue(current.getIpAddress());
 			pubCommunity.setValue(current.getPublicCommunity());
 			snmpPort.setValue(current.getSnmpPort());
-			lat.setValue(current.getLat());
-			lng.setValue(current.getLng());
 			map.getChildren().clear();
-			Gmarker m = new Gmarker(current.getDeviceName(),current.getLat(),current.getLng());
+			Gmarker m = new Gmarker(current.getDeviceName(),current.getPosition().getX(),current.getPosition().getY());
 			m.setDraggingEnabled(true);
-			map.setCenter(current.getLat(), current.getLng());
+			map.setCenter(current.getPosition().getX(), current.getPosition().getY());
 			map.appendChild(m);
 			
 			deviceList.setVisible(false);
@@ -250,8 +248,6 @@ public class HomeController extends GenericForwardComposer {
 		newDev.setIpAddress(ipAddress.getValue());
 		newDev.setPublicCommunity(pubCommunity.getValue());
 		newDev.setSnmpPort(snmpPort.getValue());
-		newDev.setLat(lat.getValue());
-		newDev.setLng(lng.getValue());
 		newDev.setProduct((Product) productList.getSelectedItem().getValue());
 		GeometryFactory geom = new GeometryFactory();
         Point position = geom.createPoint(new Coordinate(lat.getValue(), lng.getValue()));
@@ -308,6 +304,9 @@ public class HomeController extends GenericForwardComposer {
 		}
 	}
 	
+	/**
+	 * Realiza una consulta SNMP del MibObject seleccionado sobre el Device seleccionado.
+	 */
 	public void onClick$query() {
 		
 		if (current.getDeviceId() != null) {
@@ -317,10 +316,6 @@ public class HomeController extends GenericForwardComposer {
 			alert("Selecciona el dispositivo que quieres consultar");
 		}
 	}
-	
-//	public void onSelect$deviceList() {
-//		mibObjectList.setModel(new ListModelList(current.getProduct().getMibObjects()));
-//	}
 	
 	public void onSelect$mibObjectList() {
 		MibObject curMibObject = (MibObject) mibObjectList.getSelectedItem().getValue();

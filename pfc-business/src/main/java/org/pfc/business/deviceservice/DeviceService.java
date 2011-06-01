@@ -42,8 +42,6 @@ public class DeviceService implements IDeviceService {
 		device.setDeviceName(deviceInfo.getDeviceName());
 		device.setDescription(deviceInfo.getDescription());
 		device.setIpAddress(deviceInfo.getIpAddress());
-		device.setLat(deviceInfo.getLat());
-		device.setLng(deviceInfo.getLng());
 		//NOTA: faltan datos SNMP y Position
 		return device;
 		
