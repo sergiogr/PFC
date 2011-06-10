@@ -62,5 +62,10 @@ public class DeviceService implements IDeviceService {
     	return deviceDao.find(deviceId).getProduct().getMibObjects();
     }
     
+    @Transactional(readOnly = true)
+    public Device findDeviceByName(String deviceName) {
+    	return deviceDao.getDeviceByName(deviceName);
+    }
+    
 }
 

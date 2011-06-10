@@ -24,5 +24,7 @@ public interface IDeviceService {
 	public List<Device> findAllDevice();
 	
     public List<MibObject> getMibObjects(Long deviceId) throws InstanceNotFoundException;
+    
+    public Device findDeviceByName(String deviceName);
 
 }

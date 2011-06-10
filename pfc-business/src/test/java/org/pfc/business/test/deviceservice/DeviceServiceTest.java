@@ -89,4 +89,17 @@ public class DeviceServiceTest {
 		assertEquals(devices.get(0).getPosition(), position);
 	}
 	
+	@Test
+	public void testFindDeviceByNameAndPosition() {
+		GeometryFactory geom = new GeometryFactory();
+        Point position = geom.createPoint(new Coordinate(5, 5));
+        Device device0 = new Device("APtest","Desc","1.1.1.1","public", "161",position);
+		deviceDao.save(device0);
+		
+		Device device1 = deviceService.findDeviceByName("APtest");
+		
+		assertEquals(device0,device1);
+		
+	}
+	
 }

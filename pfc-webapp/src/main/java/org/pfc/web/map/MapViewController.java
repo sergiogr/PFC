@@ -21,6 +21,8 @@ public class MapViewController extends GenericForwardComposer {
 	private Gmaps map;
 	private MapModelList mapModelList;
 	private Textbox deviceNameTb;
+	private Textbox descriptionTb;
+	private Textbox ipAddressTb;
 	private Doublebox latitudeDb;
 	private Doublebox longitudeDb;
 	
@@ -57,10 +59,12 @@ public class MapViewController extends GenericForwardComposer {
 
 			Gmarker marker = mme.getGmarker();
 
-			deviceNameTb.setValue(marker.getContent());
-			latitudeDb.setValue(marker.getLat());
-			longitudeDb.setValue(marker.getLng());
-//			System.out.println(marker.getContent()+","+marker.getLat()+", "+marker.getLng());
+			Device dev = deviceService.findDeviceByName(marker.getContent());
+			deviceNameTb.setValue(dev.getDeviceName());
+			descriptionTb.setValue(dev.getDescription());
+			ipAddressTb.setValue(dev.getIpAddress());
+			latitudeDb.setValue(dev.getPosition().getX());
+			longitudeDb.setValue(dev.getPosition().getY());
 			marker.setOpen(true);
 		}
 	}

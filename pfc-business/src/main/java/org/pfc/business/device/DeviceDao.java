@@ -28,4 +28,12 @@ public class DeviceDao extends GenericDao<Device, Long> implements IDeviceDao{
 		return q.list();
 	}
 	
+	@Transactional
+	public Device getDeviceByName(String deviceName) {
+		Session session = getSession();
+		session.beginTransaction();
+		
+		return (Device) session.createQuery("FROM Device d WHERE d.deviceName = :deviceName").setParameter("deviceName", deviceName).uniqueResult();
+	}
+	
 }

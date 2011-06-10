@@ -17,4 +17,6 @@ public interface IDeviceDao extends IGenericDao<Device, Long> {
 	 */
 	public List<Device> getAllDevices();
 	
+	public Device getDeviceByName(String deviceName);
+	
 }

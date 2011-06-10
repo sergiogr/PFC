@@ -48,7 +48,7 @@ selectedItem="@{win$composer.current}" >
 			</row>
 			<row>
 				<label value="Product" width="80px" />
-				<listbox id="productList" mold="select"  model="@{win$composer.products load-after='deviceList.onSelect'}" selectedItem="@{win$composer.selectedProduct}">
+				<listbox id="productList" mold="select"  model="@{win$composer.products load-after='deviceList.onSelect'}" selectedItem="@{win$composer.current.product}">
 					<listitem self="@{each='product'}" value="@{product}">
 						<listcell label="@{product.productName}" />
 					</listitem>
