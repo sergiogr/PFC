@@ -30,8 +30,8 @@ public class SnmpService implements ISnmpService {
 			target.setCommunity(new OctetString(community));
 			target.setVersion(SnmpConstants.version2c);
 			target.setAddress(targetAddress);
-			target.setRetries(2);
-			target.setTimeout(3600);
+			target.setRetries(1);
+			target.setTimeout(7200);
 
 			Snmp snmp = new Snmp(transport);
 			snmp.listen();
@@ -45,16 +45,16 @@ public class SnmpService implements ISnmpService {
 				if(response.getResponse().getErrorStatusText().equalsIgnoreCase("Success")) {
 					PDU pduresponse=response.getResponse();
 					str=pduresponse.getVariableBindings().firstElement().toString();
-						if(str.contains("=")){
-							int len = str.indexOf("=");
-							str=str.substring(len+1, str.length());
-							str=str.trim();
-							}
-						}
+					if(str.contains("=")){
+						int len = str.indexOf("=");
+						str=str.substring(len+1, str.length());
+						str=str.trim();
+					}
 				}
+			}
 			else {
 				System.out.println("Feeling like a TimeOut occured ");
-				}
+			}
 			snmp.close();
 			
 		} catch(Exception e) { e.printStackTrace(); }

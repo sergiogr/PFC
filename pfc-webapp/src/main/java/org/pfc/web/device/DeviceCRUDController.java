@@ -9,6 +9,7 @@ import org.pfc.business.product.Product;
 import org.pfc.business.productservice.IProductService;
 import org.pfc.business.util.exceptions.InstanceNotFoundException;
 
+import org.zkoss.gmaps.event.MapDropEvent;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.util.GenericForwardComposer;
 import org.zkoss.zul.Doublebox;
@@ -81,7 +82,7 @@ public class DeviceCRUDController extends GenericForwardComposer {
 		deviceLb.clearSelection();
 		selected = null;
 		restoreDeviceGrid();
-		
+
 		goToDeviceForm();
 	}
 	
@@ -173,4 +174,10 @@ public class DeviceCRUDController extends GenericForwardComposer {
 		deviceForm.setVisible(false);
 		deviceLb.setVisible(true);
 	}
+	
+	 public void onMapDrop$gmap(MapDropEvent event) throws InterruptedException {
+		 latitudeDb.setValue(event.getLat());
+		 longitudeDb.setValue(event.getLng());
+		 	 
+    }
 }

@@ -12,35 +12,50 @@
 </gmaps>
 </vbox>
 <vbox>
+<hbox>
 <grid>
+	<columns>
+		<column width="30%"></column>
+		<column></column>
+	</columns>
 	<rows>
 		<row>
 			<label value="Device Name" />
- 			<textbox id="deviceNameTb" />
+ 			<label id="deviceNameLbl" />
 		</row>
 		<row>
 			<label value="Description" />
-			<textbox id="descriptionTb" />
+			<label id="descriptionLbl" />
 		</row>
 		<row>
 			<label value="IP Address" /> 
-			<textbox id="ipAddressTb" />
+			<label id="ipAddressLbl" />
 		</row>
 		<row>
 				<label value="Position" />
 				<vbox>
 					<hbox>
 						<label value="Latitude" />
-						<doublebox id="latitudeDb" />
+						<label id="latitudeLbl" />
 					</hbox>
 					<hbox>
 						<label value="Longitude" />
-						<doublebox id="longitudeDb" />
+						<label id="longitudeLbl" />
 					</hbox>
 				</vbox>
 			</row>
 		</rows>
 	</grid>
+	</hbox>
+	<hbox>
+	<grid id="snmpGrid">
+	<columns>
+		<column label="Data" width="30%"/>
+		<column label="Value" />
+	</columns>	
+	<rows id="snmpRows"></rows>
+	</grid>
+	</hbox>
 </vbox>
 </hbox>
 </window>

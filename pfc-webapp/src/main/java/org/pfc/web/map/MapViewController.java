@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.pfc.business.device.Device;
 import org.pfc.business.deviceservice.IDeviceService;
+import org.pfc.business.mibobject.MibObject;
+import org.pfc.snmp.SnmpService;
 import org.zkoss.gmaps.Gmaps;
 import org.zkoss.gmaps.Gmarker;
 import org.zkoss.gmaps.MapModelList;
@@ -11,8 +13,10 @@ import org.zkoss.gmaps.event.MapMouseEvent;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.ForwardEvent;
 import org.zkoss.zk.ui.util.GenericForwardComposer;
-import org.zkoss.zul.Doublebox;
-import org.zkoss.zul.Textbox;
+import org.zkoss.zul.Grid;
+import org.zkoss.zul.Label;
+import org.zkoss.zul.Row;
+import org.zkoss.zul.Rows;
 
 @SuppressWarnings("serial")
 public class MapViewController extends GenericForwardComposer {
@@ -20,11 +24,13 @@ public class MapViewController extends GenericForwardComposer {
 	
 	private Gmaps map;
 	private MapModelList mapModelList;
-	private Textbox deviceNameTb;
-	private Textbox descriptionTb;
-	private Textbox ipAddressTb;
-	private Doublebox latitudeDb;
-	private Doublebox longitudeDb;
+	private Label deviceNameLbl;
+	private Label descriptionLbl;
+	private Label ipAddressLbl;
+	private Label latitudeLbl;
+	private Label longitudeLbl;
+	private Grid snmpGrid;
+	private Rows snmpRows;
 	
 	private IDeviceService deviceService; 
 	
@@ -60,12 +66,31 @@ public class MapViewController extends GenericForwardComposer {
 			Gmarker marker = mme.getGmarker();
 
 			Device dev = deviceService.findDeviceByName(marker.getContent());
-			deviceNameTb.setValue(dev.getDeviceName());
-			descriptionTb.setValue(dev.getDescription());
-			ipAddressTb.setValue(dev.getIpAddress());
-			latitudeDb.setValue(dev.getPosition().getX());
-			longitudeDb.setValue(dev.getPosition().getY());
-			marker.setOpen(true);
+			List<MibObject> mos = dev.getProduct().getMibObjects();
+			deviceNameLbl.setValue(dev.getDeviceName());
+			descriptionLbl.setValue(dev.getDescription());
+			ipAddressLbl.setValue(dev.getIpAddress());
+			latitudeLbl.setValue(((Double) dev.getPosition().getX()).toString());
+			longitudeLbl.setValue(((Double) dev.getPosition().getY()).toString());
+			SnmpService snmp = new SnmpService();
+
+			if (dev.getProduct() == null) {
+			
+			} else if (dev.getProduct().getMibObjects() == null){
+				
+			} else {
+				
+				snmpGrid.getRows().getChildren().clear();
+
+				for (MibObject m:mos){
+					Row row = new Row();
+					row.setParent(snmpRows);
+					new Label(m.getMibObjectName()).setParent(row);
+					new Label(snmp.snmpGet(dev.getPublicCommunity(), dev.getIpAddress(), dev.getSnmpPort(), m.getOid())).setParent(row);
+				}
+			}
+			
+			marker.setOpen(true);	
 		}
 	}
 
