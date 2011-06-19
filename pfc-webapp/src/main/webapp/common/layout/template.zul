@@ -1,5 +1,5 @@
 <zk>
-<borderlayout>
+<borderlayout width="1280px" height="600px">
 <north title="Network Monitoring System" >
 <toolbar id="menu">
 <toolbarbutton label="Home" href="/index.zul" />
@@ -12,7 +12,7 @@
 </north>
 
 <center>
-	<vbox>
+	<vbox width="1280px" height="500px">
 		<hbox self="@{insert(content)}" />
 	</vbox>
 

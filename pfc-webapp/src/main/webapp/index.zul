@@ -5,7 +5,7 @@
 <zk>
 <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAnfs7bKE82qgb3Zc2YyS-oBT2yXp_ZAY8_ufC3CFXhHIE1NvwkxSySz_REpPq-4WZA27OwgbtyR3VcA"
     type="text/javascript"></script>
-<window self="@{define(content)}" id="win" apply="org.pfc.web.device.HomeController" border="normal" width="1250px">
+<window self="@{define(content)}" id="win" apply="org.pfc.web.device.HomeController" border="normal" width="1280px">
 
 
 <toolbarbutton id="addDevice" label="+" height="30px" />
@@ -13,10 +13,10 @@
 <toolbarbutton id="delDevice" label="-" height="30px" />    
 <toolbarbutton id="addTestData" label="Añadir dispositivos de prueba" height="30px" />
 <hbox>
-<vbox>
-<listbox id="deviceList" mold="paging" rows="20" pageSize="20" model="@{win$composer.devices, load-after='addTestData.onClick, save.onClick, delDevice.onClick' }" 
+<vbox width="400px" height="470px">
+<listbox id="deviceList" mold="paging" rows="15" pageSize="15" model="@{win$composer.devices, load-after='addTestData.onClick, save.onClick, delDevice.onClick' }" 
 selectedItem="@{win$composer.current}" >
-                <listhead sizable="true">
+                <listhead sizable="true" >
                         <listheader label="Name" />
                         <listheader label="Description" />
                         <listheader label="IP"  />                     
@@ -28,26 +28,26 @@ selectedItem="@{win$composer.current}" >
                 </listitem>
     </listbox> 
 
-<grid id="deviceForm" sizedByContent="true" visible="false">
+<grid id="deviceForm" sizedByContent="true" visible="false" >
 		<columns>
 			<column width="150px" />
 			<column width="250px"/>
 		</columns>
 		<rows>
 			<row>
-				<label value="Name" width="80px" /> 
+				<label value="Name"  /> 
 				<textbox id="name"  />
 			</row>
 			<row>
-				<label value="Description" width="80px" />
+				<label value="Description" />
 				<textbox id="description" />
 			</row>
 			<row>
-				<label value="IP address" width="80px" />
+				<label value="IP address"  />
 				<textbox id="ipAddress" />
 			</row>
 			<row>
-				<label value="Product" width="80px" />
+				<label value="Product"  />
 				<listbox id="productList" mold="select"  model="@{win$composer.products load-after='deviceList.onSelect'}" selectedItem="@{win$composer.current.product}">
 					<listitem self="@{each='product'}" value="@{product}">
 						<listcell label="@{product.productName}" />
@@ -55,15 +55,15 @@ selectedItem="@{win$composer.current}" >
 				</listbox>
 			</row>
 			<row>
-				<label value="Public Community" width="80px" />
+				<label value="Public Community"  />
 				<textbox id="pubCommunity" value="public" />
 			</row>
 				<row>
-				<label value="SNMP Port" width="80px" />
+				<label value="SNMP Port" />
 				<textbox id="snmpPort" value="161"/>
 			</row>
 			<row> 
-				<label value="Position" width="80px" />
+				<label value="Position" />
 				<vbox>
 					<hbox>
 						<label value="Latitude: " width="80px" />
@@ -84,7 +84,7 @@ selectedItem="@{win$composer.current}" >
 			</row>
 		</rows>
 	</grid>
-	<groupbox width="400px">
+	<groupbox height="80px" >
     	<caption label="SNMP Query"/>
     	OID: <textbox id="oid" cols="40" value="1.3.6.1.2.1.1.5.0"/>
     	<listbox id="mibObjectList" mold="select"  model="@{win$composer.mibObjects }" selectedItem="@{win$composer.mibObject}">
@@ -97,7 +97,7 @@ selectedItem="@{win$composer.current}" >
     </groupbox>
 </vbox>
 <vbox>
-<gmaps id="map" width="800px" height="500px" showTypeCtrl="true" showSmallCtrl="true" />
+<gmaps id="map" width="750px" height="470px" zoom="8" showTypeCtrl="true" showSmallCtrl="true" />
 </vbox>
 </hbox>
 </window>
