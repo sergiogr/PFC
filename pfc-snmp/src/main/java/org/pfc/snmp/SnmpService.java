@@ -15,7 +15,6 @@ import org.snmp4j.transport.DefaultUdpTransportMapping;
 
 public class SnmpService implements ISnmpService {
 
-	@Override
 	public String snmpGet(String community, String address, String port, String oid) {
 		
 		String str = "";

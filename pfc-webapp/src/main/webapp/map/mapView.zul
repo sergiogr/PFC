@@ -8,12 +8,12 @@
 <window self="@{define(content)}" id="mapWin" apply="org.pfc.web.map.MapViewController" width="100%">
 <hbox>
 <vbox>
-<gmaps id="map" width="800px" height="500px" showTypeCtrl="true" showSmallCtrl="true" forward="onMapClick=mapWin.onMapClick">
+<gmaps id="map" width="800px" height="500px" zoom="8" showTypeCtrl="true" showSmallCtrl="true" forward="onMapClick=mapWin.onMapClick">
 </gmaps>
 </vbox>
 <vbox>
 <hbox>
-<grid>
+<grid width="350px">
 	<columns>
 		<column width="30%"></column>
 		<column></column>

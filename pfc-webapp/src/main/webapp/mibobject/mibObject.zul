@@ -6,7 +6,7 @@
 <zk>
 	<window self="@{define(content)}" id="mibObjectWin" apply="org.pfc.web.mibobject.MibObjectCRUDController">
 		
-		<listbox id="mibObjectList" width="1250px" mold="paging" model="@{mibObjectWin$composer.mibObjects, load-after='save.onClick, delMibObject.onClick, addTestData.onClick' }"
+		<listbox id="mibObjectList" width="1170px" mold="paging" model="@{mibObjectWin$composer.mibObjects, load-after='save.onClick, delMibObject.onClick, addTestData.onClick' }"
 		selectedItem="@{mibObjectWin$composer.current}">
 			<listhead sizable="true">
 				<listheader label="Name" />
@@ -30,7 +30,7 @@
 				</listfooter>
 			</listfoot>
 		</listbox>
-		<grid id="mibObjectForm" width="1250px">
+		<grid id="mibObjectForm" width="1170px">
 			<columns>
 				<column width="200px"/>
 				<column/>

@@ -7,8 +7,11 @@ import org.pfc.business.device.Device;
 import org.pfc.business.deviceservice.IDeviceService;
 import org.pfc.business.product.Product;
 import org.pfc.business.productservice.IProductService;
+import org.pfc.business.util.exceptions.DuplicateInstanceException;
 import org.pfc.business.util.exceptions.InstanceNotFoundException;
 
+import org.zkoss.gmaps.Gmaps;
+import org.zkoss.gmaps.Gmarker;
 import org.zkoss.gmaps.event.MapDropEvent;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.util.GenericForwardComposer;
@@ -24,6 +27,12 @@ import com.vividsolutions.jts.geom.Point;
 @SuppressWarnings("serial")
 public class DeviceCRUDController extends GenericForwardComposer {
 
+	public enum Action {CREATE, EDIT};
+	
+	private Action action;
+	
+	private Gmaps gmap;
+	private Gmarker marker;
 	private Listbox deviceLb;
 	private Listbox productLb;
 	private Textbox deviceNameTb;
@@ -39,6 +48,7 @@ public class DeviceCRUDController extends GenericForwardComposer {
 	private List<Product> productModel = new ArrayList<Product>();
 	
 	private Device selected;
+	private Device deviceBk = new Device();
 	
 	private IDeviceService deviceService; 
 	
@@ -78,11 +88,29 @@ public class DeviceCRUDController extends GenericForwardComposer {
 		this.selected = selected;
 	}
 	
+	
+
+	public Action getAction() {
+		return action;
+	}
+
+	public void setAction(Action action) {
+		this.action = action;
+	}
+
 	public void onClick$addDeviceBtn() {
 		deviceLb.clearSelection();
 		selected = null;
 		restoreDeviceGrid();
-
+		
+		this.setAction(Action.CREATE);
+		
+		gmap.setCenter(43.354891546397745,-8.416385650634766);
+		marker.setLat(gmap.getLat());
+		marker.setLng(gmap.getLng());
+		latitudeDb.setValue(gmap.getLat());
+		longitudeDb.setValue(gmap.getLng());
+		
 		goToDeviceForm();
 	}
 	
@@ -103,6 +131,14 @@ public class DeviceCRUDController extends GenericForwardComposer {
 			alert("Please, select the device you want to edit.");
 		}
 		else {
+			this.setAction(Action.EDIT);
+			deviceBk.setDeviceName(selected.getDeviceName());
+			deviceBk.setDescription(selected.getDescription());
+			deviceBk.setIpAddress(selected.getIpAddress());
+			deviceBk.setPublicCommunity(selected.getPublicCommunity());
+			deviceBk.setSnmpPort(selected.getSnmpPort());
+			deviceBk.setProduct(selected.getProduct());
+			deviceBk.setPosition(selected.getPosition());
 			goToDeviceForm();
 			
 		}
@@ -127,38 +163,63 @@ public class DeviceCRUDController extends GenericForwardComposer {
 	public void onClick$saveBtn() throws InstanceNotFoundException {
 		GeometryFactory geom = new GeometryFactory();
 		Point position = geom.createPoint(new Coordinate(latitudeDb.getValue(), longitudeDb.getValue()));
-		if (selected == null) {
-			Device newDev =  new Device(deviceNameTb.getValue(),descriptionTb.getValue(),
-				ipAddressTb.getValue(),pubCommunityTb.getValue(), snmpPortTb.getValue(), 
-				position);
-			if (productLb.getSelectedItem() != null) {
-				newDev.setProduct((Product) productLb.getSelectedItem().getValue());
-			}
-			selected = newDev;
-			model.add(selected);
-		}
-		else {
-			selected.setDeviceName(deviceNameTb.getValue());
-			selected.setDescription(descriptionTb.getValue());
-			selected.setIpAddress(ipAddressTb.getValue());
-			
-			if (productLb.getSelectedItem() != null){
-				selected.setProduct((Product) productLb.getSelectedItem().getValue());
-			}
-			
-			selected.setPublicCommunity(pubCommunityTb.getValue());
-			selected.setSnmpPort(snmpPortTb.getValue());
-			selected.setPosition(position);
-		}
-		deviceService.createDevice(selected);
-
-		goToDeviceLb();
 		
+		if (this.getAction() == Action.CREATE) {
+			try {
+				selected =  new Device(deviceNameTb.getValue(),descriptionTb.getValue(),
+						ipAddressTb.getValue(),pubCommunityTb.getValue(), snmpPortTb.getValue(), 
+						position);
+				if (productLb.getSelectedItem() != null) {
+						selected.setProduct((Product) productLb.getSelectedItem().getValue());
+					}
+				deviceService.createDevice(selected);
+				model.add(selected);
+				goToDeviceLb();
+			} catch (DuplicateInstanceException e) {
+				alert("There is another Device with this name: "+ selected.getDeviceName());
+			}
+		}
+		else if (this.getAction() == Action.EDIT) {
+
+			try {
+				selected.setDeviceName(deviceNameTb.getValue());
+				selected.setDescription(descriptionTb.getValue());
+				selected.setIpAddress(ipAddressTb.getValue());
+				
+				if (productLb.getSelectedItem() != null){
+					selected.setProduct((Product) productLb.getSelectedItem().getValue());
+				}
+				
+				selected.setPublicCommunity(pubCommunityTb.getValue());
+				selected.setSnmpPort(snmpPortTb.getValue());
+				selected.setPosition(position);
+				deviceService.updateDevice(selected);
+				goToDeviceLb();
+			} catch (DuplicateInstanceException e1) {
+				alert("There is another Device with this name:  "+selected.getDeviceName()+". Please, choose another name");
+			}		
+		}
+				
 	}
 
 	public void onClick$cancelBtn() {
 		deviceLb.clearSelection();
-		selected = null;
+		if (this.getAction() == Action.CREATE) {
+			selected=null;
+		}
+		else if (this.getAction() == Action.EDIT) {
+			System.out.println(deviceBk.getDeviceName());
+			System.out.println(selected.getDeviceName());
+			selected.setDeviceName(deviceBk.getDeviceName());
+			selected.setDescription(deviceBk.getDescription());
+			selected.setIpAddress(deviceBk.getIpAddress());
+			selected.setPosition(deviceBk.getPosition());
+			selected.setPublicCommunity(deviceBk.getPublicCommunity());
+			selected.setSnmpPort(deviceBk.getSnmpPort());
+			selected.setProduct(deviceBk.getProduct());
+			selected=null;
+		}
+		
 		restoreDeviceGrid();
 		
 		goToDeviceLb();

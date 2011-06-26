@@ -6,7 +6,7 @@
 <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAnfs7bKE82qgb3Zc2YyS-oBT2yXp_ZAY8_ufC3CFXhHIE1NvwkxSySz_REpPq-4WZA27OwgbtyR3VcA"
     type="text/javascript"></script>
 <window self="@{define(content)}" id="deviceWin" apply="org.pfc.web.device.DeviceCRUDController" width="100%">
-	<listbox id="deviceLb" width="1250px" model="@{deviceWin.model, load-after='deleteDeviceBtn.onClick, saveBtn.onClick' }" selectedItem="@{deviceWin.selected}">
+	<listbox id="deviceLb" width="1170px" model="@{deviceWin.model, load-after='deleteDeviceBtn.onClick, saveBtn.onClick, cancelBtn.onClick' }" selectedItem="@{deviceWin.selected}">
 		<listhead>
 			<listheader label="Name" />
 			<listheader label="Description" />
@@ -25,7 +25,7 @@
 			</listfooter>
 		</listfoot>
 	</listbox>
-	<grid id="deviceForm" width="1250px" visible="false" >
+	<grid id="deviceForm" width="1170px" visible="false" >
 		<rows>
 			<row>
 				<label value="Device Name" />
@@ -69,7 +69,7 @@
 					</hbox>
 					<hbox>
 						<gmaps id="gmap" showTypeCtrl="true"
-	                        showLargeCtrl="true" width="400px" height="200px" lat="@{deviceWin.selected.position.x}" lng="@{deviceWin.selected.position.y}">
+	                        showLargeCtrl="true" width="400px" height="200px" zoom="8" lat="@{deviceWin.selected.position.x}" lng="@{deviceWin.selected.position.y}">
 	                        <gmarker id="marker" draggable="true" lat="@{deviceWin.selected.position.x}" lng="@{deviceWin.selected.position.y}"></gmarker>
 	                    </gmaps>
 					</hbox>

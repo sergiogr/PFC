@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.pfc.business.util.exceptions.InstanceNotFoundException;
 import org.pfc.business.util.genericdao.GenericDao;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,11 +30,18 @@ public class DeviceDao extends GenericDao<Device, Long> implements IDeviceDao{
 	}
 	
 	@Transactional
-	public Device getDeviceByName(String deviceName) {
+	public Device getDeviceByName(String deviceName) throws InstanceNotFoundException {
 		Session session = getSession();
 		session.beginTransaction();
 		
-		return (Device) session.createQuery("FROM Device d WHERE d.deviceName = :deviceName").setParameter("deviceName", deviceName).uniqueResult();
+		Device device = (Device) session.createQuery("FROM Device d WHERE d.deviceName = :deviceName").setParameter("deviceName", deviceName).uniqueResult();
+	
+		if (device == null) {
+			throw new InstanceNotFoundException(deviceName, Device.class.getName());
+		}
+		else {
+			return device;
+		}
 	}
 	
 }

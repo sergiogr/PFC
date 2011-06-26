@@ -4,18 +4,21 @@ import java.util.List;
 
 import org.pfc.business.device.Device;
 import org.pfc.business.mibobject.MibObject;
+import org.pfc.business.util.exceptions.DuplicateInstanceException;
 import org.pfc.business.util.exceptions.InstanceNotFoundException;
 
 /**
  * 
- * @author Sergio GarcÃ­a Ramos <sergio.garcia@udc.es>
+ * @author Sergio García Ramos <sergio.garcia@udc.es>
  *
  */
 public interface IDeviceService {
 
-	public Device createDevice(Device device);
+	public Device createDevice(Device device) throws DuplicateInstanceException;
 	
 	public void removeDevice(Long deviceId) throws InstanceNotFoundException;
+	
+	public void updateDevice(Device device) throws InstanceNotFoundException,DuplicateInstanceException;
 	
 	public Device editDevice(Long deviceId, DeviceInfo deviceInfo) throws InstanceNotFoundException;
 	
@@ -25,6 +28,6 @@ public interface IDeviceService {
 	
     public List<MibObject> getMibObjects(Long deviceId) throws InstanceNotFoundException;
     
-    public Device findDeviceByName(String deviceName);
+    public Device findDeviceByName(String deviceName) throws InstanceNotFoundException;
 
 }

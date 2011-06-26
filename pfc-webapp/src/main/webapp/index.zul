@@ -5,7 +5,7 @@
 <zk>
 <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAnfs7bKE82qgb3Zc2YyS-oBT2yXp_ZAY8_ufC3CFXhHIE1NvwkxSySz_REpPq-4WZA27OwgbtyR3VcA"
     type="text/javascript"></script>
-<window self="@{define(content)}" id="win" apply="org.pfc.web.device.HomeController" border="normal" width="1280px">
+<window self="@{define(content)}" id="win" apply="org.pfc.web.device.HomeController" border="normal" width="1170px">
 
 
 <toolbarbutton id="addDevice" label="+" height="30px" />
@@ -96,7 +96,7 @@ selectedItem="@{win$composer.current}" >
     	<label id="snmpGet" value="" />
     </groupbox>
 </vbox>
-<vbox>
+<vbox width="750px" >
 <gmaps id="map" width="750px" height="470px" zoom="8" showTypeCtrl="true" showSmallCtrl="true" />
 </vbox>
 </hbox>

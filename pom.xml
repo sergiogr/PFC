@@ -113,27 +113,27 @@
             <dependency>
       			<groupId>org.zkoss.zk</groupId>
      			<artifactId>zk</artifactId>
-      			<version>5.0.6</version>
+      			<version>5.0.7</version>
     		</dependency>
    			<dependency>
       			<groupId>org.zkoss.zk</groupId>
       			<artifactId>zkplus</artifactId>
-      			<version>5.0.6</version>
+      			<version>5.0.7</version>
     		</dependency>
     		<dependency>
       			<groupId>org.zkoss.zk</groupId>
       			<artifactId>zul</artifactId>
-      			<version>5.0.6</version>
+      			<version>5.0.7</version>
     		</dependency>
    			<dependency>
       			<groupId>org.zkoss.common</groupId>
       			<artifactId>zcommon</artifactId>
-      			<version>5.0.6</version>
+      			<version>5.0.7</version>
     		</dependency>  
   			<dependency>
       			<groupId>org.zkoss.common</groupId>
       			<artifactId>zweb</artifactId>
-      			<version>5.0.6</version>
+      			<version>5.0.7</version>
     		</dependency> 
  
     		<dependency>
@@ -292,8 +292,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
                     <verbose>true</verbose>
-                    <source>1.6</source>
-                    <target>1.6</target>
+                    <source>1.5</source>
+                    <target>1.5</target>
                     <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>

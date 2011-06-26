@@ -65,30 +65,38 @@ public class MapViewController extends GenericForwardComposer {
 
 			Gmarker marker = mme.getGmarker();
 
-			Device dev = deviceService.findDeviceByName(marker.getContent());
-			List<MibObject> mos = dev.getProduct().getMibObjects();
-			deviceNameLbl.setValue(dev.getDeviceName());
-			descriptionLbl.setValue(dev.getDescription());
-			ipAddressLbl.setValue(dev.getIpAddress());
-			latitudeLbl.setValue(((Double) dev.getPosition().getX()).toString());
-			longitudeLbl.setValue(((Double) dev.getPosition().getY()).toString());
-			SnmpService snmp = new SnmpService();
+			Device dev;
+			try {
+				dev = deviceService.findDeviceByName(marker.getContent());
+				List<MibObject> mos = dev.getProduct().getMibObjects();
+				deviceNameLbl.setValue(dev.getDeviceName());
+				descriptionLbl.setValue(dev.getDescription());
+				ipAddressLbl.setValue(dev.getIpAddress());
+				latitudeLbl.setValue(((Double) dev.getPosition().getX()).toString());
+				longitudeLbl.setValue(((Double) dev.getPosition().getY()).toString());
+				SnmpService snmp = new SnmpService();
 
-			if (dev.getProduct() == null) {
-			
-			} else if (dev.getProduct().getMibObjects() == null){
+				if (dev.getProduct() == null) {
 				
-			} else {
-				
-				snmpGrid.getRows().getChildren().clear();
+				} else if (dev.getProduct().getMibObjects() == null){
+					
+				} else {
+					
+					snmpGrid.getRows().getChildren().clear();
 
-				for (MibObject m:mos){
-					Row row = new Row();
-					row.setParent(snmpRows);
-					new Label(m.getMibObjectName()).setParent(row);
-					new Label(snmp.snmpGet(dev.getPublicCommunity(), dev.getIpAddress(), dev.getSnmpPort(), m.getOid())).setParent(row);
+					for (MibObject m:mos){
+						Row row = new Row();
+						row.setParent(snmpRows);
+						new Label(m.getMibObjectName()).setParent(row);
+						new Label(snmp.snmpGet(dev.getPublicCommunity(), dev.getIpAddress(), dev.getSnmpPort(), m.getOid())).setParent(row);
+					}
 				}
+			} catch (Exception e1) {
+				alert(marker.getContent() + ": This device wasn't found in the DB.");
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
+			
 			
 			marker.setOpen(true);	
 		}

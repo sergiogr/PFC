@@ -14,6 +14,7 @@ import org.pfc.business.device.IDeviceDao;
 import org.pfc.business.deviceservice.IDeviceService;
 import org.pfc.business.product.IProductDao;
 import org.pfc.business.product.Product;
+import org.pfc.business.util.exceptions.DuplicateInstanceException;
 import org.pfc.business.util.exceptions.InstanceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -51,7 +52,7 @@ public class DeviceServiceTest {
 	}
 	
 	@Test
-	public void testCreateDevice() throws InstanceNotFoundException {
+	public void testCreateDevice() throws InstanceNotFoundException, DuplicateInstanceException {
 
 		GeometryFactory geom = new GeometryFactory();
         Point position = geom.createPoint(new Coordinate(43.354891546397745, -8.416385650634766));
@@ -61,7 +62,7 @@ public class DeviceServiceTest {
 	}
 	
 	@Test
-	public void testCreateDeviceWithProduct() {
+	public void testCreateDeviceWithProduct() throws DuplicateInstanceException {
 		Product product = new Product("AP-700", "Punto de acceso Wifi", "Proxim");
 		productDao.save(product);
 		
@@ -90,7 +91,7 @@ public class DeviceServiceTest {
 	}
 	
 	@Test
-	public void testFindDeviceByNameAndPosition() {
+	public void testFindDeviceByNameAndPosition() throws InstanceNotFoundException {
 		GeometryFactory geom = new GeometryFactory();
         Point position = geom.createPoint(new Coordinate(5, 5));
         Device device0 = new Device("APtest","Desc","1.1.1.1","public", "161",position);

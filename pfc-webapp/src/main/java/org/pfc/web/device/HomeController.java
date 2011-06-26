@@ -187,7 +187,12 @@ public class HomeController extends GenericForwardComposer {
 	        Point pos = geom.createPoint(new Coordinate(x, y));
 			Device d = new Device("AP"+i,"AP de prueba "+i,"127.0.0.1","public","161",
 					pos);
-			deviceService.createDevice(d);
+			try {
+				deviceService.createDevice(d);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		renderMap(map);
 	}	
@@ -224,6 +229,8 @@ public class HomeController extends GenericForwardComposer {
 			ipAddress.setValue(current.getIpAddress());
 			pubCommunity.setValue(current.getPublicCommunity());
 			snmpPort.setValue(current.getSnmpPort());
+			lat.setValue(current.getPosition().getX());
+			lng.setValue(current.getPosition().getY());
 			map.getChildren().clear();
 			Gmarker m = new Gmarker(current.getDeviceName(),current.getPosition().getX(),current.getPosition().getY());
 			m.setDraggingEnabled(true);
@@ -253,13 +260,21 @@ public class HomeController extends GenericForwardComposer {
         Point position = geom.createPoint(new Coordinate(lat.getValue(), lng.getValue()));
 		newDev.setPosition(position);
 		
-		deviceService.createDevice(newDev);
+		try {
+			deviceService.createDevice(newDev);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         
         name.setValue(null);
         description.setValue(null);
         ipAddress.setValue(null);
         pubCommunity.setValue("public");
         snmpPort.setValue("161");
+        lat.setValue(null);
+        lng.setValue(null);
+        
         renderMap(map);
         
 		deviceList.setVisible(true);
@@ -277,6 +292,9 @@ public class HomeController extends GenericForwardComposer {
         ipAddress.setValue(null);
         pubCommunity.setValue("public");
         snmpPort.setValue("161");
+        snmpPort.setValue("161");
+        lat.setValue(null);
+        lng.setValue(null);
         
 		deviceList.setVisible(true);
 		deviceForm.setVisible(false);
