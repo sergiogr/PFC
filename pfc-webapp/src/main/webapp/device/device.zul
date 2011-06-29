@@ -22,6 +22,7 @@
 				<button id="addDeviceBtn" label="New" />
 				<button id="editDeviceBtn" label="Edit" />
 				<button id="deleteDeviceBtn" label="Delete" />
+				<button id="addTestData" label="Add Test Data" />
 			</listfooter>
 		</listfoot>
 	</listbox>

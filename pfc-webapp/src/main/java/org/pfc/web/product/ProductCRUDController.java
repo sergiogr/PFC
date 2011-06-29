@@ -72,6 +72,8 @@ public class ProductCRUDController extends GenericForwardComposer {
 	}
 	
 	public void onClick$addTestData() {
+		productService.createProduct(new Product("MP.11 5054-R", "Estaci—n base WiMax Tsunami MP.11 5054-R", "Proxim"));
+		productService.createProduct(new Product("MP.11 5054-SUI", "Estaci—n suscriptora WiMax Tsunami MP.11 5054-SUI", "Proxim"));
 		productService.createProduct(new Product("AP-700", "Punto de acceso Wifi", "Proxim"));
 		productService.createProduct(new Product("AP-4000", "Punto de acceso Wifi", "Proxim"));
 		productService.createProduct(new Product("AP-4000MR", "Punto de acceso Wifi Mesh", "Proxim"));

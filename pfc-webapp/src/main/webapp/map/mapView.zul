@@ -48,7 +48,7 @@
 	</grid>
 	</hbox>
 	<hbox>
-	<grid id="snmpGrid">
+	<grid id="snmpGrid" width="350px">
 	<columns>
 		<column label="Data" width="30%"/>
 		<column label="Value" />

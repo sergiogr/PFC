@@ -160,6 +160,33 @@ public class DeviceCRUDController extends GenericForwardComposer {
 		}
 	}
 	
+	public void onClick$addTestData() throws DuplicateInstanceException {
+		GeometryFactory geom = new GeometryFactory();
+        Point pos1 = geom.createPoint(new Coordinate(42.22877157595613, -8.758163452148438));
+        Point pos2 = geom.createPoint(new Coordinate(42.28404004202412, -8.784255981445312));
+        Point pos3 = geom.createPoint(new Coordinate(42.284929023632834, -8.785114288330078));
+        Point pos4 = geom.createPoint(new Coordinate(42.28124601816189, -8.78408432006836));
+        Point pos5 = geom.createPoint(new Coordinate(42.24872463141678, -8.91317367553711));
+        Point pos6 = geom.createPoint(new Coordinate(42.22762757902937, -8.901329040527344));
+        Point pos7 = geom.createPoint(new Coordinate(42.37579287453795, -8.935317993164062));
+        Point pos8 = geom.createPoint(new Coordinate(42.21758493855332, -8.900299072265625));
+        Point pos9 = geom.createPoint(new Coordinate(42.22762757902937, -8.897380828857422));
+        Point pos10 = geom.createPoint(new Coordinate(42.371227435069805, -8.9373779296875));
+        
+		deviceService.createDevice(new Device("Base_oficinas", "Estaci—n base situada en el tejado del CETMAR", "10.0.1.20","s0p0rt3","161",pos1));
+		deviceService.createDevice(new Device("Base_cies", "Estaci—n base situada en la torre de la magdalena que da servicio a C’es", "10.0.1.22","s0p0rt3","161",pos2));
+		deviceService.createDevice(new Device("Base_ons", "Estaci—n base situada en la torre de la magdalena que da servicio a Ons", "10.0.1.25","s0p0rt3","161",pos3));
+		deviceService.createDevice(new Device("SU_oficinas", "Estaci—n suscriptora situada en la torre de la magdalena", "10.0.1.21","s0p0rt3","161",pos4));
+		deviceService.createDevice(new Device("SU_faro_cies", "Estaci—n suscriptora situada en Cies", "10.0.1.23","s0p0rt3","161",pos5));
+		deviceService.createDevice(new Device("SU_guardas_cies", "Estaci—n suscriptora situada en Cies", "10.0.1.24","s0p0rt3","161",pos6));
+		deviceService.createDevice(new Device("SU_guardas_ons", "Estaci—n suscriptora situada en Ons", "10.0.1.26","s0p0rt3","161",pos7));
+
+		deviceService.createDevice(new Device("Master_cies", "AP wifi situado en la casa de los guardas de C’es", "10.0.1.40","s0p0rt3","161",pos8));
+		deviceService.createDevice(new Device("Cliente1_cies", "AP wifi situado en el bar de C’es", "10.0.1.41","s0p0rt3","161",pos9));
+		deviceService.createDevice(new Device("AP_ons", "AP wifi situado en la casa de los guardas de Ons", "10.0.1.42","s0p0rt3","161",pos10));		
+		
+	}
+	
 	public void onClick$saveBtn() throws InstanceNotFoundException {
 		GeometryFactory geom = new GeometryFactory();
 		Point position = geom.createPoint(new Coordinate(latitudeDb.getValue(), longitudeDb.getValue()));

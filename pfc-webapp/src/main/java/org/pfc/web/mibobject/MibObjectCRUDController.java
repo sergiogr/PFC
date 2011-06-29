@@ -79,7 +79,14 @@ public class MibObjectCRUDController extends GenericForwardComposer {
 		productService.createMibObject(new MibObject("sysName", "Nombre del sistema", "1.3.6.1.2.1.1.5.0", "MIB-II"));
 		productService.createMibObject(new MibObject("sysLocation", "Localizaci√≥n del sistema", "1.3.6.1.2.1.1.6.0", "MIB-II"));
 		productService.createMibObject(new MibObject("sysServices", "Conjunto de servicios que ofrece el equipo", "1.3.6.1.2.1.1.7.0", "MIB-II"));
+		
+		productService.createMibObject(new MibObject("channel","Canal en el que está emitiendo el equipo WiMax","1.3.6.1.4.1.11898.2.1.2.1.1.1.6.3","ORiNOCO-MIB"));
+		productService.createMibObject(new MibObject("nClients","Número de clientes conectados al equipo WiMax","1.3.6.1.4.1.11898.2.1.2.5.2.1.1.3","ORiNOCO-MIB"));
+		productService.createMibObject(new MibObject("localSignal","Nivel de señal local del enlace WiMax","1.3.6.1.4.1.11898.2.1.2.5.2.1.2.3","ORiNOCO-MIB"));
+		productService.createMibObject(new MibObject("remoteSignal","Nivel de señal remota del enlace WiMax","1.3.6.1.4.1.11898.2.1.2.5.2.1.4.3","ORiNOCO-MIB"));
 
+		productService.createMibObject(new MibObject("nClientsWifi","Número de clientes conectados a un AP Wifi","1.3.6.1.4.1.11898.2.1.33.3.0","ORiNOCO-MIB"));
+	
 	}
 	
 	@SuppressWarnings("unchecked")
