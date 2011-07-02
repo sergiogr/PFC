@@ -38,6 +38,10 @@
       <artifactId>zul</artifactId>
     </dependency>
     <dependency>
+      <groupId>org.zkoss.zk</groupId>
+      <artifactId>zhtml</artifactId>
+    </dependency>
+    <dependency>
       <groupId>org.zkoss.common</groupId>
       <artifactId>zcommon</artifactId>
     </dependency>
