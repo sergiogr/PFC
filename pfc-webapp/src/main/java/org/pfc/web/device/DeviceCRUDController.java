@@ -27,10 +27,12 @@ import com.vividsolutions.jts.geom.Point;
 @SuppressWarnings("serial")
 public class DeviceCRUDController extends GenericForwardComposer {
 
-	public enum Action {CREATE, EDIT};
+	private enum Action {CREATE, EDIT};
+	public static Double centerLat = 43.354891546397745;
+	public static Double centerLng = -8.416385650634766;
 	
 	private Action action;
-	
+
 	private Gmaps gmap;
 	private Gmarker marker;
 	private Listbox deviceLb;
@@ -87,9 +89,7 @@ public class DeviceCRUDController extends GenericForwardComposer {
 	public void setSelected(Device selected) {
 		this.selected = selected;
 	}
-	
-	
-
+		
 	public Action getAction() {
 		return action;
 	}
@@ -99,30 +99,20 @@ public class DeviceCRUDController extends GenericForwardComposer {
 	}
 
 	public void onClick$addDeviceBtn() {
+		
 		deviceLb.clearSelection();
 		selected = null;
 		restoreDeviceGrid();
 		
 		this.setAction(Action.CREATE);
 		
-		gmap.setCenter(43.354891546397745,-8.416385650634766);
+		gmap.setCenter(centerLat, centerLng);
 		marker.setLat(gmap.getLat());
 		marker.setLng(gmap.getLng());
 		latitudeDb.setValue(gmap.getLat());
 		longitudeDb.setValue(gmap.getLng());
 		
 		goToDeviceForm();
-	}
-	
-	private void restoreDeviceGrid() {
-		deviceNameTb.setValue(null);
-		descriptionTb.setValue(null);
-		productLb.clearSelection();
-		ipAddressTb.setValue(null);
-		pubCommunityTb.setValue("public");
-		snmpPortTb.setValue("161");
-		latitudeDb.setValue(null);
-		longitudeDb.setValue(null);
 	}
 	
 	public void onClick$editDeviceBtn() {
@@ -132,19 +122,14 @@ public class DeviceCRUDController extends GenericForwardComposer {
 		}
 		else {
 			this.setAction(Action.EDIT);
-			deviceBk.setDeviceName(selected.getDeviceName());
-			deviceBk.setDescription(selected.getDescription());
-			deviceBk.setIpAddress(selected.getIpAddress());
-			deviceBk.setPublicCommunity(selected.getPublicCommunity());
-			deviceBk.setSnmpPort(selected.getSnmpPort());
-			deviceBk.setProduct(selected.getProduct());
-			deviceBk.setPosition(selected.getPosition());
+			backupOrRestoreDevice(selected, deviceBk);
 			goToDeviceForm();
 			
 		}
 	}
 	
 	public void onClick$deleteDeviceBtn() {
+		
 		if (selected == null) {
 			alert("Please, select the device you want to delete.");
 		}
@@ -185,8 +170,9 @@ public class DeviceCRUDController extends GenericForwardComposer {
 		deviceService.createDevice(new Device("AP2", "AP wifi 2", "1.1.1.41","public","161",pos9));
 		deviceService.createDevice(new Device("AP3", "AP wifi 3", "1.1.1.42","public","161",pos10));		
 		
+		model.addAll(deviceService.findAllDevice());
 	}
-	
+
 	public void onClick$saveBtn() throws InstanceNotFoundException {
 		GeometryFactory geom = new GeometryFactory();
 		Point position = geom.createPoint(new Coordinate(latitudeDb.getValue(), longitudeDb.getValue()));
@@ -235,22 +221,30 @@ public class DeviceCRUDController extends GenericForwardComposer {
 			selected=null;
 		}
 		else if (this.getAction() == Action.EDIT) {
-			System.out.println(deviceBk.getDeviceName());
-			System.out.println(selected.getDeviceName());
-			selected.setDeviceName(deviceBk.getDeviceName());
-			selected.setDescription(deviceBk.getDescription());
-			selected.setIpAddress(deviceBk.getIpAddress());
-			selected.setPosition(deviceBk.getPosition());
-			selected.setPublicCommunity(deviceBk.getPublicCommunity());
-			selected.setSnmpPort(deviceBk.getSnmpPort());
-			selected.setProduct(deviceBk.getProduct());
+	
+			backupOrRestoreDevice(deviceBk, selected);
 			selected=null;
 		}
 		
 		restoreDeviceGrid();
-		
 		goToDeviceLb();
 
+	}
+	
+	public void onMapDrop$gmap(MapDropEvent event) throws InterruptedException {
+		latitudeDb.setValue(event.getLat());
+		longitudeDb.setValue(event.getLng());		 	 
+    }
+	
+	private void restoreDeviceGrid() {
+		deviceNameTb.setValue(null);
+		descriptionTb.setValue(null);
+		productLb.clearSelection();
+		ipAddressTb.setValue(null);
+		pubCommunityTb.setValue("public");
+		snmpPortTb.setValue("161");
+		latitudeDb.setValue(null);
+		longitudeDb.setValue(null);
 	}
 	
 	private void goToDeviceForm() {
@@ -263,9 +257,14 @@ public class DeviceCRUDController extends GenericForwardComposer {
 		deviceLb.setVisible(true);
 	}
 	
-	 public void onMapDrop$gmap(MapDropEvent event) throws InterruptedException {
-		 latitudeDb.setValue(event.getLat());
-		 longitudeDb.setValue(event.getLng());
-		 	 
-    }
+	private void backupOrRestoreDevice(Device device, Device backup) {
+		backup.setDeviceName(device.getDeviceName());
+		backup.setDescription(device.getDescription());
+		backup.setIpAddress(device.getIpAddress());
+		backup.setPosition(device.getPosition());
+		backup.setPublicCommunity(device.getPublicCommunity());
+		backup.setSnmpPort(device.getSnmpPort());
+		backup.setProduct(device.getProduct());
+	}
+		
 }
