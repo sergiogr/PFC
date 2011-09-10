@@ -1,11 +1,15 @@
 package org.pfc.web.map;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.pfc.business.device.Device;
 import org.pfc.business.deviceservice.IDeviceService;
 import org.pfc.business.mibobject.MibObject;
+import org.pfc.business.util.exceptions.InstanceNotFoundException;
+import org.pfc.snmp.SnmpResponse;
 import org.pfc.snmp.SnmpService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.zkoss.gmaps.Gmaps;
 import org.zkoss.gmaps.Gmarker;
 import org.zkoss.gmaps.MapModelList;
@@ -32,11 +36,8 @@ public class MapViewController extends GenericForwardComposer {
 	private Grid snmpGrid;
 	private Rows snmpRows;
 	
+	@Autowired
 	private IDeviceService deviceService; 
-	
-	public void setDeviceService(IDeviceService deviceService) {
-		this.deviceService = deviceService;
-	}
 	
 	@Override
 	public void doAfterCompose(Component comp) throws Exception {
@@ -68,35 +69,45 @@ public class MapViewController extends GenericForwardComposer {
 			Device dev;
 			try {
 				dev = deviceService.findDeviceByName(marker.getContent());
-				List<MibObject> mos = dev.getProduct().getMibObjects();
 				deviceNameLbl.setValue(dev.getDeviceName());
 				descriptionLbl.setValue(dev.getDescription());
 				ipAddressLbl.setValue(dev.getIpAddress());
 				latitudeLbl.setValue(((Double) dev.getPosition().getX()).toString());
 				longitudeLbl.setValue(((Double) dev.getPosition().getY()).toString());
-				SnmpService snmp = new SnmpService();
-
-				if (dev.getProduct() == null) {
 				
-				} else if (dev.getProduct().getMibObjects() == null){
-					
-				} else {
-					
-					snmpGrid.getRows().getChildren().clear();
+				List<MibObject> mos = deviceService.getMibObjects(dev.getDeviceId());
+				snmpGrid.getRows().getChildren().clear();
+				
+				if ((mos != null)&&(!mos.isEmpty())) {
+					SnmpService snmp = new SnmpService();
 
+					List<String> oids = new ArrayList<String>();
 					for (MibObject m:mos){
-						Row row = new Row();
-						row.setParent(snmpRows);
-						new Label(m.getMibObjectName()).setParent(row);
-						new Label(snmp.snmpGet(dev.getPublicCommunity(), dev.getIpAddress(), dev.getSnmpPort(), m.getOid())).setParent(row);
+						oids.add(m.getOid());
 					}
+					List<SnmpResponse> snmpResponse = snmp.snmpGetQueryList(dev.getPublicCommunity(), dev.getIpAddress(), dev.getSnmpPort(), oids);
+					if (mos.size() == snmpResponse.size()) {
+						int i=0;
+					
+						for (MibObject m:mos){
+							Row row = new Row();
+							row.setParent(snmpRows);
+							new Label(m.getMibObjectName()).setParent(row);
+							//new Label(snmp.snmpGet(dev.getPublicCommunity(), dev.getIpAddress(), dev.getSnmpPort(), m.getOid())).setParent(row);
+							//Calendar date = Calendar.getInstance();
+							//new Label(date.getTime().toString()).setParent(row);
+							new Label(snmpResponse.get(i).getValue()).setParent(row);
+							new Label(snmpResponse.get(i).getDate().getTime().toString()).setParent(row);
+							i++;
+						}
+					}
+					
 				}
-			} catch (Exception e1) {
+			} catch (InstanceNotFoundException e1) {
 				alert(marker.getContent() + ": This device wasn't found in the DB.");
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			
 			
 			marker.setOpen(true);	
 		}

@@ -45,13 +45,14 @@
 					</listitem>
 				</listbox>
 			</row>
+		 
 			<row>
 				<label value="IP Address" /> 
 				<textbox id="ipAddressTb" value="@{deviceWin.selected.ipAddress,save-when=none}" />
 			</row>
 			<row>
 				<label value="Public Community" />
-				<textbox id="pubCommunityTb" value="@{deviceWin.selected.publicCommunity}" />
+				<textbox id="pubCommunityTb" type="password" value="@{deviceWin.selected.publicCommunity}" />
 			</row>
 			<row>
 				<label value="SNMP port" />

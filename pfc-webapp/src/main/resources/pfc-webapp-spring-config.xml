@@ -15,21 +15,4 @@
     <!-- Enable component scanning for defining beans with annotations. -->
     <context:component-scan base-package="org.pfc"/>
 
-<bean id="homeController" class="org.pfc.web.device.HomeController"
-	p:deviceService-ref="deviceService"
-	p:productService-ref="productService" scope="prototype" />
-	
-<bean id="deviceCRUDController" class="org.pfc.web.device.DeviceCRUDController"
-	p:deviceService-ref="deviceService"
-	p:productService-ref="productService" scope="prototype" />
-	
-<bean id="productCRUDController" class="org.pfc.web.product.ProductCRUDController"
-	p:productService-ref="productService" scope="prototype"/>
-
-<bean id="mibObjectCRUDController" class="org.pfc.web.mibobject.MibObjectCRUDController"
-	p:productService-ref="productService" scope="prototype"/>
-	 
- <bean id="dualComposer" class="org.pfc.web.product.DualComposer"
-	p:productService-ref="productService" scope="prototype"/>
- 
 </beans>

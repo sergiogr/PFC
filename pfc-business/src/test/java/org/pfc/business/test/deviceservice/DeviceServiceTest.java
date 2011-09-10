@@ -30,26 +30,14 @@ import com.vividsolutions.jts.geom.Point;
 @Transactional
 public class DeviceServiceTest {
 	
+	@Autowired
 	private IDeviceDao deviceDao;
 
 	@Autowired
-	public void setDeviceDao(IDeviceDao deviceDao) {
-		this.deviceDao = deviceDao;
-	}
-	
 	private IProductDao productDao;
 	
 	@Autowired
-	public void serProductdao(IProductDao productDao) {
-		this.productDao = productDao;
-	}
-
 	private IDeviceService deviceService;
-	
-	@Autowired
-	public void setDeviceService(IDeviceService deviceService) {
-		this.deviceService = deviceService;
-	}
 	
 	@Test
 	public void testCreateDevice() throws InstanceNotFoundException, DuplicateInstanceException {

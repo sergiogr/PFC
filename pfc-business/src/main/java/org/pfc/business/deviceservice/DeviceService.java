@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.pfc.business.device.Device;
 import org.pfc.business.device.IDeviceDao;
+import org.pfc.business.mibobject.IMibObjectDao;
 import org.pfc.business.mibobject.MibObject;
+import org.pfc.business.product.Product;
 import org.pfc.business.util.exceptions.DuplicateInstanceException;
 import org.pfc.business.util.exceptions.InstanceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +22,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class DeviceService implements IDeviceService {
 
+	@Autowired
 	private IDeviceDao deviceDao;
-        
-    @Autowired
-    public void setDeviceDao(IDeviceDao deviceDao) {
-    	this.deviceDao = deviceDao;    
-    }
+	
+	@Autowired
+	private IMibObjectDao mibObjectDao;
     
     public Device createDevice(Device device) throws DuplicateInstanceException{
     
@@ -65,21 +66,10 @@ public class DeviceService implements IDeviceService {
     	
     	deviceDao.save(dev);
     }
-    
-	public Device editDevice(Long deviceId, DeviceInfo deviceInfo) throws InstanceNotFoundException {
-		
-		Device device = deviceDao.find(deviceId);
-		
-		device.setDeviceName(deviceInfo.getDeviceName());
-		device.setDescription(deviceInfo.getDescription());
-		device.setIpAddress(deviceInfo.getIpAddress());
-		//NOTA: faltan datos SNMP y Position
-		return device;
-		
-	}
-    
+      
     @Transactional(readOnly = true)
     public Device findDevice(Long deviceId) throws InstanceNotFoundException {
+ 	
     	return deviceDao.find(deviceId);
     }
     
@@ -88,9 +78,16 @@ public class DeviceService implements IDeviceService {
     	return deviceDao.getAllDevices();
     }
     
-    @Transactional(readOnly = true)
+	@Transactional(readOnly = true)
     public List<MibObject> getMibObjects(Long deviceId) throws InstanceNotFoundException {
-    	return deviceDao.find(deviceId).getProduct().getMibObjects();
+		
+		Product product = deviceDao.find(deviceId).getProduct();
+		if (product != null) {
+			return mibObjectDao.findMibObjectsByProductId(product.getProductId());
+		}
+		else {
+			return null;
+		}
     }
     
     @Transactional(readOnly = true)

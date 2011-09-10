@@ -1,5 +1,6 @@
 package org.pfc.web.mibobject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.pfc.business.mibobject.MibObject;
@@ -7,26 +8,25 @@ import org.pfc.business.product.Product;
 import org.pfc.business.productservice.IProductService;
 import org.pfc.business.util.exceptions.InstanceNotFoundException;
 import org.pfc.web.widgets.duallistbox.DualListbox;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.util.GenericForwardComposer;
 import org.zkoss.zul.Grid;
-import org.zkoss.zul.Intbox;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Textbox;
 
 /**
  * 
- * @author Sergio Garc√≠a Ramos <sergio.garcia@udc.es>
+ * @author Sergio García Ramos <sergio.garcia@udc.es>
  *
  */
+@SuppressWarnings("serial")
 public class MibObjectCRUDController extends GenericForwardComposer {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -2336437974384651519L;
-
 	private Listbox mibObjectList;
 	private Grid mibObjectForm;
 	private Textbox name;
@@ -34,18 +34,12 @@ public class MibObjectCRUDController extends GenericForwardComposer {
 	private Textbox oid;
 	private Textbox mib;
 	private DualListbox mibObjDualLb;
-	
-	private Intbox nProducts;
-	private Intbox nChosen;
-	
+		
 	private MibObject current = new MibObject();
 	private MibObject newMibObj;
 	
+	@Autowired
 	private IProductService productService;
-	
-	public void setProductService(IProductService productService) {
-		this.productService = productService;
-	}
 
 	public MibObject getCurrent() {
 		return current;
@@ -61,7 +55,6 @@ public class MibObjectCRUDController extends GenericForwardComposer {
 		mibObjDualLb.setModel(new ListModelList(productService.findAllProducts()));
 		mibObjDualLb.setRenderer(new ProductDualListitemRenderer());
 		mibObjectForm.setVisible(false);
-		nChosen.setValue(mibObjDualLb.getChosenDataList().size());
 	}
 	
 	public List<MibObject> getMibObjects() {
@@ -73,11 +66,11 @@ public class MibObjectCRUDController extends GenericForwardComposer {
 	}
 	
 	public void onClick$addTestData() {
-		productService.createMibObject(new MibObject("sysDesc", "Descripci√≥n del equipo", "1.3.6.1.2.1.1.1.0", "MIB-II"));
-		productService.createMibObject(new MibObject("sysUpTime", "Tiempo desde la √∫ltima vez que el equipo fue reiniciado", "1.3.6.1.2.1.1.3.0", "MIB-II"));
-		productService.createMibObject(new MibObject("sysContact", "Informaci√≥n de contacto de la persona que gestiona el eqipo", "1.3.6.1.2.1.1.4.0", "MIB-II"));
+		productService.createMibObject(new MibObject("sysDesc", "Descripción del equipo", "1.3.6.1.2.1.1.1.0", "MIB-II"));
+		productService.createMibObject(new MibObject("sysUpTime", "Tiempo desde la última vez que el equipo fue reiniciado", "1.3.6.1.2.1.1.3.0", "MIB-II"));
+		productService.createMibObject(new MibObject("sysContact", "Información de contacto de la persona que gestiona el eqipo", "1.3.6.1.2.1.1.4.0", "MIB-II"));
 		productService.createMibObject(new MibObject("sysName", "Nombre del sistema", "1.3.6.1.2.1.1.5.0", "MIB-II"));
-		productService.createMibObject(new MibObject("sysLocation", "Localizaci√≥n del sistema", "1.3.6.1.2.1.1.6.0", "MIB-II"));
+		productService.createMibObject(new MibObject("sysLocation", "Localización del sistema", "1.3.6.1.2.1.1.6.0", "MIB-II"));
 		productService.createMibObject(new MibObject("sysServices", "Conjunto de servicios que ofrece el equipo", "1.3.6.1.2.1.1.7.0", "MIB-II"));
 		
 		productService.createMibObject(new MibObject("channel","Canal en el que está emitiendo el equipo WiMax","1.3.6.1.4.1.11898.2.1.2.1.1.1.6.3","ORiNOCO-MIB"));
@@ -91,23 +84,17 @@ public class MibObjectCRUDController extends GenericForwardComposer {
 	
 	@SuppressWarnings("unchecked")
 	public void onClick$save() throws InstanceNotFoundException {
-		System.out.println(">>> **N Objects to Add: "+ mibObjDualLb.getChosenDataList().size());
 		
 		newMibObj.setMibObjectName(name.getValue());
 		newMibObj.setDescription(description.getValue());
 		newMibObj.setOid(oid.getValue());
 		newMibObj.setMib(mib.getValue());
-		newMibObj.setProducts(mibObjDualLb.getChosenDataList());
 		
-		System.out.println(">>> **newMibObj "+newMibObj.getMibObjectId()+" N Products: "+newMibObj.getProducts().size());
 		current = productService.createMibObject(newMibObj);
 		
-		System.out.println(">>> **newMibObj "+current.getMibObjectId()+" N Products after Add: "+current.getProducts().size());
-		System.out.println(">>> **newMibObj "+current.getMibObjectId()+" N Products on DB: "+productService.findMibObject(current.getMibObjectId()).getProducts().size());
-//		System.out.println("MibObjId: "+newMibObj.getMibObjectId());
-//		System.out.println("Products list size: "+newMibObj.getProducts().size());
-//		productService.addProductsToMibObject(newMibObj.getMibObjectId(), mibObjDualLb.getChosenDataList());
-//		System.out.println("Products list size added: "+newMibObj.getProducts().size());
+		for (Product p : (List<Product>) mibObjDualLb.getChosenDataList()) {
+			productService.assignMibObjectToProduct(newMibObj.getMibObjectId(), p.getProductId());
+		}
 
 		goToList();
 	}
@@ -125,7 +112,10 @@ public class MibObjectCRUDController extends GenericForwardComposer {
 	
 	private void goToEditForm() {
 		newMibObj = current;
-		List<Product> chosen = current.getProducts();
+		List<Product> chosen = new ArrayList<Product>();
+		for (Product p : productService.findProductsByMibObjectId(current.getMibObjectId())) {
+			chosen.add(p);
+		}
 		List<Product> candidate = productService.findAllProducts();
 		mibObjDualLb.setModel(candidate, chosen);
 		
@@ -172,10 +162,6 @@ public class MibObjectCRUDController extends GenericForwardComposer {
 		else {
 			alert("Selecciona el objeto MIB que desea editar");
 		}
-	}
-	
-	public void onSelect$mibObjectList() {
-		nProducts.setValue(current.getProducts().size());
 	}
 	
 }

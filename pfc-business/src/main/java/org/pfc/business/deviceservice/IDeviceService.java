@@ -19,9 +19,7 @@ public interface IDeviceService {
 	public void removeDevice(Long deviceId) throws InstanceNotFoundException;
 	
 	public void updateDevice(Device device) throws InstanceNotFoundException,DuplicateInstanceException;
-	
-	public Device editDevice(Long deviceId, DeviceInfo deviceInfo) throws InstanceNotFoundException;
-	
+		
 	public Device findDevice(Long deviceId) throws InstanceNotFoundException;
 	
 	public List<Device> findAllDevice();

@@ -13,33 +13,63 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 
- * @author Sergio GarcÃ­a Ramos <sergio.garcia@udc.es>
+ * @author Sergio García Ramos <sergio.garcia@udc.es>
  *
  */
 @Service("productService")
 @Transactional
 public class ProductService implements IProductService {
 	
+	@Autowired
 	private IProductDao productDao;
+	
+	@Autowired
 	private IMibObjectDao mibObjectDao;
-	
-	@Autowired
-	public void setProductDao(IProductDao productDao) {
-		this.productDao = productDao;
-	}
-	
-	@Autowired
-	public void setMibObjectDao(IMibObjectDao mibObjectDao) {
-		this.mibObjectDao = mibObjectDao;
-	}
 
 	public Product createProduct(Product product) {
 		productDao.save(product);
 		return product;
 	}
 
+	public MibObject createMibObject(MibObject mibObject) {
+		mibObjectDao.save(mibObject);
+		return mibObject;
+	}
+	
 	public void removeProduct(Long productId) throws InstanceNotFoundException {
+		
+		Product product = productDao.find(productId);
+		
+		for (MibObject mo : product.getMibObjects()) {
+			mo.getProducts().remove(product);
+		}
 		productDao.remove(productId);		
+	}
+	
+	public void removeMibObject(Long mibObjectId) throws InstanceNotFoundException {
+		
+		MibObject mibObject = mibObjectDao.find(mibObjectId);
+		
+		for (Product p : mibObject.getProducts()) {
+			p.getMibObjects().remove(mibObject);
+		}
+		mibObjectDao.remove(mibObjectId);		
+	}
+	
+	public void assignMibObjectToProduct(Long mibObjectId, Long productId) throws InstanceNotFoundException{
+		
+		MibObject mibObject = mibObjectDao.find(mibObjectId);
+		Product product = productDao.find(productId);
+		
+		mibObject.addProduct(product);
+	}
+	
+	public void unassignMibObjectFromProduct(Long mibObjectId, Long productId) throws InstanceNotFoundException {
+		
+		MibObject mibObject = mibObjectDao.find(mibObjectId);
+		Product product = productDao.find(productId);
+		
+		mibObject.removeProduct(product);
 	}
 
 	@Transactional(readOnly = true)
@@ -51,15 +81,6 @@ public class ProductService implements IProductService {
 	public List<Product> findAllProducts() {
 		return productDao.getAllProducts();
 	}
-
-	public MibObject createMibObject(MibObject mibObject) {
-		mibObjectDao.save(mibObject);
-		return mibObject;
-	}
-	
-	public void removeMibObject(Long mibObjectId) throws InstanceNotFoundException {
-		mibObjectDao.remove(mibObjectId);		
-	}
 	
 	@Transactional(readOnly = true)
 	public MibObject findMibObject(Long mibObjectId) throws InstanceNotFoundException {
@@ -70,5 +91,16 @@ public class ProductService implements IProductService {
 	public List<MibObject> findAllMibObjects() {
 		return mibObjectDao.getAllMibObjects();
 	}
+	
+	@Transactional(readOnly = true)
+	public List<Product> findProductsByMibObjectId(Long mibObjectId) {
+		return productDao.findProductsByMibOBjectId(mibObjectId);
+	}
+	
+	@Transactional(readOnly = true)
+	public List<MibObject> findMibObjectsByProductId(Long productId) {
+		return mibObjectDao.findMibObjectsByProductId(productId);
+	}
+	
 
 }

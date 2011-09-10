@@ -7,7 +7,7 @@ import org.pfc.business.util.genericdao.IGenericDao;
 
 /**
  * 
- * @author Sergio GarcÃ­a Ramos <sergio.garcia@udc.es>
+ * @author Sergio García Ramos <sergio.garcia@udc.es>
  *
  */
 public interface IDeviceDao extends IGenericDao<Device, Long> {

@@ -12,15 +12,15 @@
     <!-- Enable usage of @Autowired. -->
     <context:annotation-config/>
 
-    <!-- Enable component scanning for defining beans with annotations. -->
-    <context:component-scan base-package="org.pfc.business"/>
+    <!-- Enable component scanning for defining beans with annotations.-->
+    <context:component-scan base-package="org.pfc.business"/> 
 
 	<!--  Data source. -->
 	<bean id="dataSource"
 		class="org.springframework.jndi.JndiObjectFactoryBean"
 		p:jndiName="${dataSource.jndiName}"
 		p:resourceRef="true" />
-
+ 
 	<bean id="dataSourceProxy" class="org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy"
 		p:targetDataSource-ref="dataSource"/>	   
 
@@ -39,22 +39,4 @@
 	     annotations. -->
     <tx:annotation-driven transaction-manager="transactionManager" />
 
- 	<!--  DAOs. -->
-    <bean id="deviceDao"
-        class="org.pfc.business.device.DeviceDao"
-        p:sessionFactory-ref="sessionFactory" />
-    <bean id="productDao"
-        class="org.pfc.business.product.ProductDao"
-        p:sessionFactory-ref="sessionFactory" />
-    <bean id="mibObjectDao"
-        class="org.pfc.business.mibobject.MibObjectDao"
-        p:sessionFactory-ref="sessionFactory" />     
-	<!--  Service layer. -->        
-    <bean id="deviceService"
-    	class="org.pfc.business.deviceservice.DeviceService"
-    	p:deviceDao-ref="deviceDao" />
-    <bean id="productService"
-    	class="org.pfc.business.productservice.ProductService"
-    	p:productDao-ref="productDao" 
-    	p:mibObjectDao-ref="mibObjectDao" />
 </beans>

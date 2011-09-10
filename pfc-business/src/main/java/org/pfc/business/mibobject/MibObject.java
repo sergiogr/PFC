@@ -1,16 +1,13 @@
 package org.pfc.business.mibobject;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Version;
@@ -19,7 +16,7 @@ import org.pfc.business.product.Product;
 
 /**
  * 
- * @author Sergio GarcÃ­a Ramos <sergio.garcia@udc.es>
+ * @author Sergio García Ramos <sergio.garcia@udc.es>
  *
  */
 @Entity
@@ -31,19 +28,18 @@ public class MibObject {
 	private String description;
 	private String oid;
 	private String mib;
-	private List<Product> products;
+	private Set<Product> products = new HashSet<Product>();
 	private long version;
 	
 	public MibObject() {}
 	
 	public MibObject(String mibObjectName, String description, String oid,
 			String mib) {
-		super();
+
 		this.mibObjectName = mibObjectName;
 		this.description = description;
 		this.oid = oid;
 		this.mib = mib;
-		this.products = new ArrayList<Product>();
 	}
 
 	@Id
@@ -99,24 +95,27 @@ public class MibObject {
 		this.version = version;
 	}
 
-	@ManyToMany(
-			targetEntity=org.pfc.business.product.Product.class,
-			cascade={CascadeType.PERSIST, CascadeType.MERGE},
-			fetch=FetchType.EAGER
-	)
-	@JoinTable(
-			name="Product_MibObject",
-			joinColumns={@JoinColumn(name="mibObjId")},
-			inverseJoinColumns={@JoinColumn(name="prodId")}
-	)
-	public List<Product> getProducts() {
+	@ManyToMany(targetEntity=org.pfc.business.product.Product.class,
+			fetch=FetchType.LAZY,
+			mappedBy="mibObjects")
+	public Set<Product> getProducts() {
 		return products;
 	}
 	
-	public void setProducts(List<Product> products) {
+	public void setProducts(Set<Product> products) {
 		this.products = products;
 	}
-
+	
+	public void addProduct(Product product) {
+		getProducts().add(product);
+		product.getMibObjects().add(this);
+	}
+	
+	public void removeProduct(Product product) {
+		getProducts().remove(product);
+		product.getMibObjects().remove(this);
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -171,5 +170,5 @@ public class MibObject {
 			return false;
 		return true;
 	}	
-	
+
 }

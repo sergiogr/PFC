@@ -1,9 +1,8 @@
 package org.pfc.business.product;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -19,7 +18,7 @@ import org.pfc.business.mibobject.MibObject;
 
 /**
  * 
- * @author Sergio GarcÃ­a Ramos <sergio.garcia@udc.es>
+ * @author Sergio García Ramos <sergio.garcia@udc.es>
  *
  */
 @Entity
@@ -30,7 +29,7 @@ public class Product {
 	private String productName;
 	private String description;
 	private String manufacturer;
-	private List<MibObject> mibObjects;
+	private Set<MibObject> mibObjects = new HashSet<MibObject>();
 	private long version;
 
 	public Product() {}
@@ -40,7 +39,6 @@ public class Product {
 		this.productName = productName;
 		this.description = description;
 		this.manufacturer = manufacturer;
-		this.mibObjects = new ArrayList<MibObject>();
 	}
 
 	@Id
@@ -88,24 +86,31 @@ public class Product {
 		this.version = version;
 	}
 
-	@ManyToMany(
-			targetEntity=org.pfc.business.mibobject.MibObject.class,
-			cascade={CascadeType.PERSIST, CascadeType.MERGE},
-			fetch=FetchType.EAGER
-	)
+	@ManyToMany(targetEntity=org.pfc.business.mibobject.MibObject.class,
+			fetch=FetchType.LAZY)
 	@JoinTable(
 			name="Product_MibObject",
 			joinColumns={@JoinColumn(name="prodId")},
 			inverseJoinColumns={@JoinColumn(name="mibObjId")}
 	)
-	public List<MibObject> getMibObjects() {
+	public Set<MibObject> getMibObjects() {
 		return mibObjects;
 	}
 	
-	public void setMibObjects(List<MibObject> mibObjects) {
+	public void setMibObjects(Set<MibObject> mibObjects) {
 		this.mibObjects = mibObjects;
 	}
-
+	
+	public void addMibObject(MibObject mibObject) {
+		getMibObjects().add(mibObject);
+		mibObject.getProducts().add(this);		
+	}
+	
+	public void removeMibObject(MibObject mibObject) {
+		getMibObjects().remove(mibObject);
+		mibObject.getProducts().remove(this);
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -156,4 +161,5 @@ public class Product {
 		return true;
 	}
 
+	
 }

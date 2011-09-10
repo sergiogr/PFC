@@ -1,11 +1,11 @@
 package org.pfc.web.product;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.util.GenericForwardComposer;
 import org.zkoss.zul.Grid;
-import org.zkoss.zul.Intbox;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Textbox;
@@ -15,18 +15,19 @@ import org.pfc.business.product.Product;
 import org.pfc.business.productservice.IProductService;
 import org.pfc.business.util.exceptions.InstanceNotFoundException;
 import org.pfc.web.widgets.duallistbox.DualListbox;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * 
- * @author Sergio Garc√≠a Ramos <sergio.garcia@udc.es>
+ * @author Sergio García Ramos <sergio.garcia@udc.es>
  *
  */
+@SuppressWarnings("serial")
 public class ProductCRUDController extends GenericForwardComposer {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -2336437974384651519L;
 
 	private Listbox productList;
 	private Grid productForm;
@@ -34,18 +35,13 @@ public class ProductCRUDController extends GenericForwardComposer {
 	private Textbox manufacturer;
 	private Textbox description;
 	private DualListbox dualLBox;
-	
-	private Intbox nMibObjs;
-	
+		
 	private Product current = new Product();
 	private Product newProd;
 	
+	@Autowired
 	private IProductService productService;
 	
-	public void setProductService(IProductService productService) {
-		this.productService = productService;
-	}
-
 	public Product getCurrent() {
 		return current;
 	}
@@ -85,11 +81,21 @@ public class ProductCRUDController extends GenericForwardComposer {
 		newProd.setProductName(name.getValue());
 		newProd.setManufacturer(manufacturer.getValue());
 		newProd.setDescription(description.getValue());
-		newProd.setMibObjects(dualLBox.getChosenDataList());
+		//newProd.setMibObjects((Set<MibObject>) dualLBox.getChosenDataList());
 		
 		productService.createProduct(newProd);
 		
-//		productService.addMibObjectsToProduct(newProd.getProductId(), dualLBox.getChosenDataList());
+		for (MibObject mo: (List<MibObject>) dualLBox.getChosenDataList()) {
+
+			try {
+				productService.assignMibObjectToProduct(mo.getMibObjectId(), newProd.getProductId());
+			} catch (InstanceNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
+		
 		goToList();
 	}
 	
@@ -106,7 +112,11 @@ public class ProductCRUDController extends GenericForwardComposer {
 	
 	private void goToEditForm() {
 		newProd = current;
-		List<MibObject>	chosen = current.getMibObjects();
+		List<MibObject>	chosen = new ArrayList<MibObject>();
+		
+		for (MibObject mo : productService.findMibObjectsByProductId(current.getProductId())) {
+			chosen.add(mo);
+		}
 		List<MibObject> candidate = productService.findAllMibObjects();
 		dualLBox.setModel(candidate, chosen);
 		
@@ -153,9 +163,4 @@ public class ProductCRUDController extends GenericForwardComposer {
 		}
 	}
 	
-	
-	public void onSelect$productList() {
-		nMibObjs.setValue(current.getMibObjects().size());
-
-	}
 }

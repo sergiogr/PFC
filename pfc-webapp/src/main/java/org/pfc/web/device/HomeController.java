@@ -12,6 +12,7 @@ import org.pfc.business.product.Product;
 import org.pfc.business.productservice.IProductService;
 import org.pfc.business.util.exceptions.InstanceNotFoundException;
 import org.pfc.snmp.SnmpService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.zkoss.gmaps.Gmaps;
 import org.zkoss.gmaps.Gmarker;
 import org.zkoss.gmaps.event.MapDropEvent;
@@ -30,7 +31,7 @@ import com.vividsolutions.jts.geom.Point;
 
 /**
  * 
- * @author Sergio Garc√≠a Ramos <sergio.garcia@udc.es>
+ * @author Sergio García Ramos <sergio.garcia@udc.es>
  *
  */
 public class HomeController extends GenericForwardComposer {
@@ -61,19 +62,12 @@ public class HomeController extends GenericForwardComposer {
 	private MibObject mibObject = new MibObject();
 	private Product selectedProduct;
 	
+	@Autowired
 	private IDeviceService deviceService; 
 	
-	public void setDeviceService(IDeviceService deviceService) {
-		this.deviceService = deviceService;
-	}	
-	
+	@Autowired
 	private IProductService productService;
 	
-	public void setProductService(IProductService productService) {
-		this.productService = productService;
-	}
-	
-
 	@Override
 	public void doAfterCompose(Component comp) throws Exception {
 		super.doAfterCompose(comp);
@@ -255,7 +249,9 @@ public class HomeController extends GenericForwardComposer {
 		newDev.setIpAddress(ipAddress.getValue());
 		newDev.setPublicCommunity(pubCommunity.getValue());
 		newDev.setSnmpPort(snmpPort.getValue());
-		newDev.setProduct((Product) productList.getSelectedItem().getValue());
+		if (productList.getSelectedItem() != null) {
+			newDev.setProduct((Product) productList.getSelectedItem().getValue());
+		}
 		GeometryFactory geom = new GeometryFactory();
         Point position = geom.createPoint(new Coordinate(lat.getValue(), lng.getValue()));
 		newDev.setPosition(position);

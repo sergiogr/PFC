@@ -9,6 +9,7 @@ import org.pfc.business.product.Product;
 import org.pfc.business.productservice.IProductService;
 import org.pfc.business.util.exceptions.DuplicateInstanceException;
 import org.pfc.business.util.exceptions.InstanceNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.zkoss.gmaps.Gmaps;
 import org.zkoss.gmaps.Gmarker;
@@ -52,18 +53,12 @@ public class DeviceCRUDController extends GenericForwardComposer {
 	private Device selected;
 	private Device deviceBk = new Device();
 	
+	@Autowired
 	private IDeviceService deviceService; 
 	
-	public void setDeviceService(IDeviceService deviceService) {
-		this.deviceService = deviceService;
-	}	
-	
+	@Autowired
 	private IProductService productService;
-	
-	public void setProductService(IProductService productService) {
-		this.productService = productService;
-	}
-	
+		
 	public void doAfterCompose(Component comp) throws Exception {
 		super.doAfterCompose(comp);
 		comp.setAttribute(comp.getId(), this, true);
@@ -147,29 +142,19 @@ public class DeviceCRUDController extends GenericForwardComposer {
 	
 	public void onClick$addTestData() throws DuplicateInstanceException {
 		GeometryFactory geom = new GeometryFactory();
-        Point pos1 = geom.createPoint(new Coordinate(0, 0));
-        Point pos2 = geom.createPoint(new Coordinate(0, 0));
-        Point pos3 = geom.createPoint(new Coordinate(0, 0));
-        Point pos4 = geom.createPoint(new Coordinate(0, 0));
-        Point pos5 = geom.createPoint(new Coordinate(0, 0));
-        Point pos6 = geom.createPoint(new Coordinate(0, 0));
-        Point pos7 = geom.createPoint(new Coordinate(0, 0));
-        Point pos8 = geom.createPoint(new Coordinate(0, 0));
-        Point pos9 = geom.createPoint(new Coordinate(0, 0));
-        Point pos10 = geom.createPoint(new Coordinate(0, 0));
-        
-		deviceService.createDevice(new Device("Base1", "Estaci—n base 1", "1.1.1.20","public","161",pos1));
-		deviceService.createDevice(new Device("Base2", "Estaci—n base 2", "1.1.1.22","public","161",pos2));
-		deviceService.createDevice(new Device("Base3", "Estaci—n base 3", "1.1.1.25","public","161",pos3));
-		deviceService.createDevice(new Device("SU1", "Estaci—n suscriptora 1", "1.1.1.21","public","161",pos4));
-		deviceService.createDevice(new Device("SU2", "Estaci—n suscriptora 2", "1.1.1.23","public","161",pos5));
-		deviceService.createDevice(new Device("SU3", "Estaci—n suscriptora 3", "1.1.1.24","public","161",pos6));
-		deviceService.createDevice(new Device("SU4", "Estaci—n suscriptora 4", "1.1.1.26","public","161",pos7));
-
-		deviceService.createDevice(new Device("AP1", "AP wifi 1", "1.1.1.40","public","161",pos8));
-		deviceService.createDevice(new Device("AP2", "AP wifi 2", "1.1.1.41","public","161",pos9));
-		deviceService.createDevice(new Device("AP3", "AP wifi 3", "1.1.1.42","public","161",pos10));		
 		
+        Point pos1 = geom.createPoint(new Coordinate(43.354891546397745,-8.416385650634766));
+        Point pos2 = geom.createPoint(new Coordinate(43.354891546397745,-8.416385650634766));
+        Point pos3 = geom.createPoint(new Coordinate(43.354891546397745,-8.416385650634766));
+        Point pos4 = geom.createPoint(new Coordinate(43.354891546397745,-8.416385650634766));
+        Point pos5 = geom.createPoint(new Coordinate(43.354891546397745,-8.416385650634766));
+               
+		deviceService.createDevice(new Device("AP1", "Punto de acceso 1", "127.0.0.1","public","161",pos1));
+		deviceService.createDevice(new Device("AP2", "Punto de acceso 2", "127.0.0.1","public","161",pos2));
+		deviceService.createDevice(new Device("AP3", "Punto de acceso 3", "127.0.0.1","public","161",pos3));
+		deviceService.createDevice(new Device("AP4", "Punto de acceso 4", "127.0.0.1","public","161",pos4));
+		deviceService.createDevice(new Device("AP5", "Punto de acceso 5", "127.0.0.1","public","161",pos5));
+
 		model.addAll(deviceService.findAllDevice());
 	}
 
@@ -235,6 +220,15 @@ public class DeviceCRUDController extends GenericForwardComposer {
 		latitudeDb.setValue(event.getLat());
 		longitudeDb.setValue(event.getLng());		 	 
     }
+	
+	public void onSelect$deviceLb() throws InstanceNotFoundException {
+		Product product = null;
+		if (selected.getProduct() != null) {
+			product = productService.findProduct(selected.getProduct().getProductId());
+			System.out.println(product.getProductName());
+		}
+		selected.setProduct(product);
+	}
 	
 	private void restoreDeviceGrid() {
 		deviceNameTb.setValue(null);

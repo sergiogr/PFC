@@ -14,19 +14,27 @@ import org.pfc.business.util.exceptions.InstanceNotFoundException;
 public interface IProductService {
 	
 	public Product createProduct(Product product);
+
+	public MibObject createMibObject(MibObject mibObject);
+	
+	public void assignMibObjectToProduct(Long mibObjectId, Long productId) throws InstanceNotFoundException;
+
+	public void unassignMibObjectFromProduct(Long mibObjectId, Long productId) throws InstanceNotFoundException;
 	
 	public void removeProduct(Long productId) throws InstanceNotFoundException;
 	
+	public void removeMibObject(Long mibObjectId) throws InstanceNotFoundException;
+
 	public Product findProduct(Long productId) throws InstanceNotFoundException;
 	
 	public List<Product> findAllProducts();
-	
-	public MibObject createMibObject(MibObject mibObject);
-	
-	public void removeMibObject(Long mibObjectId) throws InstanceNotFoundException;
-	
+		
 	public MibObject findMibObject(Long mibObjectId) throws InstanceNotFoundException;
 
 	public List<MibObject> findAllMibObjects();
+	
+	public List<Product> findProductsByMibObjectId(Long mibObjectId);
+	
+	public List<MibObject> findMibObjectsByProductId(Long productId);
 
 }

@@ -16,6 +16,8 @@
                 <exclude>.classpath</exclude>
                 <exclude>.settings/**</exclude>
                 <exclude>**/target/**</exclude>
+                <exclude>.git/**</exclude>
+                <exclude>.gitignore</exclude>
             </excludes>
         </fileSet>
     </fileSets>

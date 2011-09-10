@@ -16,7 +16,7 @@ import com.vividsolutions.jts.geom.Point;
 
 /**
  * 
- * @author Sergio GarcÃ­a Ramos <sergio.garcia@udc.es>
+ * @author Sergio García Ramos <sergio.garcia@udc.es>
  *
  */
 @Entity
@@ -30,9 +30,9 @@ public class Device {
         private String publicCommunity;
         private String snmpPort;
         private Point position;
-        private long version;
         private Product product;
-
+        private long version;
+        
         public Device() {}
 
         public Device(String deviceName, String description, String ipAddress, String publicCommunity, String snmpPort, Point position) {
@@ -113,7 +113,7 @@ public class Device {
 			this.version = version;
 		}
 
-		@ManyToOne(optional=true, fetch=FetchType.EAGER)
+		@ManyToOne(optional=true, fetch=FetchType.LAZY)
 		@JoinColumn(name="prodId")
 		public Product getProduct() {
 			return product;
@@ -122,7 +122,7 @@ public class Device {
 		public void setProduct(Product product) {
 			this.product = product;
 		}
-
+		
 		@Override
 		public int hashCode() {
 			final int prime = 31;
@@ -196,6 +196,7 @@ public class Device {
 				return false;
 			return true;
 		}
-	
+		
+
 }
 

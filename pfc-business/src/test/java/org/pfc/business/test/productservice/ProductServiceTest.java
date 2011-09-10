@@ -5,8 +5,9 @@ import static org.junit.Assert.assertTrue;
 import static org.pfc.business.test.util.GlobalNames.SPRING_CONFIG_TEST_FILE;
 import static org.pfc.business.util.GlobalNames.SPRING_CONFIG_FILE;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,27 +27,15 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class ProductServiceTest {
 	
+	@Autowired
 	private IProductDao productDao;
 	
-	@Autowired
-	public void setProductDao(IProductDao productDao) {
-		this.productDao = productDao;
-	}
-	
+	@Autowired	
 	private IMibObjectDao mibObjectDao;
 
 	@Autowired
-	public void setMibObjectDao(IMibObjectDao mibObjectDao) {
-		this.mibObjectDao = mibObjectDao;
-	}
-	
 	private IProductService productService;
 	
-	@Autowired
-	public void setProductService(IProductService productService) {
-		this.productService = productService;
-	}
-
 	@Test
 	public void testCreateProduct() {
 		Product product = productService.createProduct(new Product("AP-700", "Punto de acceso Wifi", "Proxim"));
@@ -76,7 +65,7 @@ public class ProductServiceTest {
 	public void testCreateMibObjectWithProducts() throws InstanceNotFoundException {
 		Product product1 = productService.createProduct(new Product("AP-700", "Punto de acceso Wifi", "Proxim"));
 		Product product2 = productService.createProduct(new Product("AP-4000", "Punto de acceso Wifi", "Proxim"));
-		List<Product> listProd = new ArrayList<Product>();
+		Set<Product> listProd = new HashSet<Product>();
 		listProd.add(product1);
 		listProd.add(product2);
 		MibObject mibObject = new MibObject("sysName", "Nombre del sistema", "1.3.6.1.2.1.1.5.0", "MIB-II");

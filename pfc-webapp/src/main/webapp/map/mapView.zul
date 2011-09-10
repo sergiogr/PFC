@@ -52,6 +52,7 @@
 	<columns>
 		<column label="Data" width="30%"/>
 		<column label="Value" />
+		<column label="Date" />
 	</columns>	
 	<rows id="snmpRows"></rows>
 	</grid>

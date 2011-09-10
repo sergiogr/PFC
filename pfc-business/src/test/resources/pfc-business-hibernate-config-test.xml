@@ -23,6 +23,11 @@
 
         <!-- Enable Hibernate's automatic session context management -->
         <property name="current_session_context_class">thread</property>
+        
+        <!-- List of persisten classes -->
+        <mapping class="org.pfc.business.device.Device" />
+        <mapping class="org.pfc.business.product.Product" />
+        <mapping class="org.pfc.business.mibobject.MibObject" />
            
     </session-factory>
 </hibernate-configuration>

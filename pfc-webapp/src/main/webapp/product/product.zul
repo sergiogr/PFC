@@ -23,7 +23,6 @@
 					<button id="delProduct" label="Remove" />
 					<button id="editProduct" label="Edit" />
 					<button id="addTestData" label="Add Test Data" />
-					<intbox id="nMibObjs" />
 				</listfooter>
 			</listfoot>
 		</listbox>

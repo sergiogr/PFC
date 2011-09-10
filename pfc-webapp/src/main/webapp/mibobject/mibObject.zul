@@ -26,7 +26,6 @@
 					<button id="delMibObject" label="Remove" />
 					<button id="editMibObject" label="Edit" />
 					<button id="addTestData" label="Add Test Data" />
-					<intbox id="nProducts" />
 				</listfooter>
 			</listfoot>
 		</listbox>
