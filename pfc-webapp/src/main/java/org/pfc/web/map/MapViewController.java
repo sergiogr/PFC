@@ -38,7 +38,7 @@ public class MapViewController extends GenericForwardComposer {
 	
 	@Autowired
 	private IDeviceService deviceService; 
-	
+		
 	@Override
 	public void doAfterCompose(Component comp) throws Exception {
 		super.doAfterCompose(comp);
@@ -101,7 +101,7 @@ public class MapViewController extends GenericForwardComposer {
 							i++;
 						}
 					}
-					
+										
 				}
 			} catch (InstanceNotFoundException e1) {
 				alert(marker.getContent() + ": This device wasn't found in the DB.");
@@ -110,7 +110,7 @@ public class MapViewController extends GenericForwardComposer {
 			}
 			
 			marker.setOpen(true);	
-		}
+		}			
 	}
 
 }

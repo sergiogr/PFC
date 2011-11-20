@@ -7,7 +7,7 @@
 <toolbarbutton label="Products" href="/product/product.zul" />
 <toolbarbutton label="MibObjects" href="/mibobject/mibObject.zul" />
 <toolbarbutton label="Map" href="/map/mapView.zul" />
-<toolbarbutton label="SNMP" href="" />
+<toolbarbutton label="Monitor" href="/monitor/monitor.zul" />
 </toolbar>
 </north>
 

@@ -1,0 +1,43 @@
+<?page title="Monitor" contentType="text/html;charset=UTF-8"?>
+<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" ?>
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="/common/layout/template.zul"?>
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+<zk>
+<window self="@{define(content)}" id="monitorWin" title="Monitor" border="normal" apply="org.pfc.web.monitor.MonitorController">
+
+<button id="startMonitor" label="Start" />
+<button id="stopMonitor" label="Stop" />
+<label id="monitorStatus" />
+<hbox>
+<vbox>
+<listbox id="deviceLb" mold="paging" rows="15" pageSize="15" model="@{monitorWin$composer.devices }">
+		<listhead>
+			<listheader label="Name" />
+			<listheader label="Description" />
+			<listheader label="IP" />
+		</listhead>
+		<listitem self="@{each=device}" value="@{device}">
+			<listcell label="@{device.deviceName}" />
+			<listcell label="@{device.description}" />
+			<listcell label="@{device.ipAddress}" />
+		</listitem>
+</listbox>
+</vbox>
+<listbox id="dataLb" mold="paging" rows="15" pageSize="15" model="@{monitorWin$composer.data, load-after='deviceLb.onSelect'}">
+	<listhead>
+		<listheader label="Data" />
+		<listheader label="Value" />
+		<listheader label="Date" />
+	</listhead>
+	<listitem self="@{each=data}" value="@{data}">
+			<listcell label="@{data.mibObjectName}" />
+			<listcell label="@{data.value}" />
+			<listcell label="@{data.date.Time}" />
+		</listitem>
+</listbox>
+<vbox>
+</vbox>
+</hbox>
+
+</window>
+</zk>

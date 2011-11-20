@@ -19,11 +19,19 @@
 	<bean id="dataSource"
 		class="org.springframework.jndi.JndiObjectFactoryBean"
 		p:jndiName="${dataSource.jndiName}"
-		p:resourceRef="true" />
- 
+		p:resourceRef="true" /> 
+		
+		 <!--  Data source.
+    <bean id="dataSource"
+        class="org.springframework.jdbc.datasource.SingleConnectionDataSource"
+        p:driverClassName="${jdbcDriver.className}"
+        p:url="${testDataSource.url}" p:username="${testDataSource.user}"
+        p:password="${testDataSource.password}" 
+        p:suppressClose="true" /> -->
+ <!-- 
 	<bean id="dataSourceProxy" class="org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy"
 		p:targetDataSource-ref="dataSource"/>	   
-
+ -->
 	<!-- Hibernate Session Factory -->
     <bean id="sessionFactory"
         class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean"
