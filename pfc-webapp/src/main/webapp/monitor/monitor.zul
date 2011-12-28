@@ -30,10 +30,10 @@
 		<listheader label="Date" />
 	</listhead>
 	<listitem self="@{each=data}" value="@{data}">
-			<listcell label="@{data.mibObjectName}" />
-			<listcell label="@{data.value}" />
-			<listcell label="@{data.date.Time}" />
-		</listitem>
+		<listcell label="@{data.mibObjectName}" />
+		<listcell label="@{data.value}" />
+		<listcell label="@{data.date.Time}" />
+	</listitem>
 </listbox>
 <vbox>
 </vbox>

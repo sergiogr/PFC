@@ -8,6 +8,7 @@
 <toolbarbutton label="MibObjects" href="/mibobject/mibObject.zul" />
 <toolbarbutton label="Map" href="/map/mapView.zul" />
 <toolbarbutton label="Monitor" href="/monitor/monitor.zul" />
+<toolbarbutton label="Events" href="/event/event.zul" />
 </toolbar>
 </north>
 

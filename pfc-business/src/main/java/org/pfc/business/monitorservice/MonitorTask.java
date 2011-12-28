@@ -61,7 +61,7 @@ public class MonitorTask extends TimerTask {
 			System.out.println("MibObject: "+mibObjects.get(i).getMibObjectId()+" - "+results.get(i).getValue());
 //			dataDao.save(new Data(results.get(i).getValue(),results.get(i).getDate(),device,mibObjects.get(i)));
 	
-			dataService.addNewdata(new Data(results.get(i).getValue(),results.get(i).getDate(),device,mibObjects.get(i)));
+			dataService.addNewData(new Data(results.get(i).getValue(),results.get(i).getDate(),device,mibObjects.get(i)));
 		}
 	}
 

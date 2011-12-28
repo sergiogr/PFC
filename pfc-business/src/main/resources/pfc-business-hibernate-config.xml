@@ -23,6 +23,7 @@
 		<mapping class="org.pfc.business.product.Product" />
 		<mapping class="org.pfc.business.mibobject.MibObject" />
 		<mapping class="org.pfc.business.data.Data" />
+		<mapping class="org.pfc.business.event.Event" />		
 		
 	</session-factory>
 </hibernate-configuration>

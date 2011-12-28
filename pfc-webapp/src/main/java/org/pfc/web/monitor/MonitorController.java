@@ -3,7 +3,6 @@ package org.pfc.web.monitor;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.pfc.business.data.Data;
 import org.pfc.business.dataservice.DataInfo;
 import org.pfc.business.dataservice.IDataService;
 import org.pfc.business.device.Device;
@@ -15,10 +14,6 @@ import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.util.GenericForwardComposer;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.Listbox;
-import org.zkoss.zul.Listcell;
-import org.zkoss.zul.Listitem;
-
-
 
 @SuppressWarnings("serial")
 public class MonitorController extends GenericForwardComposer {
@@ -34,7 +29,6 @@ public class MonitorController extends GenericForwardComposer {
 	
 	private Label monitorStatus;
 	private Listbox deviceLb;
-	private Listbox dataLb;
 	
 	private Device selected;
 	

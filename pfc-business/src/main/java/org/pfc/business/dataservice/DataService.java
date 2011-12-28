@@ -16,7 +16,7 @@ public class DataService implements IDataService{
 	private IDataDao dataDao;
 		
 	@Transactional
-	public void addNewdata(Data data) {
+	public void addNewData(Data data) {
 
 		dataDao.save(data);
 

@@ -6,7 +6,7 @@ import org.pfc.business.data.Data;
 
 public interface IDataService {
 
-	public void addNewdata(Data data);
+	public void addNewData(Data data);
 	
 	public List<DataInfo> findDataByDeviceId(Long deviceId);
 }

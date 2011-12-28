@@ -1,0 +1,22 @@
+<?page title="Events" contentType="text/html;charset=UTF-8"?>
+<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" ?>
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="/common/layout/template.zul"?>
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+<zk>
+<window self="@{define(content)}" id="eventWin" title="Events" border="normal" apply="org.pfc.web.event.EventController">
+<button id="startTrapReceiver" label="Start" />
+<button id="stopTrapReceiver" label="Stop" />
+<listbox id="eventLb" mold="paging" rows="15" pageSize="15" model="@{eventWin$composer.events }" > 
+		<listhead>
+			<listheader label="IP src" />
+			<listheader label="Variables" />
+			<listheader label="Date" />
+		</listhead>
+		<listitem self="@{each=event}" value="@{event}">
+			<listcell label="@{event.ipSource}" />
+			<listcell label="@{event.variables}" />
+			<listcell label="@{event.date.Time}" />
+		</listitem>
+</listbox>
+</window>
+</zk>
