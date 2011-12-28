@@ -13,7 +13,7 @@
 	<module>pfc-business</module>
 	<module>pfc-webapp</module>
     <module>pfc-snmp</module>
-    <module>pfc-monitor</module>
+<!--    <module>pfc-monitor</module> -->
   </modules>
 
   <properties>
@@ -194,6 +194,11 @@
       			<artifactId>zweb</artifactId>
       			<version>${zk.version}</version>
     		</dependency>  
+		<dependency>
+			<groupId>org.zkoss.zkforge</groupId>
+			<artifactId>gmapsz</artifactId>
+			<version>2.0.51</version>
+		</dependency>
     		<dependency>
     	  		<groupId>org.pfc</groupId>
       			<artifactId>pfc-business</artifactId>
@@ -307,13 +312,11 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
                     <verbose>true</verbose>
-                    <source>1.5</source>
-                    <target>1.5</target>
+                    <source>1.6</source>
+                    <target>1.6</target>
                     <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
-
-      
 
             <!-- ========================================================== -->
             <!-- Assembly configuration -->
