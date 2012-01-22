@@ -9,7 +9,7 @@ import org.pfc.business.util.exceptions.InstanceNotFoundException;
 
 /**
  * 
- * @author Sergio García Ramos <sergio.garcia@udc.es>
+ * @author Sergio GarcÃ­a Ramos <sergio.garcia@udc.es>
  *
  */
 public interface IDeviceService {

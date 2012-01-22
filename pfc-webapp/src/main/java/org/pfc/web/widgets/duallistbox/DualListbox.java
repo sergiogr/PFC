@@ -35,19 +35,19 @@ public class DualListbox extends Div implements IdSpace {
 		chosenLb.setModel(chosenDataModel = new ListModelList());
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	public void onClick$chooseBtn() {
 		Set set = choseOne();
 		Events.postEvent(new ChooseEvent(this, set));
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	public void onClick$removeBtn() {
         Set set = unchooseOne();
         Events.postEvent(new ChooseEvent(this, set));
     }
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private Set choseOne() {
 		Set set = candidateLb.getSelectedItems();
         for (Object obj : new ArrayList(set)) {
@@ -59,7 +59,7 @@ public class DualListbox extends Div implements IdSpace {
 	}
 	
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private Set unchooseOne() {
 	     Set set = chosenLb.getSelectedItems();
 	     for (Object obj : new ArrayList(set)) {
@@ -94,13 +94,13 @@ public class DualListbox extends Div implements IdSpace {
      * 
      * @param candidate is the data of candidate list model
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("rawtypes")
 	public void setModel(List candidate) {
         candidateLb.setModel(this.candidateModel = new ListModelList(candidate));
         chosenDataModel.clear();
     }
  
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
 	public void setModel(List candidate, List chosen) {
     	for (Object obj : new ArrayList(chosen)) {
     		
@@ -114,14 +114,14 @@ public class DualListbox extends Div implements IdSpace {
     /**
      * @return current chosen data list
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
 	public List getChosenDataList() {
         return new ArrayList(chosenDataModel);
     }
 	
 	// Customized Event
     public class ChooseEvent extends Event {
-        @SuppressWarnings("unchecked")
+        @SuppressWarnings("rawtypes")
 		public ChooseEvent(Component target, Set data) {
             super("onChoose", target, data);
         }

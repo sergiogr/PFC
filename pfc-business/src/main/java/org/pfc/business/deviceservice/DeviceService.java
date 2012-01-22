@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 
- * @author Sergio García Ramos <sergio.garcia@udc.es>
+ * @author Sergio GarcÃ­a Ramos <sergio.garcia@udc.es>
  *
  */
 @Service("deviceService")

@@ -31,7 +31,7 @@ import com.vividsolutions.jts.geom.Point;
 
 /**
  * 
- * @author Sergio García Ramos <sergio.garcia@udc.es>
+ * @author Sergio Garc√≠a Ramos <sergio.garcia@udc.es>
  *
  */
 public class HomeController extends GenericForwardComposer {

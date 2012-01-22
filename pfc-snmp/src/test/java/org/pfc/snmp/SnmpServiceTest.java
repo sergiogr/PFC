@@ -6,7 +6,7 @@ import org.junit.Test;
 public class SnmpServiceTest {
 
 	
-	private SnmpService snmpService = new SnmpService();
+//	private SnmpService snmpService = new SnmpService();
 	
 	@Test
 	public void testSnmpGet(){

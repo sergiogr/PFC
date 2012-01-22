@@ -7,10 +7,8 @@
     <version>1.0.0</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
-  <groupId>org.pfc</groupId>
   <artifactId>pfc-snmp</artifactId>
   <name>pfc-snmp</name>
-  <version>1.0.0</version>
   <url>http://maven.apache.org</url>
   <dependencies>
   	<dependency>

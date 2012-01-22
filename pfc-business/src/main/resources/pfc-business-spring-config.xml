@@ -16,10 +16,8 @@
     <context:component-scan base-package="org.pfc.business"/> 
 
 	<!--  Data source. -->
-	<bean id="dataSource"
-		class="org.springframework.jndi.JndiObjectFactoryBean"
-		p:jndiName="${dataSource.jndiName}"
-		p:resourceRef="true" /> 
+	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean"
+		p:jndiName="${dataSource.jndiName}" p:resourceRef="true" /> 
 		
 		 <!--  Data source.
     <bean id="dataSource"

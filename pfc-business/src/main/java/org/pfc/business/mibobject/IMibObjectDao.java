@@ -6,7 +6,7 @@ import org.pfc.business.util.genericdao.IGenericDao;
 
 /**
  * 
- * @author Sergio García Ramos <sergio.garcia@udc.es>
+ * @author Sergio GarcÃ­a Ramos <sergio.garcia@udc.es>
  *
  */
 public interface IMibObjectDao extends IGenericDao<MibObject, Long> {
