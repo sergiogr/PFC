@@ -7,3 +7,5 @@
 pfc-business/target
 pfc-webapp/target
 pfc-snmp/target
+pfc-monitor/target
+pfc-alarm/target
