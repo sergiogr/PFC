@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Configure PUBLIC "-//Mort Bay Consulting//DTD Configure//EN" 
+     "http://jetty.mortbay.org/configure.dtd">
+ 
+<Configure class="org.eclipse.jetty.webapp.WebAppContext">
+      <New id="PFC" class="org.eclipse.jetty.plus.jndi.Resource">
+          <Arg>jdbc/pfc-db</Arg>
+          <Arg>
+              <New class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+                 <Set name="driverClassName">org.postgresql.Driver</Set>
+                 <Set name="url">jdbc:postgresql://localhost/pfc-db</Set>
+                 <Set name="username">postgres</Set>
+                 <Set name="password">postgres</Set>
+             </New>
+         </Arg>
+    </New>
+</Configure>
