@@ -13,7 +13,8 @@
 	<module>pfc-business</module>
 	<module>pfc-webapp</module>
     <module>pfc-snmp</module>
-<!--    <module>pfc-monitor</module> -->
+  	<module>pfc-monitor</module>
+  	<module>pfc-alarm</module>
   </modules>
 
   <properties>
@@ -35,8 +36,9 @@
         <javassist.version>3.11.0.GA</javassist.version>
         <cglib.version>2.1_3</cglib.version>
         <hibernate.version>3.5.1-Final</hibernate.version>
-        <junit.version>4.4</junit.version>
-        <spring.version>2.5.6</spring.version>
+        <junit.version>4.7</junit.version>
+        <cxf.version>2.6.1</cxf.version>
+        <spring.version>3.0.7.RELEASE</spring.version>
         <servletApi.version>2.3</servletApi.version>
         
         <!-- ZK properties -->
@@ -45,9 +47,9 @@
 
 	<!-- Plugin versions -->
 	<mavenCompilerPlugin.version>2.3.2</mavenCompilerPlugin.version>
-        <mavenResouresPlugin.version>2.5</mavenResouresPlugin.version>
+    <mavenResouresPlugin.version>2.5</mavenResouresPlugin.version>
 	<mavenAssemblyPlugin.version>2.2.1</mavenAssemblyPlugin.version>
-        <jettyMavenPlugin>7.3.1.v20110307</jettyMavenPlugin>
+    <jettyMavenPlugin>7.3.1.v20110307</jettyMavenPlugin>
   </properties>
   
       <!-- ========================================================== -->
@@ -87,12 +89,6 @@
             <id>Hibernate Spatial repo</id>
             <url>http://www.hibernatespatial.org/repository</url>
         </repository>
-        <!-- add JBOSS repository for easy access to Hibernate libraries
-        <repository>
-            <id>JBOSS</id>
-            <url>http://repository.jboss.com/maven2</url>
-        </repository>
--->
  <!-- Repository for Hibernate packages -->
         <repository>
             <id>JBOSS</id>
@@ -147,26 +143,62 @@
                 <artifactId>hibernate-annotations</artifactId>
                 <version>${hibernate.version}</version>
             </dependency>
-            <!-- JUnit -->
-            <!--
-                IMPORTANT: Spring TestContext 2.5.x is not compatible
-                with JUnit 4.5+.
-            -->
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
                 <version>${junit.version}</version>
                 <scope>test</scope>
             </dependency>
+            <dependency>
+				<groupId>org.apache.cxf</groupId>
+				<artifactId>cxf-rt-frontend-jaxws</artifactId>
+				<version>${cxf.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.cxf</groupId>
+				<artifactId>cxf-rt-transports-http</artifactId>
+				<version>${cxf.version}</version>
+			</dependency>
+        	<!-- Jetty is needed if you're are not using the CXFServlet -->
+			<dependency>
+				<groupId>org.apache.cxf</groupId>
+				<artifactId>cxf-rt-transports-http-jetty</artifactId>
+				<version>${cxf.version}</version>
+			</dependency>
             <!-- Spring -->
             <dependency>
                 <groupId>org.springframework</groupId>
-                <artifactId>spring</artifactId>
+                <artifactId>spring-orm</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-core</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context</artifactId>
+                <version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-beans</artifactId>
+                <version>${spring.version}</version>
+			</dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-aop</artifactId>
                 <version>${spring.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-test</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-web</artifactId>
                 <version>${spring.version}</version>
             </dependency>
 			<!-- BeanShell (required by ZK)-->
@@ -363,7 +395,7 @@
                 <version>${jettyMavenPlugin}</version>
 
                 <configuration>
-		    <webAppConfig>
+		    		<webAppConfig>
                       <contextPath>/${project.artifactId}</contextPath>
                         <jettyEnvXml>target/jetty/jetty-env.xml</jettyEnvXml>
                     </webAppConfig>
@@ -379,26 +411,23 @@
                         <append>true</append>
                     </requestLog>
                     <connectors>
-		       <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
-<!--
-                        <connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
---> 
+		      		 	<connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
                            <port>9090</port>
                         </connector>
                     </connectors>
                 </configuration>
-		<dependencies>
+				<dependencies>
                     <dependency>
                         <groupId>${jdbcDriver.groupId}</groupId>
                         <artifactId>${jdbcDriver.artifactId}</artifactId>
                         <version>${jdbcDriver.version}</version>
                     </dependency>
-		    <!-- the Postgis JDBC driver -->
-    		    <dependency>
-        		<groupId>org.postgis</groupId>
-    			<artifactId>postgis-jdbc</artifactId>
-        		<version>1.3.3</version>
-    		    </dependency>
+		    		<!-- the Postgis JDBC driver -->
+    		    	<dependency>
+        				<groupId>org.postgis</groupId>
+    					<artifactId>postgis-jdbc</artifactId>
+        				<version>1.3.3</version>
+    		    	</dependency>
                 </dependencies>
             </plugin>          
         </plugins>

@@ -173,6 +173,7 @@ public class HomeController extends GenericForwardComposer {
 	 * Genera n dispositivos posicionados de forma aleatoria.
 	 */
 	public void onClick$addTestData() {
+		
 		int n = 5;
 		for (int i=1; i<=n; i++) {
 			double x = map.getLat() + Math.random() % 0.02;
@@ -322,7 +323,6 @@ public class HomeController extends GenericForwardComposer {
 	 * Realiza una consulta SNMP del MibObject seleccionado sobre el Device seleccionado.
 	 */
 	public void onClick$query() {
-		
 		if (current.getDeviceId() != null) {
 			snmpGet.setValue("SNMP request to: "+current.getDeviceName()+" - Response: "+ this.snmpQuery());
 		}

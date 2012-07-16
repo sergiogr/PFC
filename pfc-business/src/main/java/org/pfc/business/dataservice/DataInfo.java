@@ -8,6 +8,10 @@ public class DataInfo {
 	private String value;
 	private Calendar date;
 	
+	public DataInfo() {
+		
+	}
+	
 	public DataInfo(String mibObjectName, String value, Calendar date) {
 	
 		this.mibObjectName = mibObjectName;

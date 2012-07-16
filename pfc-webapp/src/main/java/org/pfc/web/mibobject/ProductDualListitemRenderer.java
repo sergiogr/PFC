@@ -1,6 +1,6 @@
 package org.pfc.web.mibobject;
 
-import org.pfc.business.product.Product;
+import org.pfc.business.webservice.ProductDTO;
 import org.pfc.web.widgets.duallistbox.DualListitemRenderer;
 import org.zkoss.zul.Listcell;
 import org.zkoss.zul.Listhead;
@@ -16,7 +16,7 @@ public class ProductDualListitemRenderer extends DualListitemRenderer {
 	
 	@Override
 	protected void doRender(Listitem item, Object data) throws Exception {
-		Product product = (Product) data;
+		ProductDTO product = (ProductDTO) data;
 		new Listcell(product.getProductName()).setParent(item);
 		new Listcell(product.getDescription()).setParent(item);
 		new Listcell(product.getManufacturer()).setParent(item);
@@ -24,9 +24,9 @@ public class ProductDualListitemRenderer extends DualListitemRenderer {
 	
 	public Listhead getListhead() {
 		Listhead lh = new Listhead();
-		new Listheader("Name", null, "80px").setParent(lh);
-		new Listheader("Description", null, "80px").setParent(lh);
-		new Listheader("Manufacturer", null, "80px").setParent(lh);
+		new Listheader("Name", null, "25%").setParent(lh);
+		new Listheader("Description", null, "50%").setParent(lh);
+		new Listheader("Manufacturer", null, "25%").setParent(lh);
 		return lh;
 		
 	}

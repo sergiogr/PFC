@@ -5,8 +5,6 @@
 <zk>
 <window self="@{define(content)}" id="monitorWin" title="Monitor" border="normal" apply="org.pfc.web.monitor.MonitorController">
 
-<button id="startMonitor" label="Start" />
-<button id="stopMonitor" label="Stop" />
 <label id="monitorStatus" />
 <hbox>
 <vbox>

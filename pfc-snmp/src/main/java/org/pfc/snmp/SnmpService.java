@@ -177,8 +177,11 @@ public class SnmpService implements ISnmpService {
 			ResponseEvent response = snmp.get(pdu, target);
 			
 			if (response != null) {
-				for (int i=0;i<oids.size();i++) {
-					responseList.add(new SnmpResponse(oids.get(i),response.getResponse().get(i).getVariable().toString(),Calendar.getInstance()));
+				// TO-DO: hacer bien esta comprobación
+				if (response.getResponse() != null) {
+					for (int i=0;i<oids.size();i++) {
+						responseList.add(new SnmpResponse(oids.get(i),response.getResponse().get(i).getVariable().toString(),Calendar.getInstance()));
+					}
 				}
 			}
 			else {

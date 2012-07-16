@@ -1,6 +1,5 @@
 package org.pfc.business.dataservice;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.pfc.business.data.Data;
@@ -23,17 +22,17 @@ public class DataService implements IDataService{
 	}
 
 	@Transactional
-	public List<DataInfo> findDataByDeviceId(Long deviceId) {
-		return toDataInfos(dataDao.findDataByDeviceId(deviceId));
+	public List<Data> findDataByDeviceId(Long deviceId) {
+		return dataDao.findDataByDeviceId(deviceId);
 	}
 	
-	private List<DataInfo> toDataInfos(List<Data> data) {
-		List<DataInfo> dataInfos = new ArrayList<DataInfo>();
-		
-		for (Data d : data) {
-			dataInfos.add(new DataInfo(d.getMibObject().getMibObjectName(),
-					d.getValue(), d.getDate()));
-		}
-		return dataInfos;		
-	}
+//	private List<DataInfo> toDataInfos(List<Data> data) {
+//		List<DataInfo> dataInfos = new ArrayList<DataInfo>();
+//		
+//		for (Data d : data) {
+//			dataInfos.add(new DataInfo(d.getMibObject().getMibObjectName(),
+//					d.getValue(), d.getDate()));
+//		}
+//		return dataInfos;		
+//	}
 }

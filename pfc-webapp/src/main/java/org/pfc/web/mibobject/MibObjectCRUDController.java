@@ -3,10 +3,10 @@ package org.pfc.web.mibobject;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.pfc.business.mibobject.MibObject;
-import org.pfc.business.product.Product;
-import org.pfc.business.productservice.IProductService;
 import org.pfc.business.util.exceptions.InstanceNotFoundException;
+import org.pfc.business.webservice.IProductWebService;
+import org.pfc.business.webservice.MibObjectDTO;
+import org.pfc.business.webservice.ProductDTO;
 import org.pfc.web.widgets.duallistbox.DualListbox;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.zkoss.zk.ui.Component;
@@ -27,6 +27,10 @@ public class MibObjectCRUDController extends GenericForwardComposer {
 	/**
 	 * 
 	 */
+	private enum Action {CREATE, EDIT};
+
+	private Action action;
+	
 	private Listbox mibObjectList;
 	private Grid mibObjectForm;
 	private Textbox name;
@@ -35,30 +39,38 @@ public class MibObjectCRUDController extends GenericForwardComposer {
 	private Textbox mib;
 	private DualListbox mibObjDualLb;
 		
-	private MibObject current = new MibObject();
-	private MibObject newMibObj;
+	private MibObjectDTO current = new MibObjectDTO();
+	private MibObjectDTO newMibObj;
 	
 	@Autowired
-	private IProductService productService;
+	private IProductWebService productWSClient;
 
-	public MibObject getCurrent() {
+	public MibObjectDTO getCurrent() {
 		return current;
 	}
 	
-	public void setCurrent(MibObject current) {
+	public void setCurrent(MibObjectDTO current) {
 		this.current = current;
+	}
+	
+	public Action getAction() {
+		return action;
+	}
+
+	public void setAction(Action action) {
+		this.action = action;
 	}
 	
 	@Override
 	public void doAfterCompose(Component comp) throws Exception {
 		super.doAfterCompose(comp);
-		mibObjDualLb.setModel(new ListModelList(productService.findAllProducts()));
+		mibObjDualLb.setModel(new ListModelList(productWSClient.findAllProducts().getProductDTOs()));
 		mibObjDualLb.setRenderer(new ProductDualListitemRenderer());
 		mibObjectForm.setVisible(false);
 	}
 	
-	public List<MibObject> getMibObjects() {
-		return productService.findAllMibObjects();
+	public List<MibObjectDTO> getMibObjects() {
+		return productWSClient.findAllMibObjects().getMibObjectDTOs();
 	}
 	
 	public void onClick$addMibObject() {
@@ -66,19 +78,19 @@ public class MibObjectCRUDController extends GenericForwardComposer {
 	}
 	
 	public void onClick$addTestData() {
-		productService.createMibObject(new MibObject("sysDesc", "Descripción del equipo", "1.3.6.1.2.1.1.1.0", "MIB-II"));
-		productService.createMibObject(new MibObject("sysUpTime", "Tiempo desde la última vez que el equipo fue reiniciado", "1.3.6.1.2.1.1.3.0", "MIB-II"));
-		productService.createMibObject(new MibObject("sysContact", "Información de contacto de la persona que gestiona el eqipo", "1.3.6.1.2.1.1.4.0", "MIB-II"));
-		productService.createMibObject(new MibObject("sysName", "Nombre del sistema", "1.3.6.1.2.1.1.5.0", "MIB-II"));
-		productService.createMibObject(new MibObject("sysLocation", "Localización del sistema", "1.3.6.1.2.1.1.6.0", "MIB-II"));
-		productService.createMibObject(new MibObject("sysServices", "Conjunto de servicios que ofrece el equipo", "1.3.6.1.2.1.1.7.0", "MIB-II"));
+		productWSClient.createMibObject(new MibObjectDTO(null,"sysDesc", "Descripción del equipo", "1.3.6.1.2.1.1.1.0", "MIB-II"), null);
+		productWSClient.createMibObject(new MibObjectDTO(null,"sysUpTime", "Tiempo desde la última vez que el equipo fue reiniciado", "1.3.6.1.2.1.1.3.0", "MIB-II"), null);
+		productWSClient.createMibObject(new MibObjectDTO(null,"sysContact", "Información de contacto de la persona que gestiona el eqipo", "1.3.6.1.2.1.1.4.0", "MIB-II"), null);
+		productWSClient.createMibObject(new MibObjectDTO(null,"sysName", "Nombre del sistema", "1.3.6.1.2.1.1.5.0", "MIB-II"), null);
+		productWSClient.createMibObject(new MibObjectDTO(null,"sysLocation", "Localización del sistema", "1.3.6.1.2.1.1.6.0", "MIB-II"), null);
+		productWSClient.createMibObject(new MibObjectDTO(null,"sysServices", "Conjunto de servicios que ofrece el equipo", "1.3.6.1.2.1.1.7.0", "MIB-II"), null);
 		
-		productService.createMibObject(new MibObject("channel","Canal en el que está emitiendo el equipo WiMax","1.3.6.1.4.1.11898.2.1.2.1.1.1.6.3","ORiNOCO-MIB"));
-		productService.createMibObject(new MibObject("nClients","Número de clientes conectados al equipo WiMax","1.3.6.1.4.1.11898.2.1.2.5.2.1.1.3","ORiNOCO-MIB"));
-		productService.createMibObject(new MibObject("localSignal","Nivel de señal local del enlace WiMax","1.3.6.1.4.1.11898.2.1.2.5.2.1.2.3","ORiNOCO-MIB"));
-		productService.createMibObject(new MibObject("remoteSignal","Nivel de señal remota del enlace WiMax","1.3.6.1.4.1.11898.2.1.2.5.2.1.4.3","ORiNOCO-MIB"));
+		productWSClient.createMibObject(new MibObjectDTO(null,"channel","Canal en el que está emitiendo el equipo WiMax","1.3.6.1.4.1.11898.2.1.2.1.1.1.6.3","ORiNOCO-MIB"), null);
+		productWSClient.createMibObject(new MibObjectDTO(null,"nClients","Número de clientes conectados al equipo WiMax","1.3.6.1.4.1.11898.2.1.2.5.2.1.1.3","ORiNOCO-MIB"), null);
+		productWSClient.createMibObject(new MibObjectDTO(null,"localSignal","Nivel de señal local del enlace WiMax","1.3.6.1.4.1.11898.2.1.2.5.2.1.2.3","ORiNOCO-MIB"), null);
+		productWSClient.createMibObject(new MibObjectDTO(null,"remoteSignal","Nivel de señal remota del enlace WiMax","1.3.6.1.4.1.11898.2.1.2.5.2.1.4.3","ORiNOCO-MIB"), null);
 
-		productService.createMibObject(new MibObject("nClientsWifi","Número de clientes conectados a un AP Wifi","1.3.6.1.4.1.11898.2.1.33.3.0","ORiNOCO-MIB"));
+		productWSClient.createMibObject(new MibObjectDTO(null,"nClientsWifi","Número de clientes conectados a un AP Wifi","1.3.6.1.4.1.11898.2.1.33.3.0","ORiNOCO-MIB"), null);
 	
 	}
 	
@@ -90,11 +102,18 @@ public class MibObjectCRUDController extends GenericForwardComposer {
 		newMibObj.setOid(oid.getValue());
 		newMibObj.setMib(mib.getValue());
 		
-		current = productService.createMibObject(newMibObj);
-		
-		for (Product p : (List<Product>) mibObjDualLb.getChosenDataList()) {
-			productService.assignMibObjectToProduct(newMibObj.getMibObjectId(), p.getProductId());
+		if (this.getAction() == Action.CREATE) {
+			productWSClient.createMibObject(newMibObj, mibObjDualLb.getChosenDataList());
 		}
+		else if (this.getAction() == Action.EDIT) {
+			productWSClient.updateMibObject(newMibObj, mibObjDualLb.getChosenDataList());
+		}
+//		current = productWebService.createMibObject(new MibObjectDTO(null,name.getValue(),description.getValue(),
+//				oid.getValue(),mib.getValue()));
+//		
+//		for (ProductDTO p : (List<ProductDTO>) mibObjDualLb.getChosenDataList()) {
+//			productWebService.assignMibObjectToProduct(newMibObj.getMibObjectId(), p.getProductId());
+//		}
 
 		goToList();
 	}
@@ -104,19 +123,20 @@ public class MibObjectCRUDController extends GenericForwardComposer {
 	}
 	
 	private void goToAddForm() {
-		newMibObj = new MibObject();
-		
+		newMibObj = new MibObjectDTO();
+		this.setAction(Action.CREATE);
+
 		mibObjectList.setVisible(false);
 		mibObjectForm.setVisible(true);
 	}
 	
 	private void goToEditForm() {
 		newMibObj = current;
-		List<Product> chosen = new ArrayList<Product>();
-		for (Product p : productService.findProductsByMibObjectId(current.getMibObjectId())) {
+		List<ProductDTO> chosen = new ArrayList<ProductDTO>();
+		for (ProductDTO p : productWSClient.findProductsByMibObjectId(current.getMibObjectId()).getProductDTOs()) {
 			chosen.add(p);
 		}
-		List<Product> candidate = productService.findAllProducts();
+		List<ProductDTO> candidate = productWSClient.findAllProducts().getProductDTOs();
 		mibObjDualLb.setModel(candidate, chosen);
 		
 		name.setValue(current.getMibObjectName());
@@ -143,7 +163,7 @@ public class MibObjectCRUDController extends GenericForwardComposer {
 		try {
 			if (current.getMibObjectId() != null) {
 			
-				productService.removeMibObject(current.getMibObjectId());
+				productWSClient.removeMibObject(current.getMibObjectId());
 				current.setMibObjectId(null);
 			}
 			else {
@@ -157,6 +177,7 @@ public class MibObjectCRUDController extends GenericForwardComposer {
 	public void onClick$editMibObject() {
 		
 		if (current.getMibObjectId() != null) {
+			this.setAction(Action.EDIT);
 			goToEditForm();
 		}
 		else {

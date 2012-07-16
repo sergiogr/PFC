@@ -38,8 +38,7 @@
 			</row>
 			<row>
 				<label value="Product" />
-				<listbox id="productLb" mold="select" selectedItem="@{deviceWin.selected.product}" 
-				model="@{deviceWin.productModel}">
+				<listbox id="productLb" mold="select" model="@{deviceWin.productModel}" selectedItem="@{deviceWin.selectedProd}" >
 					<listitem self="@{each=product}" value="@{product}" >
 						<listcell label="@{product.productName}" />
 					</listitem>
@@ -63,16 +62,16 @@
 				<vbox>
 					<hbox>
 						<label value="Latitude" />
-						<doublebox id="latitudeDb"  value="@{deviceWin.selected.position.x}" />
+						<doublebox id="latitudeDb"  value="@{deviceWin.selected.lat}" />
 					</hbox>
 					<hbox>
 						<label value="Longitude" />
-						<doublebox id="longitudeDb" value="@{deviceWin.selected.position.y}"/>
+						<doublebox id="longitudeDb" value="@{deviceWin.selected.lng}"/>
 					</hbox>
 					<hbox>
 						<gmaps id="gmap" showTypeCtrl="true"
-	                        showLargeCtrl="true" width="400px" height="200px" zoom="8" lat="@{deviceWin.selected.position.x}" lng="@{deviceWin.selected.position.y}">
-	                        <gmarker id="marker" draggable="true" lat="@{deviceWin.selected.position.x}" lng="@{deviceWin.selected.position.y}"></gmarker>
+	                        showLargeCtrl="true" width="400px" height="200px" zoom="8" lat="@{deviceWin.selected.lat}" lng="@{deviceWin.selected.lng}">
+	                        <gmarker id="marker" draggable="true" lat="@{deviceWin.selected.lat}" lng="@{deviceWin.selected.lng}"></gmarker>
 	                    </gmaps>
 					</hbox>
 				</vbox>

@@ -28,8 +28,6 @@
 	 org.springframework.web.context.request.RequestContextListener</listener-class>
 </listener>
 
-
-
  <!-- end Spring listeners -->
   <servlet>
   	<description>

@@ -4,74 +4,46 @@ import java.io.IOException;
 
 import org.snmp4j.CommandResponder;
 import org.snmp4j.CommandResponderEvent;
-import org.snmp4j.CommunityTarget;
 import org.snmp4j.MessageDispatcher;
 import org.snmp4j.MessageDispatcherImpl;
 import org.snmp4j.PDU;
 import org.snmp4j.Snmp;
 import org.snmp4j.mp.MPv1;
 import org.snmp4j.mp.MPv2c;
-import org.snmp4j.security.Priv3DES;
-import org.snmp4j.security.SecurityProtocols;
-import org.snmp4j.smi.Address;
-import org.snmp4j.smi.OctetString;
-import org.snmp4j.smi.TcpAddress;
 import org.snmp4j.smi.TransportIpAddress;
 import org.snmp4j.smi.UdpAddress;
 import org.snmp4j.transport.AbstractTransportMapping;
-import org.snmp4j.transport.DefaultTcpTransportMapping;
 import org.snmp4j.transport.DefaultUdpTransportMapping;
 import org.snmp4j.util.MultiThreadedMessageDispatcher;
 import org.snmp4j.util.ThreadPool;
 
+import org.pfc.snmp.ProcessAction;
+
 public class TrapReceiver implements CommandResponder {
-//	public static void main(String[] args) {
-//		TrapReceiver snmp4jTrapReceiver = new TrapReceiver();
-//		try {
-//			snmp4jTrapReceiver.listen(new UdpAddress("0.0.0.0/1162"));
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//	}
+
 	private ThreadPool threadPool;
 	private MessageDispatcher mDispathcher;
 	private Snmp snmp;
-	private Address listenAddress;
 	
-	public TrapReceiver(String ip, String port) {
-		super();
-
-		listenAddress=new UdpAddress(ip+"/"+port);
+	private String ipAddress;
+	private String port;
+	private ProcessAction processAction;
+	
+	public TrapReceiver(String ipAddress, String port, ProcessAction processAction) {
+		this.ipAddress = ipAddress;
+		this.port = port;
+		this.processAction = processAction;
+		
 	}
 	
-	public void start() {
-		try {
-			this.listen((TransportIpAddress) listenAddress);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}	
-	}
-	
-	public void stop() {
-		try {
-			snmp.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
 	/**
-	 * Trap Listener
+	 * Init Trap Listener
 	 */
-	public synchronized void listen(TransportIpAddress address) throws IOException {
-		AbstractTransportMapping transport;
-		if (address instanceof TcpAddress) {
-			transport = new DefaultTcpTransportMapping((TcpAddress) address);
-		} else {
-			transport = new DefaultUdpTransportMapping((UdpAddress) address);
-		}
-
+	public synchronized void init() throws IOException {
+		
+		TransportIpAddress address = new UdpAddress(ipAddress+"/"+port);
+		AbstractTransportMapping transport = new DefaultUdpTransportMapping((UdpAddress) address);
+	
 		threadPool = ThreadPool.create("DispatcherPool", 10);
 		mDispathcher = new MultiThreadedMessageDispatcher(threadPool, new MessageDispatcherImpl());
 
@@ -79,13 +51,13 @@ public class TrapReceiver implements CommandResponder {
 		mDispathcher.addMessageProcessingModel(new MPv1());
 		mDispathcher.addMessageProcessingModel(new MPv2c());
 
-		// add all security protocols
-		SecurityProtocols.getInstance().addDefaultProtocols();
-		SecurityProtocols.getInstance().addPrivacyProtocol(new Priv3DES());
-
-		// Create Target
-		CommunityTarget target = new CommunityTarget();
-		target.setCommunity(new OctetString("public"));
+//		// add all security protocols
+//		SecurityProtocols.getInstance().addDefaultProtocols();
+//		SecurityProtocols.getInstance().addPrivacyProtocol(new Priv3DES());
+//
+//		// Create Target
+//		CommunityTarget target = new CommunityTarget();
+//		target.setCommunity(new OctetString("public"));
 
 		snmp = new Snmp(mDispathcher, transport);
 		snmp.addCommandResponder(this);
@@ -107,6 +79,10 @@ public class TrapReceiver implements CommandResponder {
 			System.out.println("Trap Type = " + pdu.getType());
 			System.out.println("Variables = " + pdu.getVariableBindings());	
 			System.out.println("PDU = " + pdu.toString());	
+			
+			processAction.processPDUAction(cmdRespEvent.getPeerAddress().toString(),
+					PDU.getTypeString(pdu.getType()),pdu.getVariableBindings().toString(),pdu.toString());
+		
 		}
 	}	
 }

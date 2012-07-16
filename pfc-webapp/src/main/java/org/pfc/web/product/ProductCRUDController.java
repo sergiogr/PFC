@@ -10,10 +10,10 @@ import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Textbox;
 
-import org.pfc.business.mibobject.MibObject;
-import org.pfc.business.product.Product;
-import org.pfc.business.productservice.IProductService;
 import org.pfc.business.util.exceptions.InstanceNotFoundException;
+import org.pfc.business.webservice.IProductWebService;
+import org.pfc.business.webservice.MibObjectDTO;
+import org.pfc.business.webservice.ProductDTO;
 import org.pfc.web.widgets.duallistbox.DualListbox;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -29,6 +29,9 @@ public class ProductCRUDController extends GenericForwardComposer {
 	 * 
 	 */
 
+	private enum Action {CREATE, EDIT};
+
+	private Action action;
 	private Listbox productList;
 	private Grid productForm;
 	private Textbox name;
@@ -36,44 +39,53 @@ public class ProductCRUDController extends GenericForwardComposer {
 	private Textbox description;
 	private DualListbox dualLBox;
 		
-	private Product current = new Product();
-	private Product newProd;
+	private ProductDTO current = new ProductDTO();
+	private ProductDTO newProd;
 	
 	@Autowired
-	private IProductService productService;
+	private IProductWebService productWSClient;
 	
-	public Product getCurrent() {
+	public ProductDTO getCurrent() {
 		return current;
 	}
 	
-	public void setCurrent(Product current) {
+	public void setCurrent(ProductDTO current) {
 		this.current = current;
+	}
+	
+	public Action getAction() {
+		return action;
+	}
+
+	public void setAction(Action action) {
+		this.action = action;
 	}
 	
 	@Override
 	public void doAfterCompose(Component comp) throws Exception {
 		super.doAfterCompose(comp);
-		System.out.println("*** Products size"+productService.findAllProducts().size());
-		dualLBox.setModel(new ListModelList(productService.findAllMibObjects()));
+		System.out.println("*** Products size"+productWSClient.findAllProducts().getProductDTOs().size());
+		dualLBox.setModel(new ListModelList(productWSClient.findAllMibObjects().getMibObjectDTOs()));
 		dualLBox.setRenderer(new MibObjectDualListitemRenderer());
 		productForm.setVisible(false);
 	}
 	
-	public List<Product> getProducts() {
-		return productService.findAllProducts();
+	public List<ProductDTO> getProducts() {
+		return productWSClient.findAllProducts().getProductDTOs();
 	}
 	
 	public void onClick$addProduct() {
+		this.setAction(Action.CREATE);
 		goToAddForm();
 	}
 	
 	public void onClick$addTestData() {
-		productService.createProduct(new Product("MP.11 5054-R", "Estación base WiMax Tsunami MP.11 5054-R", "Proxim"));
-		productService.createProduct(new Product("MP.11 5054-SUI", "Estación suscriptora WiMax Tsunami MP.11 5054-SUI", "Proxim"));
-		productService.createProduct(new Product("AP-700", "Punto de acceso Wifi", "Proxim"));
-		productService.createProduct(new Product("AP-4000", "Punto de acceso Wifi", "Proxim"));
-		productService.createProduct(new Product("AP-4000MR", "Punto de acceso Wifi Mesh", "Proxim"));
-		
+		productWSClient.createProduct(new ProductDTO(null,"MP.11 5054-RS", "Estación base WiMax", "Proxim"),null);	
+		productWSClient.createProduct(new ProductDTO(null,"MP.11 5054-R", "Estación base WiMax Tsunami MP.11 5054-R", "Proxim"),null);
+		productWSClient.createProduct(new ProductDTO(null,"MP.11 5054-SUI", "Estación suscriptora WiMax Tsunami MP.11 5054-SUI", "Proxim"),null);
+		productWSClient.createProduct(new ProductDTO(null,"AP-700", "Punto de acceso Wifi", "Proxim"),null);
+		productWSClient.createProduct(new ProductDTO(null,"AP-4000", "Punto de acceso Wifi", "Proxim"),null);
+		productWSClient.createProduct(new ProductDTO(null,"AP-4000MR", "Punto de acceso Wifi Mesh", "Proxim"),null);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -81,21 +93,31 @@ public class ProductCRUDController extends GenericForwardComposer {
 		newProd.setProductName(name.getValue());
 		newProd.setManufacturer(manufacturer.getValue());
 		newProd.setDescription(description.getValue());
-		//newProd.setMibObjects((Set<MibObject>) dualLBox.getChosenDataList());
 		
-		productService.createProduct(newProd);
-		
-		for (MibObject mo: (List<MibObject>) dualLBox.getChosenDataList()) {
-
+		if (this.getAction() == Action.CREATE) {
+			productWSClient.createProduct(newProd, dualLBox.getChosenDataList());
+		}
+		else if (this.getAction() == Action.EDIT) {
 			try {
-				productService.assignMibObjectToProduct(mo.getMibObjectId(), newProd.getProductId());
+				productWSClient.updateProduct(newProd, dualLBox.getChosenDataList());
 			} catch (InstanceNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
 		}
-		
+
+//		productWebService.createProduct(new ProductDTO(null,name.getValue(),description.getValue(),manufacturer.getValue()));
+
+//		for (MibObjectDTO mo: (List<MibObjectDTO>) dualLBox.getChosenDataList()) {
+//
+//			try {
+//				productWebService.assignMibObjectToProduct(mo.getMibObjectId(), newProd.getProductId());
+//			} catch (InstanceNotFoundException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		}
+//		
 		goToList();
 	}
 	
@@ -104,7 +126,7 @@ public class ProductCRUDController extends GenericForwardComposer {
 	}
 	
 	private void goToAddForm() {
-		newProd = new Product();
+		newProd = new ProductDTO();
 		
 		productList.setVisible(false);
 		productForm.setVisible(true);
@@ -112,12 +134,12 @@ public class ProductCRUDController extends GenericForwardComposer {
 	
 	private void goToEditForm() {
 		newProd = current;
-		List<MibObject>	chosen = new ArrayList<MibObject>();
+		List<MibObjectDTO>	chosen = new ArrayList<MibObjectDTO>();
 		
-		for (MibObject mo : productService.findMibObjectsByProductId(current.getProductId())) {
+		for (MibObjectDTO mo : productWSClient.findMibObjectsByProductId(current.getProductId()).getMibObjectDTOs()) {
 			chosen.add(mo);
 		}
-		List<MibObject> candidate = productService.findAllMibObjects();
+		List<MibObjectDTO> candidate = productWSClient.findAllMibObjects().getMibObjectDTOs();
 		dualLBox.setModel(candidate, chosen);
 		
 		name.setValue(current.getProductName());
@@ -142,7 +164,7 @@ public class ProductCRUDController extends GenericForwardComposer {
 		try {
 			if (current.getProductId() != null) {
 			
-				productService.removeProduct(current.getProductId());
+				productWSClient.removeProduct(current.getProductId());
 				current.setProductId(null);
 			}
 			else {
@@ -156,6 +178,7 @@ public class ProductCRUDController extends GenericForwardComposer {
 	public void onClick$editProduct() {
 		
 		if (current.getProductId() != null) {
+			this.setAction(Action.EDIT);
 			goToEditForm();
 		}
 		else {

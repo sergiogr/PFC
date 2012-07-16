@@ -3,10 +3,10 @@ package org.pfc.web.map;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.pfc.business.device.Device;
-import org.pfc.business.deviceservice.IDeviceService;
 import org.pfc.business.mibobject.MibObject;
 import org.pfc.business.util.exceptions.InstanceNotFoundException;
+import org.pfc.business.webservice.DeviceDTO;
+import org.pfc.business.webservice.IDeviceWebService;
 import org.pfc.snmp.SnmpResponse;
 import org.pfc.snmp.SnmpService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,17 +37,17 @@ public class MapViewController extends GenericForwardComposer {
 	private Rows snmpRows;
 	
 	@Autowired
-	private IDeviceService deviceService; 
+	private IDeviceWebService deviceWSClient; 
 		
 	@Override
 	public void doAfterCompose(Component comp) throws Exception {
 		super.doAfterCompose(comp);
 
-		List<Device> devices = deviceService.findAllDevice();
+		List<DeviceDTO> devices = deviceWSClient.findAllDevice().getDeviceDTOs();
 		mapModelList = new MapModelList();
 
-		for (Device d:devices) {
-			Gmarker marker = new Gmarker(d.getDeviceName().toString(),d.getPosition().getX(), d.getPosition().getY());
+		for (DeviceDTO d:devices) {
+			Gmarker marker = new Gmarker(d.getDeviceName().toString(),d.getLat(), d.getLng());
 			marker.setOpen(false);
 			marker.setDraggingEnabled(false);
 			mapModelList.add(marker);
@@ -66,16 +66,16 @@ public class MapViewController extends GenericForwardComposer {
 
 			Gmarker marker = mme.getGmarker();
 
-			Device dev;
+			DeviceDTO dev;
 			try {
-				dev = deviceService.findDeviceByName(marker.getContent());
+				dev = deviceWSClient.findDeviceByName(marker.getContent());
 				deviceNameLbl.setValue(dev.getDeviceName());
 				descriptionLbl.setValue(dev.getDescription());
 				ipAddressLbl.setValue(dev.getIpAddress());
-				latitudeLbl.setValue(((Double) dev.getPosition().getX()).toString());
-				longitudeLbl.setValue(((Double) dev.getPosition().getY()).toString());
+				latitudeLbl.setValue(((Double) dev.getLat()).toString());
+				longitudeLbl.setValue(((Double) dev.getLng()).toString());
 				
-				List<MibObject> mos = deviceService.getMibObjects(dev.getDeviceId());
+				List<MibObject> mos = deviceWSClient.getMibObjects(dev.getDeviceId());
 				snmpGrid.getRows().getChildren().clear();
 				
 				if ((mos != null)&&(!mos.isEmpty())) {

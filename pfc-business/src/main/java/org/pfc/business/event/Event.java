@@ -24,7 +24,9 @@ public class Event {
 	private String variables;
 	private String pdu;
 	private Device device;
-	
+
+    public Event() {}
+    
 	public Event(String ipSource, Calendar date, String trapType,
 			String variables, String pdu, Device device) {
 		this.ipSource = ipSource;
@@ -95,9 +97,6 @@ public class Event {
 	public void setDevice(Device device) {
 		this.device = device;
 	}
-	
-	
-	
-	
+		
 
 }

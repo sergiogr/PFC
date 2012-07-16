@@ -8,5 +8,5 @@ public interface IDataService {
 
 	public void addNewData(Data data);
 	
-	public List<DataInfo> findDataByDeviceId(Long deviceId);
+	public List<Data> findDataByDeviceId(Long deviceId);
 }

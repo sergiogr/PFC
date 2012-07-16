@@ -48,10 +48,7 @@ public class DeviceService implements IDeviceService {
     	Device dev = deviceDao.find(device.getDeviceId());
     	if (!dev.getDeviceName().equals(device.getDeviceName())) {
     		try {
-    			System.out.println(dev.getDeviceName());
-    			System.out.println(device.getDeviceName());
-
-    			deviceDao.getDeviceByName(device.getDeviceName());
+       			deviceDao.getDeviceByName(device.getDeviceName());
     			throw new DuplicateInstanceException(device.getDeviceName(), Device.class.getName());
     		} catch (InstanceNotFoundException e) {
     			dev.setDeviceName(device.getDeviceName());
