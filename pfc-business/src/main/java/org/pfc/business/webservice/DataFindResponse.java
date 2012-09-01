@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlRootElement(name = "DataFindFindResponse", namespace="http://webservice.business.pfc.org/" )
+@XmlRootElement(name = "DataFindResponse", namespace="http://webservice.business.pfc.org/" )
 public class DataFindResponse {
 	
 	@XmlElementWrapper(name="dataDTOs")

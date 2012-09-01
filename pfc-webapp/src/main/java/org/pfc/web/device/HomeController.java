@@ -176,8 +176,8 @@ public class HomeController extends GenericForwardComposer {
 		
 		int n = 5;
 		for (int i=1; i<=n; i++) {
-			double x = map.getLat() + Math.random() % 0.02;
-			double y = map.getLng() + Math.random() % 0.02;
+			double x = map.getLat() + Math.random() % 0.1;
+			double y = map.getLng() + Math.random() % 0.1;
 			GeometryFactory geom = new GeometryFactory();
 	        Point pos = geom.createPoint(new Coordinate(x, y));
 			Device d = new Device("AP"+i,"AP de prueba "+i,"127.0.0.1","public","161",

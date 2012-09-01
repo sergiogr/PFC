@@ -1,12 +1,9 @@
 package org.pfc.business.webservice;
 
-import java.util.List;
-
 import javax.jws.WebMethod;
 import javax.jws.WebResult;
 import javax.jws.WebService;
 
-import org.pfc.business.mibobject.MibObject;
 import org.pfc.business.util.exceptions.DuplicateInstanceException;
 import org.pfc.business.util.exceptions.InstanceNotFoundException;
 
@@ -27,11 +24,36 @@ public interface IDeviceWebService {
 
 	@WebMethod
 	public DeviceDTO findDeviceByName(String deviceName) throws InstanceNotFoundException;
+	
+	@WebMethod
+	public DevicesFindResponse findDevicesByArea(double lat1, double lng1, double lat2, double lng2);
 
 	@WebMethod(operationName = "findAllDevice")
 	@WebResult(name = "DevicesFindResponse", targetNamespace="http://webservice.business.pfc.org/" )
 	public DevicesFindResponse findAllDevice();
+	
+	@WebMethod
+	public ProjectDTO createProject(ProjectDTO project);
+	
+	@WebMethod
+	public ProjectDTO findProject(Long projectId) throws InstanceNotFoundException;
 
+	@WebMethod
+	public void removeProject(Long projectId) throws InstanceNotFoundException;
+	
+	@WebMethod
+	public void updateProject(ProjectDTO projectDTO) throws InstanceNotFoundException;
+
+	@WebMethod(operationName = "findAllProjects")
+	@WebResult(name = "ProjectsFindResponse", targetNamespace="http://webservice.business.pfc.org/" )
+	public ProjectsFindResponse findAllProjects();
+	
+	@WebMethod
+	public void addDeviceToProject(DeviceDTO device, ProjectDTO project) throws InstanceNotFoundException;
+
+	@WebMethod
+	public void delDeviceFromProject(DeviceDTO device) throws InstanceNotFoundException;
+	
 //	
 //	public void updateDevice(Device device) throws InstanceNotFoundException,DuplicateInstanceException;
 //		
@@ -39,9 +61,10 @@ public interface IDeviceWebService {
 //	
 //	public List<Device> findAllDevice();
 //	
-	@WebMethod
-	public List<MibObject> getMibObjects(Long deviceId) throws InstanceNotFoundException;
+//	@WebMethod
+//	public MibObjectsFindResponse getMibObjects(Long deviceId) throws InstanceNotFoundException;
 //    
 //    public Device findDeviceByName(String deviceName) throws InstanceNotFoundException;
+
 
 }

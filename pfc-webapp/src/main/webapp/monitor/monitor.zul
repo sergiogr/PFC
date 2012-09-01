@@ -3,12 +3,12 @@
 <?init class="org.zkoss.zk.ui.util.Composition" arg0="/common/layout/template.zul"?>
 <?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
 <zk>
-<window self="@{define(content)}" id="monitorWin" title="Monitor" border="normal" apply="org.pfc.web.monitor.MonitorController">
-
-<label id="monitorStatus" />
-<hbox>
-<vbox>
-<listbox id="deviceLb" mold="paging" rows="15" pageSize="15" model="@{monitorWin$composer.devices }">
+<window self="@{define(content)}" id="monitorWin" border="normal" apply="org.pfc.web.monitor.MonitorController" width="100%" height="100%">
+<borderlayout width="100%" height="100%" > 
+<west width="25%">
+<panel title="Devices list" width="100%" height="100%" border="normal" hflex="1">
+    <panelchildren>
+		<listbox id="deviceLb" width="100%" height="100%" mold="paging" model="@{monitorWin.devices }" emptyMessage="There is no device" >
 		<listhead>
 			<listheader label="Name" />
 			<listheader label="Description" />
@@ -20,22 +20,42 @@
 			<listcell label="@{device.ipAddress}" />
 		</listitem>
 </listbox>
-</vbox>
-<listbox id="dataLb" mold="paging" rows="15" pageSize="15" model="@{monitorWin$composer.data, load-after='deviceLb.onSelect'}">
-	<listhead>
-		<listheader label="Data" />
-		<listheader label="Value" />
-		<listheader label="Date" />
-	</listhead>
-	<listitem self="@{each=data}" value="@{data}">
-		<listcell label="@{data.mibObjectName}" />
-		<listcell label="@{data.value}" />
-		<listcell label="@{data.date.Time}" />
-	</listitem>
-</listbox>
-<vbox>
-</vbox>
-</hbox>
-
+</panelchildren>
+</panel>
+</west>
+<center>
+<borderlayout>
+    <north height="50%" >
+		<panel title="Last data" border="normal" width="100%" height="100%" hflex="1">
+    		<panelchildren>
+				<grid id="dataGrid" mold="paging" width="100%" emptyMessage="There is no data from this device.">
+					<columns>
+						<column label="Data" width="30%"/>
+						<column label="Value" />
+						<column label="Date" />
+						<column label="Action" />
+					</columns>	
+					<rows id="dataRows" />
+				</grid>
+			</panelchildren>
+		</panel>
+		</north>
+		<center>
+		<panel title="History" border="normal" width="100%" height="100%" hflex="1">
+			<panelchildren>
+				<grid id="historyGrid" mold="paging" height="100%" >
+					<columns>
+						<column label="Data" width="30%"/>
+						<column label="Value" />
+						<column label="Date" />
+					</columns>	
+					<rows id="historyRows" />
+				</grid>		
+			</panelchildren>
+		</panel>
+		</center>
+		</borderlayout>
+</center>
+</borderlayout>
 </window>
 </zk>

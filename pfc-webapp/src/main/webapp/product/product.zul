@@ -6,7 +6,7 @@
 <zk>
 	<window self="@{define(content)}" id="productWin" apply="org.pfc.web.product.ProductCRUDController">
 		
-		<listbox id="productList" width="1170px" mold="paging" model="@{productWin$composer.products, load-after='save.onClick, delProduct.onClick, addTestData.onClick' }" selectedItem="@{productWin$composer.current}">
+		<listbox id="productList" width="1170px" mold="paging" model="@{productWin$composer.products, load-after='save.onClick, delProduct.onClick, addTestData.onClick' }" selectedItem="@{productWin$composer.current}"  emptyMessage="No product found">
 			<listhead sizable="true">
 				<listheader label="Name" />
 				<listheader label="Manufacturer" />

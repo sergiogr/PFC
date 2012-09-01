@@ -29,7 +29,7 @@ public class DualListbox extends Div implements IdSpace {
 	private ListModelList chosenDataModel;
 	
 	public DualListbox() {
-		Executions.createComponents("/widgets/listbox/dual_listbox/v_duallistbox.zul", this, null);
+		Executions.createComponents("/common/widgets/dual_listbox/v_duallistbox.zul", this, null);
 		Components.wireVariables(this, this);
 		Components.addForwards(this, this);
 		chosenLb.setModel(chosenDataModel = new ListModelList());

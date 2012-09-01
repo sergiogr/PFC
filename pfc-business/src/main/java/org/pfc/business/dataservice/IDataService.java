@@ -9,4 +9,9 @@ public interface IDataService {
 	public void addNewData(Data data);
 	
 	public List<Data> findDataByDeviceId(Long deviceId);
+	
+	public List<Data> findDataByDeviceIdAndMibObjectId(Long deviceId, Long mibObjectId);
+	
+	public Data getMostRecentValue(Long deviceId, Long mibObjectId);
+	
 }

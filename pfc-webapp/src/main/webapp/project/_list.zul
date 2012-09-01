@@ -1,0 +1,21 @@
+<window id="${arg.top_id}" title="Projects list" >
+
+	<listbox id="projectLb" mold="paging" model="@{controller.projects, load-after='../editWin.onSave,delProject.onClick'}" selectedItem="@{controller.selected}" emptyMessage="No project found">
+			<listhead sizable="true">
+				<listheader label="Name" />
+				<listheader label="Description" />
+			</listhead>
+            <listitem self="@{each=project}" value="@{project}" >
+                <listcell label="@{project.projectName}" />                 
+                <listcell label="@{project.description}" />                 
+            </listitem>
+			<listfoot>
+				<listfooter>
+					<button id="addProject" label="Add" onClick="controller.addProject();" />
+					<button id="delProject" label="Remove" onClick="controller.remove();" />
+					<button id="editProject" label="Edit" onClick="controller.edit();" />
+				</listfooter>
+			</listfoot>
+	</listbox>
+
+</window>

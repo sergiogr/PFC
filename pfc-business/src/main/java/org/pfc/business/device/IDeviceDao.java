@@ -18,6 +18,22 @@ public interface IDeviceDao extends IGenericDao<Device, Long> {
 	 */
 	public List<Device> getAllDevices();
 	
+	/**
+	 * 
+	 * @param deviceName
+	 * @return
+	 * @throws InstanceNotFoundException
+	 */
 	public Device getDeviceByName(String deviceName) throws InstanceNotFoundException;
 	
+
+	/**
+	 * 
+	 * @param lat1
+	 * @param lng1
+	 * @param lat2
+	 * @param lng2
+	 * @return
+	 */
+	public List<Device> getDevicesByArea(double lat1, double lng1, double lat2, double lng2);
 }

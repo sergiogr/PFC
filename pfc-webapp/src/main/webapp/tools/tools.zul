@@ -1,0 +1,135 @@
+<?page title="Tools" ?>
+<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" ?>
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="/common/layout/template.zul"?>
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+<zk>
+
+<window self="@{define(content)}" id="toolsWin" apply="org.pfc.web.tools.ToolsController" sizable="true">
+	<vbox width="100%" height="100%" align="start">
+	<groupbox id="pingGb" action="show: slideDown" visible="true">
+    	<caption label="Ping check"/>
+    	<hbox>
+    		<vbox>
+		    	IP Address/Host: <textbox id="ipAddressPing" cols="20"/>
+    		</vbox>
+    		<vbox>
+		    	<button id="pingBtn" label="Ping" width="100px" height="40px"/>     	
+			</vbox>
+			<vbox>
+		    	<button id="clearPingBtn" label="Clear" width="100px" height="40px"/>     	
+			</vbox>
+		</hbox>
+		<hbox>
+			<listbox id="pingLb" visible="false"/>
+		</hbox>
+    </groupbox>
+    <space />
+	<groupbox id="snmpGetGb" action="show: slideDown" visible="true">
+    	<caption label="SNMP Get Query"/>
+    	<hbox>
+    		<vbox>
+		    	IP Address/Host: <textbox id="ipAddressGet" cols="20"/>
+    		</vbox>
+    		<vbox>
+    			Port: <textbox id="portGet" value="161" cols="5"/>
+    		</vbox>
+    		<vbox>
+    			Community: <textbox id="communityGet" value="public" cols="10"/>
+    		</vbox>
+    		<vbox>
+    			OID: <textbox id="oidGet" cols="60"/>
+    		</vbox>
+    		<vbox>
+		    	<button id="snmpGetBtn" label="SNMP Get" width="100px" height="40px"/>     	
+			</vbox>
+			<vbox>
+		    	<button id="clearGetBtn" label="Clear" width="100px" height="40px"/>     	
+			</vbox>
+		</hbox>
+		<hbox>
+			<label id="snmpGetLbl" />
+		</hbox>
+    </groupbox>
+    <space />
+    <groupbox id="snmpGetNextGb" action="show: slideDown" visible="true">
+    	<caption label="SNMP Get Next Query"/>
+    	<hbox>
+    		<vbox>
+		    	IP Address/Host: <textbox id="ipAddressGetNext" cols="20"/>
+    		</vbox>
+    		<vbox>
+    			Port: <textbox id="portGetNext" value="161" cols="5"/>
+    		</vbox>
+    		<vbox>
+    			Community: <textbox id="communityGetNext" value="public" cols="10"/>
+    		</vbox>
+    		<vbox>
+    			OID: <textbox id="oidGetNext" cols="60"/>
+    		</vbox>
+    		<vbox>
+		    	<button id="snmpGetNextBtn" label="SNMP Get Next" width="100px" height="40px"/>     	
+			</vbox>
+			<vbox>
+		    	<button id="clearGetNextBtn" label="Clear" width="100px" height="40px"/>     	
+			</vbox>
+		</hbox>
+		<hbox>
+			<label id="snmpGetNextLbl" />
+		</hbox>
+    </groupbox>
+    <space />
+    <groupbox id="snmpWalkGb"  action="show: slideDown" visible="true">
+    	<caption label="SNMP Walk Query"/>
+    	<hbox>
+    		<vbox>
+		    	IP Address/Host: <textbox id="ipAddressWalk" cols="20"/>
+    		</vbox>
+    		<vbox>
+    			Port: <textbox id="portWalk" value="161" cols="5"/>
+    		</vbox>
+    		<vbox>
+    			Community: <textbox id="communityWalk" value="public" cols="10"/>
+    		</vbox>
+    		<vbox>
+    			OID: <textbox id="oidWalk" cols="60"/>
+    		</vbox>
+    		<vbox>
+		    	<button id="snmpWalkBtn" label="SNMP Walk" width="100px" height="40px"/>     	
+			</vbox>
+			<vbox>
+		    	<button id="clearWalkBtn" label="Clear" width="100px" height="40px"/>     	
+			</vbox>
+    	</hbox>
+    	<hbox>
+			<listbox id="snmpWalkLb" rows="20" visible="false">
+				<listitem self="@{each='snmpResponse'}" value="@{snmpResponse}">
+						<listcell label="@{snmpResponse.oid}" />
+						<listcell label="@{snmpResponse.value}" />
+				</listitem>
+			</listbox>
+		</hbox>
+    </groupbox>
+    <space />
+    
+<!-- <groupbox id="findDevicesGb"  action="show: slideDown" visible="true">
+    	<caption label="Find Devices by Area"/>
+    	<hbox>
+    		<vbox>
+		    	Area <textbox id="area" cols="30"/>
+    		</vbox>
+			<vbox>
+		    	<button id="findDevicesBtn" label="Search" width="100px" height="40px"/>     	
+			</vbox>
+    	</hbox> 
+    	<hbox>
+			<listbox id="devicesLb" rows="20" visible="true">
+				<listitem self="@{each='device'}" value="@{device}">
+						<listcell label="@{device.deviceName}" />
+						<listcell label="@{device.description}" />
+				</listitem>
+			</listbox>
+		</hbox>
+ </groupbox> -->
+ </vbox>
+</window>
+</zk>

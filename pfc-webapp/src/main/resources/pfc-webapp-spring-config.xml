@@ -25,6 +25,10 @@
     <jaxws:client id="deviceWSClient" name="deviceWSClient"
     	serviceClass="org.pfc.business.webservice.IDeviceWebService"
     	address="http://localhost:8080/pfc-business/DeviceWS" /> 
+    	
+    <jaxws:client id="dataWSClient" name="dataWSClient" 
+    	serviceClass="org.pfc.business.webservice.IDataWebService"
+    	address="http://localhost:8080/pfc-business/DataWS" /> 
     
     <jaxws:client id="eventWSClient" name="eventWSClient"
     	serviceClass="org.pfc.business.webservice.IEventWebService"

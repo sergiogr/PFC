@@ -17,14 +17,14 @@ public class DeviceDTO {
      private double lat;
      private double lng;
      private Long productId;
+     private Long projectId;
      
      public DeviceDTO() {
     	 
      }
 
 	public DeviceDTO(Long deviceId, String deviceName, String description, String ipAddress,
-			String publicCommunity, String snmpPort, double lat, double lng,
-			Long productId) {
+			String publicCommunity, String snmpPort, double lat, double lng) {
 		this.deviceId = deviceId;
 		this.deviceName = deviceName;
 		this.description = description;
@@ -33,7 +33,7 @@ public class DeviceDTO {
 		this.snmpPort = snmpPort;
 		this.lat = lat;
 		this.lng = lng;
-		this.productId = productId;
+
 	}
 
 	public Long getDeviceId() {
@@ -106,6 +106,15 @@ public class DeviceDTO {
 
 	public void setProductId(Long productId) {
 		this.productId = productId;
+	}
+
+	public Long getProjectId() {
+		return projectId;
+	}
+
+	public void setProjectId(Long projectId) {
+		this.projectId = projectId;
 	}  
      
+	
 }

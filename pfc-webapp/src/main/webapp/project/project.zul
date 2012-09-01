@@ -1,0 +1,12 @@
+<?page title="Gestión de Proyectos" ?>
+<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" ?>
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="/common/layout/template.zul"?>
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+<?component name="list" inline="true" macroURI="_list.zul"?>
+<?component name="edit" inline="true" macroURI="_edit.zul"?>
+<zk>
+	<window self="@{define(content)}" id="projectWin" apply="org.pfc.web.project.ProjectCRUDController" >
+		<list top_id="listWin" />
+		<edit top_id="editWin" />
+	</window>
+</zk>

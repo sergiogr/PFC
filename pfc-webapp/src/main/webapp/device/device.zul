@@ -6,7 +6,7 @@
 <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAnfs7bKE82qgb3Zc2YyS-oBT2yXp_ZAY8_ufC3CFXhHIE1NvwkxSySz_REpPq-4WZA27OwgbtyR3VcA"
     type="text/javascript"></script>
 <window self="@{define(content)}" id="deviceWin" apply="org.pfc.web.device.DeviceCRUDController" width="100%">
-	<listbox id="deviceLb" width="1170px" model="@{deviceWin.model, load-after='deleteDeviceBtn.onClick, saveBtn.onClick, cancelBtn.onClick, addTestData.onClick' }" selectedItem="@{deviceWin.selected}">
+	<listbox id="deviceLb" width="1170px" model="@{deviceWin.devices, load-after='deleteDeviceBtn.onClick, saveBtn.onClick, cancelBtn.onClick, addTestData.onClick' }" selectedItem="@{deviceWin.selected}"  emptyMessage="No device found">
 		<listhead>
 			<listheader label="Name" />
 			<listheader label="Description" />
@@ -29,49 +29,58 @@
 	<grid id="deviceForm" width="1170px" visible="false" >
 		<rows>
 			<row>
+				<label value="Project Name" />
+				<hbox>
+				<label id="projectName" />
+				<listbox id="projectLb" mold="select" model="@{deviceWin.projectModel}" selectedItem="@{deviceWin.selectedProj}">
+					<listitem self="@{each=project}" value="@{project}" >
+						<listcell label="@{project.projectName}" />
+					</listitem>
+				</listbox>
+				</hbox>
+			</row>
+			<row>
 				<label value="Device Name" />
-				<textbox id="deviceNameTb" value="@{deviceWin.selected.deviceName,save-when=none}" />
+				<textbox id="deviceNameTb"  />
 			</row>
 			<row>
 				<label value="Description" />
-				<textbox id="descriptionTb" value="@{deviceWin.selected.description}" />
+				<textbox id="descriptionTb" />
 			</row>
 			<row>
 				<label value="Product" />
 				<listbox id="productLb" mold="select" model="@{deviceWin.productModel}" selectedItem="@{deviceWin.selectedProd}" >
-					<listitem self="@{each=product}" value="@{product}" >
-						<listcell label="@{product.productName}" />
-					</listitem>
+					<listitem self="@{each=product}" value="@{product}" label="@{product.productName}" />
 				</listbox>
 			</row>
 		 
 			<row>
 				<label value="IP Address" /> 
-				<textbox id="ipAddressTb" value="@{deviceWin.selected.ipAddress,save-when=none}" />
+				<textbox id="ipAddressTb" />
 			</row>
 			<row>
 				<label value="Public Community" />
-				<textbox id="pubCommunityTb" type="password" value="@{deviceWin.selected.publicCommunity}" />
+				<textbox id="pubCommunityTb" type="password" />
 			</row>
 			<row>
 				<label value="SNMP port" />
-				<textbox id="snmpPortTb" value="@{deviceWin.selected.snmpPort}" />
+				<textbox id="snmpPortTb" />
 			</row>
 			<row>
 				<label value="Position" />
 				<vbox>
 					<hbox>
 						<label value="Latitude" />
-						<doublebox id="latitudeDb"  value="@{deviceWin.selected.lat}" />
+						<doublebox id="latitudeDb" constraint="no empty" />
 					</hbox>
 					<hbox>
 						<label value="Longitude" />
-						<doublebox id="longitudeDb" value="@{deviceWin.selected.lng}"/>
+						<doublebox id="longitudeDb" constraint="no empty" />
 					</hbox>
 					<hbox>
 						<gmaps id="gmap" showTypeCtrl="true"
-	                        showLargeCtrl="true" width="400px" height="200px" zoom="8" lat="@{deviceWin.selected.lat}" lng="@{deviceWin.selected.lng}">
-	                        <gmarker id="marker" draggable="true" lat="@{deviceWin.selected.lat}" lng="@{deviceWin.selected.lng}"></gmarker>
+	                        showLargeCtrl="true" width="400px" height="200px" zoom="8" >
+	                        <gmarker id="marker" draggable="true" ></gmarker>
 	                    </gmaps>
 					</hbox>
 				</vbox>

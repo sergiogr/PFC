@@ -25,14 +25,17 @@ public class DataService implements IDataService{
 	public List<Data> findDataByDeviceId(Long deviceId) {
 		return dataDao.findDataByDeviceId(deviceId);
 	}
+
+	@Transactional
+	public List<Data> findDataByDeviceIdAndMibObjectId(Long deviceId,
+			Long mibObjectId) {
+		return dataDao.findDataByDeviceIdAndMibObjectId(deviceId, mibObjectId);
+	}
+
+	@Transactional
+	public Data getMostRecentValue(Long deviceId, Long mibObjectId) {
+
+		return dataDao.getMostRecentValue(deviceId, mibObjectId);
+	}
 	
-//	private List<DataInfo> toDataInfos(List<Data> data) {
-//		List<DataInfo> dataInfos = new ArrayList<DataInfo>();
-//		
-//		for (Data d : data) {
-//			dataInfos.add(new DataInfo(d.getMibObject().getMibObjectName(),
-//					d.getValue(), d.getDate()));
-//		}
-//		return dataInfos;		
-//	}
 }

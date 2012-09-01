@@ -46,6 +46,8 @@ public class SnmpService implements ISnmpService {
 			ResponseEvent response = snmp.get(pdu, target);
 			
 			if(response != null) {
+				System.out.println(response.toString());
+				System.out.println(response.getResponse().toString());
 				if(response.getResponse().getErrorStatusText().equalsIgnoreCase("Success")) {
 					PDU pduresponse=response.getResponse();
 					str=pduresponse.getVariableBindings().firstElement().toString();
@@ -62,7 +64,10 @@ public class SnmpService implements ISnmpService {
 			
 			snmp.close();
 			
-		} catch(Exception e) { e.printStackTrace(); }
+		} catch(Exception e) { 
+			e.printStackTrace();
+			
+		}
 			
 		return str;
 		
@@ -197,6 +202,106 @@ public class SnmpService implements ISnmpService {
 		}
 		
 		return responseList;
+	}
+
+	@Override
+	public String snmpGetNext(String community, String address, String port,
+			String oid) {
+		
+		String str = "";
+		
+		try {
+
+			Address targetAddress = new UdpAddress(address + "/" + port);
+			TransportMapping transport = new DefaultUdpTransportMapping();
+			//transport.listen();
+		
+			CommunityTarget target = new CommunityTarget();
+			target.setCommunity(new OctetString(community));
+			target.setVersion(SnmpConstants.version2c);
+			target.setAddress(targetAddress);
+			target.setRetries(1);
+			target.setTimeout(1800);
+
+			Snmp snmp = new Snmp(transport);
+			snmp.listen();
+			PDU pdu = new PDU();
+			pdu.add(new VariableBinding(new OID(oid)));
+			pdu.setType(PDU.GETNEXT);
+            pdu.setNonRepeaters(0);
+
+			System.out.println(pdu.toString());
+
+			ResponseEvent response = snmp.getNext(pdu, target);
+			
+			if(response != null) {
+				PDU responsePDU = response.getResponse();
+				System.out.println(responsePDU.toString());
+
+				if(responsePDU.getErrorStatusText().equalsIgnoreCase("Success")) {
+					
+					str=responsePDU.get(0).getVariable().toString();
+					
+				}
+			}
+			else {
+				System.out.println("Feeling like a TimeOut occured ");
+			}
+			
+			snmp.close();
+			
+		} catch(Exception e) { 
+			e.printStackTrace();
+			
+		}
+			
+		return str;
+	}
+	
+	public List<SnmpResponse> snmpWalk(String community, String address, String port, String oid) {
+		
+		List<SnmpResponse> snmpResponse = new ArrayList<SnmpResponse>();
+		try {
+
+			Address targetAddress = new UdpAddress(address + "/" + port);
+			TransportMapping transport = new DefaultUdpTransportMapping();
+			transport.listen();
+		
+			CommunityTarget target = new CommunityTarget();
+			target.setCommunity(new OctetString(community));
+			target.setVersion(SnmpConstants.version2c);
+			target.setAddress(targetAddress);
+			target.setRetries(1);
+			target.setTimeout(3600);
+            
+			Snmp snmp = new Snmp(transport);
+			PDU pdu = new PDU();
+			pdu.add(new VariableBinding(new OID(oid)));
+			pdu.setType(PDU.GETBULK);
+            pdu.setNonRepeaters(0);
+            pdu.setMaxRepetitions(100);
+
+			System.out.println(pdu.toString());
+
+			ResponseEvent response = snmp.getBulk(pdu, target);
+			
+			if(response != null) {
+				PDU responsePDU = response.getResponse();
+				System.out.println(responsePDU.toString());
+				System.out.println(responsePDU.getVariableBindings().toString());
+
+				for (int i=0; i<response.getResponse().size();i++) {
+					snmpResponse.add(new SnmpResponse(response.getResponse().get(i).getOid().toString(),
+							response.getResponse().get(i).getVariable().toString(),Calendar.getInstance()));
+				}
+			}
+			else {
+				System.out.println("Feeling like a TimeOut occured ");
+			}
+			
+		} catch(Exception e) { e.printStackTrace(); }
+	
+		return snmpResponse;
 	}
 	
 	

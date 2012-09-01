@@ -44,23 +44,53 @@ public class DataWebService implements IDataWebService {
 	@Override
 	public DataFindResponse findDataByDeviceId(Long deviceId) {
 
-		return new DataFindResponse(toDataDTOs(dataService.findDataByDeviceId(deviceId)));
+		List<Data> data = dataService.findDataByDeviceId(deviceId); 
+		List<DataDTO> dataDTO = new ArrayList<DataDTO>();
 		
-	}
-	
-	private List<DataDTO> toDataDTOs(List<Data> data) {
-		List<DataDTO> dataDTOs = new ArrayList<DataDTO>();
-	
 		for (Data d : data) {
-			try {
-				dataDTOs.add(new DataDTO(d.getValue(), d.getDate(),d.getDevice().getDeviceId(), d.getMibObject().getMibObjectId(),
-						productService.findMibObject(d.getMibObject().getMibObjectId()).getMibObjectName()));
-			} catch (InstanceNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			dataDTO.add(toDataDTO(d));
 		}
-		return dataDTOs;		
+		return new DataFindResponse(dataDTO);		
 	}
+	
+
+	@Override
+	public DataFindResponse findDataByDeviceIdAndMibObjectId(Long deviceId,
+			Long mibObjectId) {
+
+		List<Data> data = dataService.findDataByDeviceIdAndMibObjectId(deviceId, mibObjectId);
+		List<DataDTO> dataDTO = new ArrayList<DataDTO>();
+		
+		for (Data d : data) {
+			dataDTO.add(toDataDTO(d));
+		}
+		return new DataFindResponse(dataDTO);
+	}
+	
+
+	@Override
+	public DataDTO getMostRecentValue(Long deviceId, Long mibObjectId) {
+		Data d = dataService.getMostRecentValue(deviceId, mibObjectId);
+		if (d != null) {
+			return toDataDTO(d);
+		}
+		else {
+			return null;
+		}
+	}
+	
+	private DataDTO toDataDTO(Data data) {
+		DataDTO d;
+		try {
+			d = new DataDTO(data.getValue(),data.getDate(),data.getDevice().getDeviceId(),
+					data.getMibObject().getMibObjectId(),productService.findMibObject(data.getMibObject().getMibObjectId()).getMibObjectName());
+			d.setDataId(data.getDataId());
+			return d;
+		} catch (InstanceNotFoundException e) {
+			return null;
+		}
+
+	}
+
 
 }

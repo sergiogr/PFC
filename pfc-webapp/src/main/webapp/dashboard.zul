@@ -1,0 +1,88 @@
+<?page title="Página de inicio - Dashboard" ?>
+<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" ?>
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="/common/layout/template.zul"?>
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+<zk>
+<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAnfs7bKE82qgb3Zc2YyS-oBT2yXp_ZAY8_ufC3CFXhHIE1NvwkxSySz_REpPq-4WZA27OwgbtyR3VcA"
+    type="text/javascript"></script>
+<window self="@{define(content)}" id="dashWin" apply="org.pfc.web.dashboard.DashboardController" border="normal" width="100%" height="100%" >
+<borderlayout width="100%" height="100%" > 
+<west width="25%">
+<panel title="Customer Overview" border="normal" height="100%" hflex="1">
+    <panelchildren>
+     <!--   <grid height="100%" >
+            <columns>
+               <column label="category" width="80px" />
+               <column label="value" />
+            </columns>
+         </grid>
+         -->
+         <flashchart id="mychart" width="100%" height="100%" type="pie" />
+    </panelchildren>
+</panel>
+</west>
+<center>
+<borderlayout width="100%" height="100%">
+<center>
+<panel title="Map" border="normal" height="100%" >
+    <panelchildren>
+		<gmaps id="map" model="@{dashWin.mapModel}" width="100%" height="100%" zoom="8" showTypeCtrl="true" showSmallCtrl="true" />
+</panelchildren>
+</panel>
+</center>
+<south height="20px">
+<hlayout>
+	<image src="/common/img/wifi.png" height="18px" />
+	<label id="devUp" />
+	<image src="/common/img/wifi_red.png" height="18px"/>
+	<label id="devDown" />
+	<image src="/common/img/wifi_blue.png" height="18px" />
+	<label id="devTotal" />
+</hlayout>
+</south>
+</borderlayout>
+</center>
+<east width="25%">
+
+		<tabbox id="tb" height="100%">
+  			<tabs id="tabs">
+   			<tab id="projTab" label="Projects" />
+        	<tab id="devTab" label="Devices" />
+        	<tab id="prodTab" label="Products" />
+        	<tab id="moTab" label="Mib Objects" />
+    	</tabs>
+    	<tabpanels>
+    	    <tabpanel>
+
+         <flashchart id="mychart2" width="100%" height="100%" type="pie" />
+
+    	    </tabpanel>
+    	    <tabpanel>
+    	         <flashchart id="mybarchart" width="100%" height="100%" type="bar" />
+    	    </tabpanel>
+    	    <tabpanel>Products</tabpanel>
+    	    <tabpanel>Mib Objects</tabpanel>
+       	</tabpanels>
+</tabbox>	
+</east>
+<south height="30%" flex="true">
+<panel title="Last events received" border="normal" height="100%" hflex="1">
+    <panelchildren>
+	<listbox id="eventLb" model="@{dashWin.events}" rows="5" emptyMessage="No event found"> 
+		<listhead>
+			<listheader label="IP Source" />
+			<listheader label="Variables" />
+			<listheader label="Date" />
+		</listhead>
+		<listfoot>
+            <listfooter>
+				<toolbarbutton label="View more" href="/event/event.zul" />
+            </listfooter>
+        </listfoot>
+	</listbox>
+	</panelchildren>
+</panel>
+</south>
+</borderlayout>
+</window>
+</zk>

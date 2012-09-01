@@ -3,61 +3,89 @@
 <?init class="org.zkoss.zk.ui.util.Composition" arg0="/common/layout/template.zul"?>
 <?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
 <zk>
+
 <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAnfs7bKE82qgb3Zc2YyS-oBT2yXp_ZAY8_ufC3CFXhHIE1NvwkxSySz_REpPq-4WZA27OwgbtyR3VcA"
     type="text/javascript"></script>
-<window self="@{define(content)}" id="mapWin" apply="org.pfc.web.map.MapViewController" width="100%">
-<hbox>
-<vbox>
-<gmaps id="map" width="800px" height="500px" zoom="8" showTypeCtrl="true" showSmallCtrl="true" forward="onMapClick=mapWin.onMapClick">
+<window self="@{define(content)}" id="mapWin" apply="org.pfc.web.map.MapViewController" width="100%" height="100%">
+<borderlayout width="100%" height="100%" > 
+<center>
+<panel title="Map" border="normal" height="100%" hflex="1">
+    <panelchildren>
+<gmaps id="map" width="100%" height="100%" showTypeCtrl="true" showSmallCtrl="true" model="@{mapWin.mapModel}" forward="onMapClick=mapWin.onMapClick,onMapMove=mapWin.onMapMove">
 </gmaps>
-</vbox>
-<vbox>
-<hbox>
-<grid width="350px">
+</panelchildren>
+</panel>
+</center>
+<east width="25%" flex="true" splittable="true">
+    <vlayout spacing="1">
+	<panel title="Device details" border="normal" width="100%" hflex="1">
+    	<panelchildren>	
+			<grid mold="paging">
+				<columns>
+					<column width="30%"></column>
+					<column></column>
+				</columns>
+				<rows>
+					<row>
+						<label value="Device Name" />
+ 						<label id="deviceNameLbl" />
+					</row>
+					<row>
+						<label value="Description" />
+						<label id="descriptionLbl" />
+					</row>
+					<row>
+						<label value="IP Address" /> 
+						<label id="ipAddressLbl" />
+					</row>
+					<row>
+						<label value="Position" />
+						<vbox>
+							<hbox>
+								<label value="Latitude" />
+								<label id="latitudeLbl" />
+							</hbox>
+							<hbox>
+								<label value="Longitude" />
+								<label id="longitudeLbl" />
+							</hbox>
+						</vbox>
+					</row>
+				</rows>
+			</grid>
+	</panelchildren>
+	</panel>
+	<panel title="Last data values" border="normal" width="100%" hflex="1">
+	<panelchildren>
+	<grid id="dataGrid" mold="paging" >
 	<columns>
-		<column width="30%"></column>
-		<column></column>
-	</columns>
-	<rows>
-		<row>
-			<label value="Device Name" />
- 			<label id="deviceNameLbl" />
-		</row>
-		<row>
-			<label value="Description" />
-			<label id="descriptionLbl" />
-		</row>
-		<row>
-			<label value="IP Address" /> 
-			<label id="ipAddressLbl" />
-		</row>
-		<row>
-				<label value="Position" />
-				<vbox>
-					<hbox>
-						<label value="Latitude" />
-						<label id="latitudeLbl" />
-					</hbox>
-					<hbox>
-						<label value="Longitude" />
-						<label id="longitudeLbl" />
-					</hbox>
-				</vbox>
-			</row>
-		</rows>
-	</grid>
-	</hbox>
-	<hbox>
-	<grid id="snmpGrid" width="350px">
-	<columns>
-		<column label="Data" width="30%"/>
+		<column label="Data" />
 		<column label="Value" />
 		<column label="Date" />
 	</columns>	
-	<rows id="snmpRows"></rows>
+	<rows id="dataRows"></rows>
 	</grid>
-	</hbox>
-</vbox>
-</hbox>
-</window>
+	</panelchildren>
+	</panel>
+	</vlayout>
+</east>
+<south height="30%" flex="true" splittable="true">
+<panel title="Devices list" border="normal" height="100%" hflex="1">
+    <panelchildren>
+	<listbox id="devicesLb" model="@{mapWin.deviceModel, load-after='map.onMapMove'}" rows="10" visible="true" emptyMessage="No device found in this area.">
+		<listhead>
+			<listheader label="Name" />
+			<listheader label="Description" />
+			<listheader label="IP" />
+		</listhead>
+		<listitem self="@{each=device}" value="@{device}" >
+			<listcell label="@{device.deviceName}" />
+			<listcell label="@{device.description}" />
+			<listcell label="@{device.ipAddress}" />
+		</listitem>
+	</listbox>
+	</panelchildren>
+</panel>
+</south>
+</borderlayout></window>
 </zk>

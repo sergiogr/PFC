@@ -24,9 +24,17 @@ public class DataDao extends GenericDao<Data, Long> implements IDataDao {
 			Long mibObjectId) {
 		
 		return getSession().createQuery("SELECT d FROM Data d " + 
-		"WHERE d.device.deviceId = :deviceId AND d.mibObject.mibObjectId = :mibObjectId ORDER BY d.date DESC")
-		.setParameter("deviceId", deviceId).setParameter("mibObjectId", mibObjectId).list();
+				"WHERE d.device.deviceId = :deviceId AND d.mibObject.mibObjectId = :mibObjectId ORDER BY d.date DESC")
+				.setParameter("deviceId", deviceId).setParameter("mibObjectId", mibObjectId).list();
 		
+	}
+	
+	public Data getMostRecentValue(Long deviceId, Long mibObjectId) {
+		
+		return (Data) getSession().createQuery("SELECT d FROM Data d "+
+				"WHERE d.device.deviceId = :deviceId AND d.mibObject.mibObjectId = :mibObjectId "+
+				"ORDER BY d.date DESC").setParameter("deviceId", deviceId)
+				.setParameter("mibObjectId", mibObjectId).setMaxResults(1).uniqueResult();
 	}
 	
 

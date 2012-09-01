@@ -9,8 +9,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Version;
+import org.hibernate.annotations.Type;
 
 import org.pfc.business.product.Product;
+import org.pfc.business.project.Project;
 
 import com.vividsolutions.jts.geom.Point;
 
@@ -31,7 +33,9 @@ public class Device {
         private String snmpPort;
         private Point position;
         private Product product;
-        private long version;
+        private Project project;
+       
+		private long version;
         
         public Device() {}
 
@@ -100,17 +104,10 @@ public class Device {
 			this.position = position;
 		}
 
+	    @Column(name = "position")
+	    @Type(type = "org.hibernatespatial.GeometryUserType")
 		public Point getPosition() {
 			return position;
-		}
-
-		@Version
-		public long getVersion() {
-			return version;
-		}
-		
-		public void setVersion(long version) {
-			this.version = version;
 		}
 
 		@ManyToOne(optional=true, fetch=FetchType.LAZY)
@@ -122,7 +119,27 @@ public class Device {
 		public void setProduct(Product product) {
 			this.product = product;
 		}
+	
+		@ManyToOne(optional=true, fetch=FetchType.LAZY)
+		@JoinColumn(name="projId")		
+		public Project getProject() {
+			return project;
+		}
+
+		public void setProject(Project project) {
+			this.project = project;
+		}
+
+
+		@Version
+		public long getVersion() {
+			return version;
+		}
 		
+		public void setVersion(long version) {
+			this.version = version;
+		}
+
 		@Override
 		public int hashCode() {
 			final int prime = 31;

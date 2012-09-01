@@ -7,6 +7,8 @@ import org.pfc.business.device.IDeviceDao;
 import org.pfc.business.mibobject.IMibObjectDao;
 import org.pfc.business.mibobject.MibObject;
 import org.pfc.business.product.Product;
+import org.pfc.business.project.IProjectDao;
+import org.pfc.business.project.Project;
 import org.pfc.business.util.exceptions.DuplicateInstanceException;
 import org.pfc.business.util.exceptions.InstanceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,9 @@ public class DeviceService implements IDeviceService {
 	
 	@Autowired
 	private IMibObjectDao mibObjectDao;
+	
+	@Autowired
+	private IProjectDao projectDao;
     
     public Device createDevice(Device device) throws DuplicateInstanceException{
     
@@ -91,6 +96,55 @@ public class DeviceService implements IDeviceService {
     public Device findDeviceByName(String deviceName) throws InstanceNotFoundException {
     	return deviceDao.getDeviceByName(deviceName);
     }
+
+	public Project createProject(Project project) {
+		projectDao.save(project);
+		return project;
+	}
+
+    @Transactional(readOnly = true)
+	public Project findProject(Long projectId) throws InstanceNotFoundException {
+		return projectDao.find(projectId);
+	}	
     
+    @Transactional(readOnly = true)
+	public List<Project> findAllProjects() {
+    	return projectDao.getAllProjects(); 
+    }
+
+	@Override
+	public void removeProject(Long projectId) throws InstanceNotFoundException {
+
+		projectDao.remove(projectId);
+	}
+
+	@Override
+	public void updateProject(Project project) throws InstanceNotFoundException {
+
+		Project p = projectDao.find(project.getProjectId());
+		p.setProjectName(project.getProjectName());
+		p.setDescription(project.getDescription());
+		projectDao.save(p);
+		
+	}
+
+	@Override
+	public void addDeviceToProject(Long deviceId, Long projectId) throws InstanceNotFoundException {
+
+		Device device = deviceDao.find(deviceId);
+		Project project = projectDao.find(projectId);
+		device.setProject(project);
+		deviceDao.save(device);
+		
+	}
+
+	@Override
+	public void delDeviceFromProject(Long deviceId) throws InstanceNotFoundException {
+		Device device = deviceDao.find(deviceId);
+
+		device.setProject(null);
+		deviceDao.save(device);		
+	}
+	
 }
 

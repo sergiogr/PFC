@@ -1,0 +1,29 @@
+<window id="${arg.top_id}" title="Edit Project" >
+<grid id="projectGrid" >
+		<rows>
+			<row>
+				<label value="Project Name" />
+				<hbox>
+					<textbox id="projectNameTb" onChange="noProjectName.setVisible(false);" />
+					<label id="noProjectName" style="color:red !important;" value="You need to set a name for the project" visible="false" />
+				</hbox>
+			</row>
+			<row>
+				<label value="Description" />
+				<hbox>
+					<textbox id="descriptionTb" onChange="noDescription.setVisible(false);"/>
+					<label id="noDescription" style="color:red !important;" value="You need a description for the project" visible="false"/>
+				</hbox>
+			</row>
+			<row>
+				<hbox/>
+				<hbox>
+					<div>
+						<button id="saveBtn" label="Save" onClick="controller.save()" forward="onClick=${arg.top_id}.onSave" />
+						<button id="cancelBtn" label="Cancel" onClick="controller.cancel();" />
+					</div>
+				</hbox>
+			</row>
+		</rows>
+	</grid>
+</window>

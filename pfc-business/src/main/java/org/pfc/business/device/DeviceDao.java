@@ -2,9 +2,15 @@ package org.pfc.business.device;
 
 import java.util.List;
 
+import org.hibernatespatial.GeometryUserType;
 import org.pfc.business.util.exceptions.InstanceNotFoundException;
 import org.pfc.business.util.genericdao.GenericDao;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.io.ParseException;
+import com.vividsolutions.jts.io.WKTReader;
 
 /**
  * 
@@ -34,6 +40,29 @@ public class DeviceDao extends GenericDao<Device, Long> implements IDeviceDao{
 		else {
 			return device;
 		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
+	public List<Device> getDevicesByArea(double lat1, double lng1, double lat2, double lng2) {
+		
+		WKTReader fromText = new WKTReader();
+        Geometry filter = null;
+
+        String area = "POLYGON(("+lat1+" "+ lng1+","+lat1+" "+lng2+","+lat2+" "+lng2+","+lat2+" "+lng1+
+        		","+lat1+" "+lng1+"))";
+        try{
+                filter = fromText.read(area);
+        } catch(ParseException e){
+                throw new RuntimeException("Not a WKT String:" + area);
+        }
+
+        System.out.println("Filter is : " + filter);
+
+		List<Device> devices = getSession().createQuery("from Device d where within(position, ?) = true ORDER BY d.deviceName")
+				.setParameter(0, filter, GeometryUserType.TYPE).list();
+		return devices;
+
 	}
 	
 }

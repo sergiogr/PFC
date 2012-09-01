@@ -11,4 +11,6 @@ public interface IDataDao extends IGenericDao<Data, Long> {
 
 	public List<Data> findDataByDeviceIdAndMibObjectId(Long deviceId, Long mibObjectId);
 
+	public Data getMostRecentValue(Long deviceId, Long mibObjectId) ;
+	
 }

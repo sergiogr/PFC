@@ -42,7 +42,7 @@
         <servletApi.version>2.3</servletApi.version>
         
         <!-- ZK properties -->
-        <zk.version>5.0.7</zk.version>
+        <zk.version>5.0.11</zk.version>
         <bsh.version>2.0b4</bsh.version>
 
 	<!-- Plugin versions -->
@@ -233,7 +233,7 @@
       			<groupId>org.zkoss.common</groupId>
       			<artifactId>zcommon</artifactId>
       			<version>${zk.version}</version>
-    		</dependency>  
+    		</dependency>
   			<dependency>
       			<groupId>org.zkoss.common</groupId>
       			<artifactId>zweb</artifactId>
