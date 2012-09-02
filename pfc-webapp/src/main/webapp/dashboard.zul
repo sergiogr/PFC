@@ -7,7 +7,7 @@
     type="text/javascript"></script>
 <window self="@{define(content)}" id="dashWin" apply="org.pfc.web.dashboard.DashboardController" border="normal" width="100%" height="100%" >
 <borderlayout width="100%" height="100%" > 
-<west width="25%" splittable="true">
+<west width="25%" splittable="true" autoscroll="true" collapsible="true" >
 <tabbox id="listTab" height="100%">
   			<tabs id="listTabs">
    			<tab  label="Devices by Project" />
@@ -15,15 +15,15 @@
     	</tabs>
     	<tabpanels>
     	    <tabpanel>
-				<tree id="projectTree" width="100%" height="100%" >
+				<tree id="projectTree" vflex="1" width="100%" height="100%" >
         			<treecols sizable="true">
          	 		  <treecol label="Name"/>
          			   <treecol label="Description"/>
        				 </treecols>
        			</tree>
     	    </tabpanel>
-    	    <tabpanel>
-    	    	<tree id="productTree" vflex="1" mold="paging" width="100%" height="100%" >
+    	    <tabpanel >
+    	    	<tree id="productTree" vflex="1"  width="100%" height="100%" >
         			<treecols sizable="true">
          	 		  <treecol label="Name"/>
          			   <treecol label="Description"/>
@@ -37,11 +37,7 @@
 <center>
 <borderlayout width="100%" height="100%">
 <center>
-<panel title="Map" border="normal" height="100%" >
-    <panelchildren>
 		<gmaps id="map" model="@{dashWin.mapModel}" width="100%" height="100%" zoom="8" showTypeCtrl="true" showSmallCtrl="true" />
-</panelchildren>
-</panel>
 </center>
 <south height="20px">
 <hlayout>
@@ -55,7 +51,7 @@
 </south>
 </borderlayout>
 </center>
-<east width="25%" splittable="true">
+<east width="25%" splittable="true" collapsible="true">
 
 		<tabbox height="100%">
   			<tabs id="tabs">
@@ -78,7 +74,7 @@
        	</tabpanels>
 </tabbox>	
 </east>
-<south height="30%" flex="true" splittable="true">
+<south height="30%" flex="true" splittable="true" collapsible="true" >
 <panel title="Last events received" border="normal" height="100%" hflex="1">
     <panelchildren>
 	<listbox id="eventLb" model="@{dashWin.events}" rows="5" emptyMessage="No event found"> 

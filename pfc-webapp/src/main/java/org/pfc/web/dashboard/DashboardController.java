@@ -123,9 +123,7 @@ public class DashboardController extends GenericForwardComposer {
 		devTotal.setValue(" Total "+devices.size());
 		
 		generateTreeByProject();
-		projectTree.setAutopaging(true);
 		generateTreeByProduct();
-		productTree.setAutopaging(true);
 
 	}
 	
