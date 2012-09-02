@@ -18,9 +18,9 @@
 </center>
 <east width="25%" flex="true" splittable="true">
     <vlayout spacing="1">
-	<panel title="Device details" border="normal" width="100%" hflex="1">
+	<panel title="Device details" border="normal" width="100%" hflex="1" vflex="1" >
     	<panelchildren>	
-			<grid mold="paging">
+			<grid mold="paging" vflex="1" >
 				<columns>
 					<column width="30%"></column>
 					<column></column>
@@ -55,9 +55,9 @@
 			</grid>
 	</panelchildren>
 	</panel>
-	<panel title="Last data values" border="normal" width="100%" hflex="1">
+	<panel title="Last data values" border="normal" width="100%" hflex="1" vflex="1">
 	<panelchildren>
-	<grid id="dataGrid" mold="paging" >
+	<grid id="dataGrid" mold="paging" height="100%" >
 	<columns>
 		<column label="Data" />
 		<column label="Value" />

@@ -101,48 +101,30 @@ public class DeviceWebService implements IDeviceWebService {
 
 		return new DevicesFindResponse(deviceDTOs);
 	}
-	
-//	public void updateDevice(Device device) throws InstanceNotFoundException,
-//			DuplicateInstanceException {
-//
-//		deviceService.updateDevice(device);
-//		
-//	}
-//	
-//	public Device findDevice(Long deviceId) throws InstanceNotFoundException {
-//
-//		return deviceService.findDevice(deviceId);
-//		
-//	}
-//	
-//	public List<Device> findAllDevice() {
-//
-//		return deviceService.findAllDevice();
-//		
-//	}
-//	
-//	@Override
-//	public MibObjectsFindResponse getMibObjects(Long deviceId)
-//			throws InstanceNotFoundException {
-//		
-//		List<MibObject> mibObjects = deviceService.getMibObjects(deviceId);
-//		List<MibObjectDTO> mibObjectDTOs = new ArrayList<MibObjectDTO>();
-//		
-//		for (MibObject mo : mibObjects) {
-//			mibObjectDTOs.add(toMibObjectDTO(mo));
-//		}
-//
-//		return new MibObjectsFindResponse();
-//		
-//	}
-//
-//	public Device findDeviceByName(String deviceName)
-//			throws InstanceNotFoundException {
-//
-//		return deviceService.findDeviceByName(deviceName);
-//		
-//	}
 
+	@Override
+	public DevicesFindResponse findDevicesByProject(Long projectId) {
+		List<Device> devices = deviceService.findDevicesByProject(projectId);
+		List<DeviceDTO> deviceDTOs = new ArrayList<DeviceDTO>();
+
+		for (Device d : devices) {
+			deviceDTOs.add(toDeviceDTO(d));
+		}
+
+		return new DevicesFindResponse(deviceDTOs);
+	}
+
+	@Override
+	public DevicesFindResponse findDevicesByProduct(Long productId) {
+		List<Device> devices = deviceService.findDevicesByProduct(productId);
+		List<DeviceDTO> deviceDTOs = new ArrayList<DeviceDTO>();
+
+		for (Device d : devices) {
+			deviceDTOs.add(toDeviceDTO(d));
+		}
+
+		return new DevicesFindResponse(deviceDTOs);
+	}
 
 	@Override
 	public DevicesFindResponse findDevicesByArea(double lat1, double lng1, double lat2, double lng2) {
@@ -228,6 +210,8 @@ public class DeviceWebService implements IDeviceWebService {
 		return new ProjectDTO(project.getProjectId(),project.getProjectName(),project.getDescription());
 		
 	}
+
+
 	
 //	private MibObjectDTO toMibObjectDTO(MibObject mibObject) {
 //		return new MibObjectDTO(mibObject.getMibObjectId(),mibObject.getMibObjectName(),

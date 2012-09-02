@@ -97,6 +97,16 @@ public class DeviceService implements IDeviceService {
     	return deviceDao.getDeviceByName(deviceName);
     }
 
+    @Transactional(readOnly = true)
+	public List<Device> findDevicesByProject(Long projectId) {
+		return deviceDao.getDevicesByProject(projectId);
+	}
+
+    @Transactional(readOnly = true)
+	public List<Device> findDevicesByProduct(Long productId) {
+		return deviceDao.getDevicesByProduct(productId);
+	}
+	
 	public Project createProject(Project project) {
 		projectDao.save(project);
 		return project;

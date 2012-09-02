@@ -26,6 +26,20 @@ public interface IDeviceDao extends IGenericDao<Device, Long> {
 	 */
 	public Device getDeviceByName(String deviceName) throws InstanceNotFoundException;
 	
+	/**
+	 * 
+	 * @param projectId
+	 * @return
+	 */
+	public List<Device> getDevicesByProject(Long projectId);
+	
+	/**
+	 * 
+	 * @param productId
+	 * @return
+	 */
+	public List<Device> getDevicesByProduct(Long productId);
+	
 
 	/**
 	 * 

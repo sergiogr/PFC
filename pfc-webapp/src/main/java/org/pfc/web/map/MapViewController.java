@@ -77,7 +77,8 @@ public class MapViewController extends GenericForwardComposer {
 		map.setModel(mapModel);
 
 		dataGrid.setEmptyMessage("Select a device to check its data...");
-
+		dataGrid.setAutopaging(true);
+		
 		deviceModel.clear();
 		deviceModel.addAll(deviceWSClient.findDevicesByArea(this.map.getSwLat(), this.map.getSwLng(), 
 				this.map.getNeLat(), this.map.getNeLng()).getDeviceDTOs());

@@ -49,8 +49,9 @@ public class MonitorController extends GenericForwardComposer {
 
 		comp.setAttribute(comp.getId(), this, true);
 		dataGrid.setEmptyMessage("Select a device to check its data...");
+		dataGrid.setAutopaging(true);
 		historyGrid.setEmptyMessage("No device selected.");
-
+		dataGrid.setAutopaging(true);
 	
 	}
 

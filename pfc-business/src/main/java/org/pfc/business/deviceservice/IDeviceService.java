@@ -28,6 +28,10 @@ public interface IDeviceService {
     public List<MibObject> getMibObjects(Long deviceId) throws InstanceNotFoundException;
     
     public Device findDeviceByName(String deviceName) throws InstanceNotFoundException;
+    
+    public List<Device> findDevicesByProject(Long projectId);
+
+    public List<Device> findDevicesByProduct(Long productId);
 
     public Project createProject(Project project);
     

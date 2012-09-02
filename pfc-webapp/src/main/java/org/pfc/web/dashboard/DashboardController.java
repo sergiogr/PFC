@@ -8,6 +8,9 @@ import org.pfc.business.webservice.DeviceDTO;
 import org.pfc.business.webservice.EventDTO;
 import org.pfc.business.webservice.IDeviceWebService;
 import org.pfc.business.webservice.IEventWebService;
+import org.pfc.business.webservice.IProductWebService;
+import org.pfc.business.webservice.ProductDTO;
+import org.pfc.business.webservice.ProjectDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.zkoss.gmaps.Gmaps;
 import org.zkoss.gmaps.Gmarker;
@@ -20,6 +23,11 @@ import org.zkoss.zul.Label;
 import org.zkoss.zul.PieModel;
 import org.zkoss.zul.SimpleCategoryModel;
 import org.zkoss.zul.SimplePieModel;
+import org.zkoss.zul.Tree;
+import org.zkoss.zul.Treecell;
+import org.zkoss.zul.Treechildren;
+import org.zkoss.zul.Treeitem;
+import org.zkoss.zul.Treerow;
 
 @SuppressWarnings("serial")
 public class DashboardController extends GenericForwardComposer {
@@ -33,6 +41,9 @@ public class DashboardController extends GenericForwardComposer {
 	@Autowired
 	private IDeviceWebService deviceWSClient;
 	
+	@Autowired
+	private IProductWebService productWSClient;
+	
 	private Gmaps map;
 	private Label devTotal;
 	private Label devUp;
@@ -40,8 +51,11 @@ public class DashboardController extends GenericForwardComposer {
 //	private Listbox eventLb;
 	private List<DeviceDTO> devices = new ArrayList<DeviceDTO>();
 	private MapModelList mapModel = new MapModelList();
-	private Flashchart mychart;
-	private Flashchart mychart2;
+	private Flashchart projectsChart;
+	private Flashchart productsChart;
+	private Tree projectTree;
+	private Tree productTree;
+	
 	private Flashchart mybarchart;
 	
 	public List<EventDTO> getEvents() {
@@ -61,17 +75,17 @@ public class DashboardController extends GenericForwardComposer {
 		map.setScrollWheelZoom(true);
 		map.setCenter(centerLat, centerLng);
 		map.setZoom(5);
-        PieModel model = new SimplePieModel();
-		for(int j=0; j < 4; ++j) {
-			 model.setValue("c"+j, new Double(j));
-		}
-        mychart.setModel(model);
+
+        projectsChart.setModel(generateProjectChart());
+		projectsChart.setChartStyle("legend-display=bottom");
+
+		productsChart.setModel(generateProductChart());
+		productsChart.setChartStyle("legend-display=left");
+		
         PieModel model2 = new SimplePieModel();
 		for(int j=0; j < 4; ++j) {
 			 model2.setValue("c"+j, new Double(j));
 		}
-		mychart2.setModel(model2);
-		mychart2.setChartStyle("legend-display=bottom");
         int year = new java.util.Date().getYear() + 1900;
 		CategoryModel categorymodel = new SimpleCategoryModel();
         categorymodel.setValue(year - 2 + "", "Q1", new Integer(17));
@@ -107,9 +121,84 @@ public class DashboardController extends GenericForwardComposer {
 		devUp.setValue(" Online "+up);
 		devDown.setValue(" Offline "+down);
 		devTotal.setValue(" Total "+devices.size());
+		
+		generateTreeByProject();
+		projectTree.setAutopaging(true);
+		generateTreeByProduct();
+		productTree.setAutopaging(true);
+
 	}
 	
 	public MapModelList getMapModel() {
 		return mapModel;
 	}
+	
+	private PieModel generateProjectChart() {
+        PieModel m = new SimplePieModel();
+         for (ProjectDTO p : deviceWSClient.findAllProjects().getProjectDTOs()){
+        	 m.setValue(p.getProjectName(), deviceWSClient.findDevicesByProject(p.getProjectId()).getDeviceDTOs().size());
+         }
+         return m;
+	}
+	
+	private PieModel generateProductChart() {
+        PieModel m = new SimplePieModel();
+         for (ProductDTO p : productWSClient.findAllProducts().getProductDTOs()){
+        	 m.setValue(p.getProductName(), deviceWSClient.findDevicesByProduct(p.getProductId()).getDeviceDTOs().size());
+         }
+         return m;
+	}
+
+	private void generateTreeByProject() {
+		Treechildren treeChildren = new Treechildren();
+		for (ProjectDTO p : deviceWSClient.findAllProjects().getProjectDTOs()){
+			Treeitem itemProj = new Treeitem();
+			Treerow proj = new Treerow();
+			treeChildren.appendChild(itemProj);
+			itemProj.appendChild(proj);
+			proj.appendChild(new Treecell(p.getProjectName()));
+			proj.appendChild(new Treecell(p.getDescription()));
+			
+			Treechildren treeDev = new Treechildren();
+			itemProj.appendChild(treeDev);
+			for (DeviceDTO d : deviceWSClient.findDevicesByProject(p.getProjectId()).getDeviceDTOs()){
+				Treeitem itemDev = new Treeitem();
+				Treerow dev = new Treerow();
+				treeDev.appendChild(itemDev);
+				itemDev.appendChild(dev);
+				dev.appendChild(new Treecell(d.getDeviceName()));
+				dev.appendChild(new Treecell(d.getDescription()));
+			}
+			
+		}
+		treeChildren.setParent(projectTree);
+	
+	}
+
+	private void generateTreeByProduct() {
+		Treechildren treeChildren = new Treechildren();
+		for (ProductDTO p : productWSClient.findAllProducts().getProductDTOs()){
+			Treeitem itemProd = new Treeitem();
+			Treerow prod = new Treerow();
+			treeChildren.appendChild(itemProd);
+			itemProd.appendChild(prod);
+			prod.appendChild(new Treecell(p.getProductName()));
+			prod.appendChild(new Treecell(p.getDescription()));
+			
+			Treechildren treeDev = new Treechildren();
+			itemProd.appendChild(treeDev);
+			for (DeviceDTO d : deviceWSClient.findDevicesByProduct(p.getProductId()).getDeviceDTOs()){
+				Treeitem itemDev = new Treeitem();
+				Treerow dev = new Treerow();
+				treeDev.appendChild(itemDev);
+				itemDev.appendChild(dev);
+				dev.appendChild(new Treecell(d.getDeviceName()));
+				dev.appendChild(new Treecell(d.getDescription()));
+			}
+			
+		}
+		treeChildren.setParent(productTree);
+	
+	}
+
 }

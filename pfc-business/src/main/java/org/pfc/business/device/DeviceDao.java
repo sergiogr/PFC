@@ -43,6 +43,21 @@ public class DeviceDao extends GenericDao<Device, Long> implements IDeviceDao{
 	}
 	
 	@SuppressWarnings("unchecked")
+	public List<Device> getDevicesByProject(Long projectId) {
+		return getSession().createQuery(
+				"SELECT d FROM Device d WHERE d.project.projectId = :projectId "+
+				"ORDER BY d.deviceName").setParameter("projectId", projectId).list();
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Device> getDevicesByProduct(Long productId) {
+		return getSession().createQuery(
+				"SELECT d FROM Device d WHERE d.product.productId = :productId "+
+				"ORDER BY d.deviceName").setParameter("productId", productId).list();
+	}
+	
+	
+	@SuppressWarnings("unchecked")
 	@Transactional(readOnly = true)
 	public List<Device> getDevicesByArea(double lat1, double lng1, double lat2, double lng2) {
 		
@@ -64,5 +79,5 @@ public class DeviceDao extends GenericDao<Device, Long> implements IDeviceDao{
 		return devices;
 
 	}
-	
+
 }
