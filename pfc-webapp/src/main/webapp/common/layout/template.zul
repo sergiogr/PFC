@@ -30,7 +30,7 @@
 		<center border="normal" self="@{insert(content)}" autoscroll="true"/>
 
 
-		<south title="Powered by Sergio García Ramos" border="normal" size="5%">
+		<south title="Powered by Sergio García Ramos" border="normal" height="18px">
 		</south>
 	</borderlayout>
 

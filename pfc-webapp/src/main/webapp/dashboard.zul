@@ -7,7 +7,7 @@
     type="text/javascript"></script>
 <window self="@{define(content)}" id="dashWin" apply="org.pfc.web.dashboard.DashboardController" border="normal" width="100%" height="100%" >
 <borderlayout width="100%" height="100%" > 
-<west width="25%">
+<west width="25%" splittable="true">
 <tabbox id="listTab" height="100%">
   			<tabs id="listTabs">
    			<tab  label="Devices by Project" />
@@ -16,7 +16,7 @@
     	<tabpanels>
     	    <tabpanel>
 				<tree id="projectTree" width="100%" height="100%" >
-        			<treecols>
+        			<treecols sizable="true">
          	 		  <treecol label="Name"/>
          			   <treecol label="Description"/>
        				 </treecols>
@@ -24,7 +24,7 @@
     	    </tabpanel>
     	    <tabpanel>
     	    	<tree id="productTree" vflex="1" mold="paging" width="100%" height="100%" >
-        			<treecols>
+        			<treecols sizable="true">
          	 		  <treecol label="Name"/>
          			   <treecol label="Description"/>
        				 </treecols>
@@ -55,14 +55,13 @@
 </south>
 </borderlayout>
 </center>
-<east width="25%">
+<east width="25%" splittable="true">
 
 		<tabbox height="100%">
   			<tabs id="tabs">
    			<tab id="projTab" label="Projects" />
         	<tab id="devTab" label="Devices" />
         	<tab id="prodTab" label="Products" />
-        	<tab id="moTab" label="Mib Objects" />
     	</tabs>
     	<tabpanels>
     	    <tabpanel>
@@ -76,11 +75,10 @@
     	    <tabpanel>
     	             <flashchart id="productsChart" width="100%" height="100%" type="pie" />
     	    </tabpanel>
-    	    <tabpanel>Mib Objects</tabpanel>
        	</tabpanels>
 </tabbox>	
 </east>
-<south height="30%" flex="true">
+<south height="30%" flex="true" splittable="true">
 <panel title="Last events received" border="normal" height="100%" hflex="1">
     <panelchildren>
 	<listbox id="eventLb" model="@{dashWin.events}" rows="5" emptyMessage="No event found"> 
