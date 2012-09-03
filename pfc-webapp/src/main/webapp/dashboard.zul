@@ -7,7 +7,7 @@
     type="text/javascript"></script>
 <window self="@{define(content)}" id="dashWin" apply="org.pfc.web.dashboard.DashboardController" border="normal" width="100%" height="100%" >
 <borderlayout width="100%" height="100%" > 
-<west width="25%" splittable="true" autoscroll="true" collapsible="true" >
+<west width="25%" splittable="true" border="none" autoscroll="true" collapsible="true" >
 <tabbox id="listTab" height="100%">
   			<tabs id="listTabs">
    			<tab  label="Devices by Project" />
@@ -34,7 +34,7 @@
        	</tabpanels>
 </tabbox>	
 </west>
-<center>
+<center border="none" >
 <borderlayout width="100%" height="100%">
 <center>
 		<gmaps id="map" model="@{dashWin.mapModel}" width="100%" height="100%" zoom="8" showTypeCtrl="true" showSmallCtrl="true" />
@@ -51,22 +51,16 @@
 </south>
 </borderlayout>
 </center>
-<east width="25%" splittable="true" collapsible="true">
+<east width="25%" border="none"  splittable="true" collapsible="true">
 
 		<tabbox height="100%">
   			<tabs id="tabs">
-   			<tab id="projTab" label="Projects" />
-        	<tab id="devTab" label="Devices" />
-        	<tab id="prodTab" label="Products" />
+   			<tab id="projTab" label="Projects - Devices" />
+        	<tab id="prodTab" label="Products - Devices" />
     	</tabs>
     	<tabpanels>
     	    <tabpanel>
-
-         <flashchart id="projectsChart" width="100%" height="100%" type="pie" />
-
-    	    </tabpanel>
-    	    <tabpanel>
-    	         <flashchart id="mybarchart" width="100%" height="100%" type="bar" />
+			         <flashchart id="projectsChart" width="100%" height="100%" type="pie" />
     	    </tabpanel>
     	    <tabpanel>
     	             <flashchart id="productsChart" width="100%" height="100%" type="pie" />

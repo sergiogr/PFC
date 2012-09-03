@@ -73,6 +73,7 @@
   </servlet-mapping>
   <welcome-file-list>
     <welcome-file>index.zul</welcome-file>
+    <welcome-file>dashboard.zul</welcome-file>
   </welcome-file-list>
   
    <session-config>

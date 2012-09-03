@@ -106,18 +106,6 @@ public class ProductCRUDController extends GenericForwardComposer {
 			}
 		}
 
-//		productWebService.createProduct(new ProductDTO(null,name.getValue(),description.getValue(),manufacturer.getValue()));
-
-//		for (MibObjectDTO mo: (List<MibObjectDTO>) dualLBox.getChosenDataList()) {
-//
-//			try {
-//				productWebService.assignMibObjectToProduct(mo.getMibObjectId(), newProd.getProductId());
-//			} catch (InstanceNotFoundException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//		}
-//		
 		goToList();
 	}
 	
@@ -127,6 +115,9 @@ public class ProductCRUDController extends GenericForwardComposer {
 	
 	private void goToAddForm() {
 		newProd = new ProductDTO();
+
+		List<MibObjectDTO> candidate = productWSClient.findAllMibObjects().getMibObjectDTOs();
+		dualLBox.setModel(candidate, new ArrayList<MibObjectDTO>());
 		
 		productList.setVisible(false);
 		productForm.setVisible(true);

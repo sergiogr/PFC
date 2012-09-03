@@ -108,12 +108,6 @@ public class MibObjectCRUDController extends GenericForwardComposer {
 		else if (this.getAction() == Action.EDIT) {
 			productWSClient.updateMibObject(newMibObj, mibObjDualLb.getChosenDataList());
 		}
-//		current = productWebService.createMibObject(new MibObjectDTO(null,name.getValue(),description.getValue(),
-//				oid.getValue(),mib.getValue()));
-//		
-//		for (ProductDTO p : (List<ProductDTO>) mibObjDualLb.getChosenDataList()) {
-//			productWebService.assignMibObjectToProduct(newMibObj.getMibObjectId(), p.getProductId());
-//		}
 
 		goToList();
 	}
@@ -126,6 +120,8 @@ public class MibObjectCRUDController extends GenericForwardComposer {
 		newMibObj = new MibObjectDTO();
 		this.setAction(Action.CREATE);
 
+		List<ProductDTO> candidate = productWSClient.findAllProducts().getProductDTOs();
+		mibObjDualLb.setModel(candidate, new ArrayList<ProductDTO>());
 		mibObjectList.setVisible(false);
 		mibObjectForm.setVisible(true);
 	}

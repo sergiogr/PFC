@@ -8,7 +8,6 @@
 			</cell>
 			<cell height="100%">
 			<menubar autodrop="true" width="100%" height="100%" >
-				<menuitem label="Home" href="/index.zul" />
 				<menuitem label="Dashboard" href="/dashboard.zul" />
 				<menu label="Configuration" >
 				<menupopup>

@@ -17,11 +17,9 @@ import org.zkoss.gmaps.Gmarker;
 import org.zkoss.gmaps.MapModelList;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.util.GenericForwardComposer;
-import org.zkoss.zul.CategoryModel;
 import org.zkoss.zul.Flashchart;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.PieModel;
-import org.zkoss.zul.SimpleCategoryModel;
 import org.zkoss.zul.SimplePieModel;
 import org.zkoss.zul.Tree;
 import org.zkoss.zul.Treecell;
@@ -48,16 +46,13 @@ public class DashboardController extends GenericForwardComposer {
 	private Label devTotal;
 	private Label devUp;
 	private Label devDown;
-//	private Listbox eventLb;
 	private List<DeviceDTO> devices = new ArrayList<DeviceDTO>();
 	private MapModelList mapModel = new MapModelList();
 	private Flashchart projectsChart;
 	private Flashchart productsChart;
 	private Tree projectTree;
 	private Tree productTree;
-	
-	private Flashchart mybarchart;
-	
+		
 	public List<EventDTO> getEvents() {
 		return eventWSClient.findAllEvents().getEventDTOs();
 	}
@@ -77,30 +72,10 @@ public class DashboardController extends GenericForwardComposer {
 		map.setZoom(5);
 
         projectsChart.setModel(generateProjectChart());
-		projectsChart.setChartStyle("legend-display=bottom");
+		projectsChart.setChartStyle("legend-display=left");
 
 		productsChart.setModel(generateProductChart());
 		productsChart.setChartStyle("legend-display=left");
-		
-        PieModel model2 = new SimplePieModel();
-		for(int j=0; j < 4; ++j) {
-			 model2.setValue("c"+j, new Double(j));
-		}
-        int year = new java.util.Date().getYear() + 1900;
-		CategoryModel categorymodel = new SimpleCategoryModel();
-        categorymodel.setValue(year - 2 + "", "Q1", new Integer(17));
-        categorymodel.setValue(year - 2 + "", "Q2", new Integer(36));
-        categorymodel.setValue(year - 2 + "", "Q3", new Integer(39));
-        categorymodel.setValue(year - 2 + "", "Q4", new Integer(49));
-        categorymodel.setValue(year - 1 + "", "Q1", new Integer(20));
-        categorymodel.setValue(year - 1 + "", "Q2", new Integer(35));
-        categorymodel.setValue(year - 1 + "", "Q3", new Integer(40));
-        categorymodel.setValue(year - 1 + "", "Q4", new Integer(55));
-        categorymodel.setValue(year + "", "Q1", new Integer(40));
-        categorymodel.setValue(year + "", "Q2", new Integer(60));
-        categorymodel.setValue(year + "", "Q3", new Integer(70));
-        categorymodel.setValue(year + "", "Q4", new Integer(90));
-        mybarchart.setModel(categorymodel);
 		
 		for (DeviceDTO d: devices) {
 			Gmarker marker = new Gmarker(d.getDeviceName().toString(),d.getLat(), d.getLng());
@@ -133,17 +108,27 @@ public class DashboardController extends GenericForwardComposer {
 	
 	private PieModel generateProjectChart() {
         PieModel m = new SimplePieModel();
+        int nDevices = 0;
+
          for (ProjectDTO p : deviceWSClient.findAllProjects().getProjectDTOs()){
-        	 m.setValue(p.getProjectName(), deviceWSClient.findDevicesByProject(p.getProjectId()).getDeviceDTOs().size());
+        	 int n = deviceWSClient.findDevicesByProject(p.getProjectId()).getDeviceDTOs().size();
+        	 m.setValue(p.getProjectName(), n);
+        	 nDevices += n;
          }
+         m.setValue("No product", deviceWSClient.findAllDevice().getDeviceDTOs().size() - nDevices);
+
          return m;
 	}
 	
 	private PieModel generateProductChart() {
         PieModel m = new SimplePieModel();
-         for (ProductDTO p : productWSClient.findAllProducts().getProductDTOs()){
-        	 m.setValue(p.getProductName(), deviceWSClient.findDevicesByProduct(p.getProductId()).getDeviceDTOs().size());
-         }
+        int nDevices = 0;
+        for (ProductDTO p : productWSClient.findAllProducts().getProductDTOs()){
+        	int n = deviceWSClient.findDevicesByProduct(p.getProductId()).getDeviceDTOs().size();
+        	 m.setValue(p.getProductName(), n);
+        	 nDevices += n;
+        }
+         m.setValue("No product", deviceWSClient.findAllDevice().getDeviceDTOs().size() - nDevices);
          return m;
 	}
 
