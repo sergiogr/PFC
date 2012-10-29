@@ -98,6 +98,11 @@ public class DeviceService implements IDeviceService {
     }
 
     @Transactional(readOnly = true)
+    public Device findDeviceByIpAddress(String ipAddress) {
+    	return deviceDao.getDeviceByIpAddress(ipAddress);
+    }
+    
+    @Transactional(readOnly = true)
 	public List<Device> findDevicesByProject(Long projectId) {
 		return deviceDao.getDevicesByProject(projectId);
 	}

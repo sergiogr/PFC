@@ -94,7 +94,6 @@ public class ToolsController extends GenericForwardComposer {
 	public void onClick$snmpGetNextBtn() {
 		
 		SnmpService snmp = new SnmpService();
-//		snmp.snmpGet(communityGet.getValue(), ipAddressGet.getValue(), portGet.getValue(), oidGet.getValue());
 		snmpGetNextLbl.setValue("SNMP request to: "+ipAddressGet.getValue()+" - Response: "
 				+ snmp.snmpGetNext(communityGetNext.getValue(), ipAddressGetNext.getValue(), portGetNext.getValue(), oidGetNext.getValue()));
 			
@@ -116,7 +115,6 @@ public class ToolsController extends GenericForwardComposer {
 		snmpWalkLb.setVisible(true);
 		snmpWalkLb.renderAll();
 		System.out.println("Just got "+response.size()+" elements.");
-//		System.out.println(snmp.snmpGetNext(communityWalk.getValue(), ipAddressWalk.getValue(), portWalk.getValue(), oidWalk.getValue()));
 	}
 	
 	public void onClick$clearWalkBtn() {
@@ -136,18 +134,6 @@ public class ToolsController extends GenericForwardComposer {
 
 	
 	private List<String> ping(String ipAddress) throws IOException {
-//		try {
-//			InetAddress host = InetAddress.getByName(ipAddress);
-//
-//				if (host.isReachable(1000))
-//				return "True";
-//			else
-//				return "False";
-//		} catch (UnknownHostException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//			return "No host found";
-//		}
 
 		String command[] = {"ping", "-c4", ipAddress};
 		ProcessBuilder pb = new ProcessBuilder(command);

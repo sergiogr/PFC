@@ -26,6 +26,10 @@ public interface IDeviceDao extends IGenericDao<Device, Long> {
 	 */
 	public Device getDeviceByName(String deviceName) throws InstanceNotFoundException;
 	
+	
+	
+	public Device getDeviceByIpAddress(String ipAddress);
+	
 	/**
 	 * 
 	 * @param projectId

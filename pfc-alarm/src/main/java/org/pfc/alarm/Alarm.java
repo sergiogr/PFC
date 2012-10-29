@@ -9,8 +9,19 @@ public class Alarm {
 	
 	public static void main(String [] args) {
 
+		String ip = "0.0.0.0";
+		String port = "1162";
+		
+		if (args.length != 0) {
+			System.out.println("Número de argumentos: "+args.length);
+		}
 		ProcessAction processAction = new ProcessActionDB();
-		TrapReceiver trapReceiver = new TrapReceiver("0.0.0.0","1162", processAction);
+		System.out.println("******************************");
+		System.out.println("Iniciando servidor de alarmas:");
+		System.out.println("**Escuchando en: "+ip+"/"+port);
+		System.out.println("******************************");
+
+		TrapReceiver trapReceiver = new TrapReceiver(ip,port, processAction);
 		
 		try {
 			trapReceiver.init();

@@ -74,6 +74,7 @@ public class MibObjectCRUDController extends GenericForwardComposer {
 	}
 	
 	public void onClick$addMibObject() {
+		this.setAction(Action.CREATE);
 		goToAddForm();
 	}
 	
@@ -95,7 +96,7 @@ public class MibObjectCRUDController extends GenericForwardComposer {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public void onClick$save() throws InstanceNotFoundException {
+	public void onClick$save() {
 		
 		newMibObj.setMibObjectName(name.getValue());
 		newMibObj.setDescription(description.getValue());
@@ -106,7 +107,12 @@ public class MibObjectCRUDController extends GenericForwardComposer {
 			productWSClient.createMibObject(newMibObj, mibObjDualLb.getChosenDataList());
 		}
 		else if (this.getAction() == Action.EDIT) {
-			productWSClient.updateMibObject(newMibObj, mibObjDualLb.getChosenDataList());
+			try {
+				productWSClient.updateMibObject(newMibObj, mibObjDualLb.getChosenDataList());
+			} catch (InstanceNotFoundException e) {
+				alert(newMibObj.getMibObjectName()+" not found.");
+				e.printStackTrace();
+			}
 		}
 
 		goToList();
@@ -118,7 +124,11 @@ public class MibObjectCRUDController extends GenericForwardComposer {
 	
 	private void goToAddForm() {
 		newMibObj = new MibObjectDTO();
-		this.setAction(Action.CREATE);
+
+		name.setConstraint("no empty:Mandatory field");
+		description.setConstraint("no empty:Mandatory field");
+		oid.setConstraint("no empty:Mandatory field");
+		mib.setConstraint("no empty:Mandatory field");
 
 		List<ProductDTO> candidate = productWSClient.findAllProducts().getProductDTOs();
 		mibObjDualLb.setModel(candidate, new ArrayList<ProductDTO>());
@@ -136,9 +146,13 @@ public class MibObjectCRUDController extends GenericForwardComposer {
 		mibObjDualLb.setModel(candidate, chosen);
 		
 		name.setValue(current.getMibObjectName());
+		name.setConstraint("no empty:Mandatory field");
 		description.setValue(current.getDescription());
+		description.setConstraint("no empty:Mandatory field");
 		oid.setValue(current.getOid());
+		oid.setConstraint("no empty:Mandatory field");
 		mib.setValue(current.getMib());
+		mib.setConstraint("no empty:Mandatory field");
 		
 		mibObjectList.setVisible(false);
 		mibObjectForm.setVisible(true);
@@ -146,6 +160,12 @@ public class MibObjectCRUDController extends GenericForwardComposer {
 	}
 	
 	private void goToList() {
+
+		name.setConstraint("");
+		oid.setConstraint("");
+		description.setConstraint("");
+		mib.setConstraint("");
+		
 		name.setValue(null);
 		description.setValue(null);
 		oid.setValue(null);

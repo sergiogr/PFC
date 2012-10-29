@@ -3,12 +3,15 @@
 <?init class="org.zkoss.zk.ui.util.Composition" arg0="/common/layout/template.zul"?>
 <?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
 <zk>
+<style>
+.nav_text { color: #696569; font-size : 12px; font-weight: bold;}
+</style>
 <window self="@{define(content)}" id="monitorWin" border="normal" apply="org.pfc.web.monitor.MonitorController" width="100%" height="100%">
 <borderlayout width="100%" height="100%" > 
 <west width="25%">
 <panel title="Devices list" width="100%" height="100%" border="normal" hflex="1" vflex="1" >
     <panelchildren>
-		<listbox id="deviceLb" width="100%" height="100%" mold="paging" model="@{monitorWin.devices }" emptyMessage="There is no device" >
+		<listbox id="deviceLb" width="100%" height="100%" mold="paging" vflex="1" model="@{monitorWin.devices }" emptyMessage="There is no device" >
 		<listhead>
 			<listheader label="Name" />
 			<listheader label="Description" />
@@ -29,11 +32,11 @@
 		<panel title="Last data" border="normal" width="100%" height="100%" hflex="1" >
     		<panelchildren>
 				<grid id="dataGrid" mold="paging" vflex="1" width="100%" emptyMessage="There is no data from this device.">
-					<columns>
-						<column label="Data" width="30%"/>
+					<columns sizable="true">
+						<column label="Data" width="15%" />
 						<column label="Value" />
 						<column label="Date" />
-						<column label="Action" />
+						<column label="Action" width="10%" />
 					</columns>	
 					<rows id="dataRows" />
 				</grid>
@@ -43,14 +46,18 @@
 		<center>
 		<panel title="History" border="normal" width="100%" height="100%" hflex="1">
 			<panelchildren>
-				<grid id="historyGrid" mold="paging" vflex="1" height="100%" >
-					<columns>
-						<column label="Data" width="30%"/>
+			<div height="16px">
+				<label id="historyLabel" sclass="nav_text" />
+			</div>
+			<div vflex="1">
+				<grid id="historyGrid" mold="paging" vflex="1"  >
+					<columns sizable="true">
 						<column label="Value" />
 						<column label="Date" />
 					</columns>	
 					<rows id="historyRows" />
-				</grid>		
+				</grid>	
+			</div>	
 			</panelchildren>
 		</panel>
 		</center>

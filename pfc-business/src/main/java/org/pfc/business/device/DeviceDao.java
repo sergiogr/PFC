@@ -42,6 +42,14 @@ public class DeviceDao extends GenericDao<Device, Long> implements IDeviceDao{
 		}
 	}
 	
+	public Device getDeviceByIpAddress(String ipAddress) {
+		Device device = (Device) getSession().createQuery(
+				"SELECT d FROM Device d WHERE d.ipAddress = :ipAddress")
+				.setParameter("ipAddress", ipAddress).uniqueResult();
+
+		return device;
+	}
+	
 	@SuppressWarnings("unchecked")
 	public List<Device> getDevicesByProject(Long projectId) {
 		return getSession().createQuery(

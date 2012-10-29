@@ -26,6 +26,9 @@ public interface IDeviceWebService {
 	public DeviceDTO findDeviceByName(String deviceName) throws InstanceNotFoundException;
 	
 	@WebMethod
+	public DeviceDTO findDeviceByIpAddress(String ipAddress);
+	
+	@WebMethod
 	public DevicesFindResponse findDevicesByProject(Long projectId);
 
 	@WebMethod

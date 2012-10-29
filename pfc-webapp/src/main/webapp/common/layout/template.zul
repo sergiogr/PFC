@@ -1,5 +1,31 @@
 <zk>
+<style>
+.z-menubar-hor .z-menu,
+.z-menubar-hor .z-menuitem,
+.z-menubar-hor .z-menu-btn,
+.z-menubar-hor .z-menu-item-btn  {
+	font-size: 12px;
+	font-weight: bold;
+	color: #696569;
+	height: 20px;
+}
+.z-toolbarbutton-cnt {
+	color: #800536;
+	font-weight: bold;
+}
+.z-menu-popup-cnt .z-menu-item a.z-menu-item-cnt {
+	color: #696569;
+	font-weight: bold;
+}
 
+div.z-column-cnt,
+div.z-treecol-cnt,
+div.z-listheader-cnt  {
+	font-size: 12px;
+	color: #696569;
+	font-weight: bold;
+}
+</style>
 	<borderlayout width="100%" height="100%" >
 		<north title="" border="none" height="80px">
 			<hbox width="100%" height="100%" align="end" >

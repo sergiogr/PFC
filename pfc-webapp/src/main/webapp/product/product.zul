@@ -42,7 +42,7 @@
 				</row>
 				<row>
 					<label value="Description" />
-					<textbox id="description" />
+					<textbox id="description" rows="2" cols="40"/>
 				</row>
 				<row>
 					<label />

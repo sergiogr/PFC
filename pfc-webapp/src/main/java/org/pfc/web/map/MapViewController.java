@@ -37,7 +37,9 @@ public class MapViewController extends GenericForwardComposer {
 //	private MapModelList mapModelList;
 	private Label deviceNameLbl;
 	private Label descriptionLbl;
+	private Label productLbl;
 	private Label ipAddressLbl;
+	private Label portLbl;
 	private Label latitudeLbl;
 	private Label longitudeLbl;
 	private Grid dataGrid;
@@ -157,7 +159,13 @@ public class MapViewController extends GenericForwardComposer {
 				dev = deviceWSClient.findDeviceByName(marker.getContent());
 				deviceNameLbl.setValue(dev.getDeviceName());
 				descriptionLbl.setValue(dev.getDescription());
-				ipAddressLbl.setValue(dev.getIpAddress());
+				if (dev.getProductId() != null) {
+					productLbl.setValue(productWSClient.findProduct(dev.getProductId()).getProductName());	
+				}
+				else {
+					productLbl.setValue("No product associated");
+				}				ipAddressLbl.setValue(dev.getIpAddress());
+				portLbl.setValue(dev.getSnmpPort());
 				latitudeLbl.setValue(((Double) dev.getLat()).toString());
 				longitudeLbl.setValue(((Double) dev.getLng()).toString());
 				dataGrid.setEmptyMessage("Device "+dev.getDeviceName()+" is not being monitored.");
@@ -173,7 +181,7 @@ public class MapViewController extends GenericForwardComposer {
 					DataDTO data = dataWSClient.getMostRecentValue(dev.getDeviceId(), mo.getMibObjectId());
 					if (data != null) {
 						new Label(data.getValue()).setParent(row);	
-						new Label(data.getDate().toString()).setParent(row);		
+						new Label(data.getDate().getTime().toString()).setParent(row);		
 						
 					}
 					else {
@@ -195,32 +203,44 @@ public class MapViewController extends GenericForwardComposer {
 	
 	public void onSelect$devicesLb() {
 		DeviceDTO dev = (DeviceDTO) devicesLb.getSelectedItem().getValue();
-		
-		deviceNameLbl.setValue(dev.getDeviceName());
-		descriptionLbl.setValue(dev.getDescription());
-		ipAddressLbl.setValue(dev.getIpAddress());
-		latitudeLbl.setValue(((Double) dev.getLat()).toString());
-		longitudeLbl.setValue(((Double) dev.getLng()).toString());
-		dataGrid.setEmptyMessage("Device "+dev.getDeviceName()+" is not being monitored.");
-		dataGrid.getRows().getChildren().clear();
-
-		List<MibObjectDTO> mos = productWSClient.findMibObjectsByProductId(dev.getProductId()).getMibObjectDTOs();
-
-		for (MibObjectDTO mo : mos){
-			Row row = new Row();
-			row.setParent(dataRows);
-			new Label(mo.getMibObjectName()).setParent(row);
-			DataDTO data = dataWSClient.getMostRecentValue(dev.getDeviceId(), mo.getMibObjectId());
-			if (data != null) {
-				new Label(data.getValue()).setParent(row);	
-				new Label(data.getDate().toString()).setParent(row);		
-				
+		try {		
+			deviceNameLbl.setValue(dev.getDeviceName());
+			descriptionLbl.setValue(dev.getDescription());
+			if (dev.getProductId() != null) {
+				productLbl.setValue(productWSClient.findProduct(dev.getProductId()).getProductName());	
 			}
 			else {
-				new Label("No data found").setParent(row);	
-				new Label("-").setParent(row);	
+				productLbl.setValue("No product associated");
 			}
-
+			ipAddressLbl.setValue(dev.getIpAddress());
+			portLbl.setValue(dev.getSnmpPort());		
+			latitudeLbl.setValue(((Double) dev.getLat()).toString());
+			longitudeLbl.setValue(((Double) dev.getLng()).toString());
+			dataGrid.setEmptyMessage("Device "+dev.getDeviceName()+" is not being monitored.");
+			dataGrid.getRows().getChildren().clear();
+		
+			List<MibObjectDTO> mos = productWSClient.findMibObjectsByProductId(dev.getProductId()).getMibObjectDTOs();
+			
+			for (MibObjectDTO mo : mos){
+				Row row = new Row();
+				row.setParent(dataRows);
+				new Label(mo.getMibObjectName()).setParent(row);
+				DataDTO data = dataWSClient.getMostRecentValue(dev.getDeviceId(), mo.getMibObjectId());
+				if (data != null) {
+					new Label(data.getValue()).setParent(row);	
+					new Label(data.getDate().getTime().toString()).setParent(row);		
+					
+				}
+				else {
+					new Label("No data found").setParent(row);	
+					new Label("-").setParent(row);	
+				}
+				
+			}
+		
+		} catch (InstanceNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 

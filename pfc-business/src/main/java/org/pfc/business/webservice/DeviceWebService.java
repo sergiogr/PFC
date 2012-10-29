@@ -90,6 +90,10 @@ public class DeviceWebService implements IDeviceWebService {
 		
 	}
 	
+	public DeviceDTO findDeviceByIpAddress(String ipAddress) {
+		return toDeviceDTO(deviceService.findDeviceByIpAddress(ipAddress));
+	}
+	
 	@Override
 	public DevicesFindResponse findAllDevice() {
 		List<Device> devices = deviceService.findAllDevice();
@@ -165,6 +169,9 @@ public class DeviceWebService implements IDeviceWebService {
 	@Override
 	public void removeProject(Long projectId) throws InstanceNotFoundException {
 
+		for (Device d :  deviceService.findDevicesByProject(projectId)) {
+			deviceService.delDeviceFromProject(d.getDeviceId());
+		}
 		deviceService.removeProject(projectId);
 		
 	}
@@ -210,12 +217,5 @@ public class DeviceWebService implements IDeviceWebService {
 		return new ProjectDTO(project.getProjectId(),project.getProjectName(),project.getDescription());
 		
 	}
-
-
-	
-//	private MibObjectDTO toMibObjectDTO(MibObject mibObject) {
-//		return new MibObjectDTO(mibObject.getMibObjectId(),mibObject.getMibObjectName(),
-//				mibObject.getDescription(), mibObject.getOid(), mibObject.getMib());
-//	}
 
 }

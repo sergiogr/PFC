@@ -3,6 +3,12 @@
 <?init class="org.zkoss.zk.ui.util.Composition" arg0="/common/layout/template.zul"?>
 <?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
 <zk>
+<style>
+.z-listheader-cnt {
+	font-size: 14px;
+	font-weight: bold;
+}
+</style>
 <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAnfs7bKE82qgb3Zc2YyS-oBT2yXp_ZAY8_ufC3CFXhHIE1NvwkxSySz_REpPq-4WZA27OwgbtyR3VcA"
     type="text/javascript"></script>
 <window self="@{define(content)}" id="dashWin" apply="org.pfc.web.dashboard.DashboardController" border="normal" width="100%" height="100%" >
@@ -42,11 +48,11 @@
 <south height="20px">
 <hlayout>
 	<image src="/common/img/wifi.png" height="18px" />
-	<label id="devUp" />
+	<label id="devUp" style="font-weight: bold;	color: #696569;" />
 	<image src="/common/img/wifi_red.png" height="18px"/>
-	<label id="devDown" />
+	<label id="devDown" style="font-weight: bold;	color: #696569;" />
 	<image src="/common/img/wifi_blue.png" height="18px" />
-	<label id="devTotal" />
+	<label id="devTotal" style="font-weight: bold;	color: #696569;" />
 </hlayout>
 </south>
 </borderlayout>
@@ -77,6 +83,11 @@
 			<listheader label="Variables" />
 			<listheader label="Date" />
 		</listhead>
+		<listitem self="@{each=event}" value="@{event}">
+			<listcell label="@{event.ipSource}" />
+			<listcell label="@{event.variables}" />
+			<listcell label="@{event.date.Time}" />
+		</listitem>
 		<listfoot>
             <listfooter>
 				<toolbarbutton label="View more" href="/event/event.zul" />

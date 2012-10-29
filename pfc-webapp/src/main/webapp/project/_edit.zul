@@ -11,7 +11,7 @@
 			<row>
 				<label value="Description" />
 				<hbox>
-					<textbox id="descriptionTb" onChange="noDescription.setVisible(false);"/>
+					<textbox id="descriptionTb" rows="2"  cols="40" onChange="noDescription.setVisible(false);"/>
 					<label id="noDescription" style="color:red !important;" value="You need a description for the project" visible="false"/>
 				</hbox>
 			</row>

@@ -41,7 +41,7 @@
 				</row>
 				<row>
 					<label value="Description" />
-					<textbox id="description" />
+					<textbox id="description" rows="2" cols="40" />
 				</row>
 				<row>
 					<label value="OID" />
@@ -60,7 +60,6 @@
 					<hbox>
 						<button id="save" label="Save" width="50px" height="24px"/>
 						<button id="cancel" label="Cancel" width="50px" height="24px"/>
-						<intbox id="nChosen" />
 					</hbox>
 				</row>
 		</rows>

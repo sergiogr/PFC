@@ -3,9 +3,12 @@ package org.pfc.business.webservice;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.pfc.business.device.Device;
+import org.pfc.business.deviceservice.IDeviceService;
 import org.pfc.business.mibobject.MibObject;
 import org.pfc.business.product.Product;
 import org.pfc.business.productservice.IProductService;
+import org.pfc.business.util.exceptions.DuplicateInstanceException;
 import org.pfc.business.util.exceptions.InstanceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -13,6 +16,9 @@ public class ProductWebService implements IProductWebService {
 
 	@Autowired
 	private IProductService productService;
+
+	@Autowired
+	private IDeviceService deviceService;
 	
 //	public ProductDTO createProduct(ProductDTO productDTO) {
 //		Product product = new Product(productDTO.getProductName(),productDTO.getDescription(),
@@ -49,7 +55,7 @@ public class ProductWebService implements IProductWebService {
 		if (mibObjectDTOs != null) {
 			for (MibObject mo : productService.findMibObjectsByProductId(productDTO.getProductId())) {
 				if (mibObjectDTOs.contains(toMibObjectDTO(mo))) {
-					productService.unassignMibObjectFromProduct(mo.getMibObjectId(), productDTO.getProductId());
+					productService.unassignMibObjectFromProduct(mo.getMibObjectId(), product.getProductId());
 				}
 			}
 			for (MibObjectDTO mo : mibObjectDTOs) {
@@ -64,10 +70,9 @@ public class ProductWebService implements IProductWebService {
 		MibObject mibObject = productService.createMibObject(new MibObject(mibObjectDTO.getMibObjectName(),mibObjectDTO.getDescription(),
 				mibObjectDTO.getOid(),mibObjectDTO.getMib()));
 		if (productDTOs != null) {
-
 			for (ProductDTO p : productDTOs) {
 				try {
-					productService.assignMibObjectToProduct(mibObjectDTO.getMibObjectId(), p.getProductId());
+					productService.assignMibObjectToProduct(mibObject.getMibObjectId(), p.getProductId());
 				} catch (InstanceNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -125,6 +130,15 @@ public class ProductWebService implements IProductWebService {
 	@Override
 	public void removeProduct(Long productId) throws InstanceNotFoundException {
 
+		for (Device d : deviceService.findDevicesByProduct(productId)) {
+			d.setProduct(null);
+			try {
+				deviceService.updateDevice(d);
+			} catch (DuplicateInstanceException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		productService.removeProduct(productId);
 		
 	}

@@ -226,12 +226,6 @@ public class DeviceCRUDController extends GenericForwardComposer {
 				DeviceDTO d = new DeviceDTO(null,"AP"+i,"AP de prueba "+i,"127.0.0.1","public","161",x,y);
 				deviceWSClient.createDevice(d);
 			}
-
-//			deviceWSClient.createDevice(new DeviceDTO(null, "AP1", "Punto de acceso 1", "127.0.0.1","public","161",43.354891546397745,-8.416385650634766));
-//			deviceWSClient.createDevice(new DeviceDTO(null, "AP2", "Punto de acceso 2", "127.0.0.1","public","161",43.354891546397745,-8.416385650634766));
-//			deviceWSClient.createDevice(new DeviceDTO(null, "AP3", "Punto de acceso 3", "127.0.0.1","public","161",43.354891546397745,-8.416385650634766));
-//			deviceWSClient.createDevice(new DeviceDTO(null, "AP4", "Punto de acceso 4", "127.0.0.1","public","161",43.354891546397745,-8.416385650634766));
-//			deviceWSClient.createDevice(new DeviceDTO(null, "AP5", "Punto de acceso 5", "127.0.0.1","public","161",43.354891546397745,-8.416385650634766));
 		} catch (DuplicateInstanceException e) {
 			alert("This device already exists.");
 		}

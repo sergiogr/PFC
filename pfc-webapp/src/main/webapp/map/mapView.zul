@@ -16,7 +16,7 @@
 </panelchildren>
 </panel>
 </center>
-<east width="25%" flex="true" splittable="true">
+<east width="25%" flex="true" splittable="true" collapsible="true">
     <vlayout spacing="1">
 	<panel title="Device details" border="normal" width="100%" hflex="1" >
     	<panelchildren>	
@@ -35,8 +35,16 @@
 						<label id="descriptionLbl" />
 					</row>
 					<row>
+						<label value="Product" /> 
+						<label id="productLbl" />
+					</row>
+					<row>
 						<label value="IP Address" /> 
 						<label id="ipAddressLbl" />
+					</row>
+					<row>
+						<label value="SNMP Port" /> 
+						<label id="portLbl" />
 					</row>
 					<row>
 						<label value="Position" />
@@ -69,10 +77,10 @@
 	</panel>
 	</vlayout>
 </east>
-<south height="30%" flex="true" splittable="true">
+<south height="30%" flex="true" splittable="true" collapsible="true">
 <panel title="Devices list" border="normal" height="100%" hflex="1">
     <panelchildren>
-	<listbox id="devicesLb" model="@{mapWin.deviceModel, load-after='map.onMapMove'}" rows="10" visible="true" emptyMessage="No device found in this area.">
+	<listbox id="devicesLb" mold="paging" vflex="1" model="@{mapWin.deviceModel, load-after='map.onMapMove'}" rows="10" visible="true" emptyMessage="No device found in this area.">
 		<listhead>
 			<listheader label="Name" />
 			<listheader label="Description" />

@@ -101,7 +101,7 @@ public class ProductCRUDController extends GenericForwardComposer {
 			try {
 				productWSClient.updateProduct(newProd, dualLBox.getChosenDataList());
 			} catch (InstanceNotFoundException e) {
-				// TODO Auto-generated catch block
+				alert(newProd.getProductName()+" not found.");
 				e.printStackTrace();
 			}
 		}
@@ -116,6 +116,10 @@ public class ProductCRUDController extends GenericForwardComposer {
 	private void goToAddForm() {
 		newProd = new ProductDTO();
 
+		name.setConstraint("no empty:Mandatory field");
+		manufacturer.setConstraint("no empty:Mandatory field");
+		description.setConstraint("no empty:Mandatory field");
+		
 		List<MibObjectDTO> candidate = productWSClient.findAllMibObjects().getMibObjectDTOs();
 		dualLBox.setModel(candidate, new ArrayList<MibObjectDTO>());
 		
@@ -136,6 +140,9 @@ public class ProductCRUDController extends GenericForwardComposer {
 		name.setValue(current.getProductName());
 		manufacturer.setValue(current.getManufacturer());
 		description.setValue(current.getDescription());
+		name.setConstraint("no empty:Mandatory field");
+		manufacturer.setConstraint("no empty:Mandatory field");
+		description.setConstraint("no empty:Mandatory field");
 		
 		productList.setVisible(false);
 		productForm.setVisible(true);
@@ -143,6 +150,10 @@ public class ProductCRUDController extends GenericForwardComposer {
 	}
 	
 	private void goToList() {
+		name.setConstraint("");
+		manufacturer.setConstraint("");
+		description.setConstraint("");
+		
 		name.setValue(null);
 		manufacturer.setValue(null);
 		description.setValue(null);

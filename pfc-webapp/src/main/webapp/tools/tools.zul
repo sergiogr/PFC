@@ -34,7 +34,7 @@
     			Port: <textbox id="portGet" value="161" cols="5"/>
     		</vbox>
     		<vbox>
-    			Community: <textbox id="communityGet" value="public" cols="10"/>
+    			Community: <textbox id="communityGet" type="password" value="public" cols="10"/>
     		</vbox>
     		<vbox>
     			OID: <textbox id="oidGet" cols="60"/>
@@ -61,7 +61,7 @@
     			Port: <textbox id="portGetNext" value="161" cols="5"/>
     		</vbox>
     		<vbox>
-    			Community: <textbox id="communityGetNext" value="public" cols="10"/>
+    			Community: <textbox id="communityGetNext" type="password" value="public" cols="10"/>
     		</vbox>
     		<vbox>
     			OID: <textbox id="oidGetNext" cols="60"/>
@@ -88,7 +88,7 @@
     			Port: <textbox id="portWalk" value="161" cols="5"/>
     		</vbox>
     		<vbox>
-    			Community: <textbox id="communityWalk" value="public" cols="10"/>
+    			Community: <textbox id="communityWalk" type="password" value="public" cols="10"/>
     		</vbox>
     		<vbox>
     			OID: <textbox id="oidWalk" cols="60"/>

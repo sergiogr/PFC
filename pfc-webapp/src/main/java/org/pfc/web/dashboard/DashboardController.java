@@ -140,7 +140,7 @@ public class DashboardController extends GenericForwardComposer {
 			treeChildren.appendChild(itemProj);
 			itemProj.appendChild(proj);
 			proj.appendChild(new Treecell(p.getProjectName()));
-			proj.appendChild(new Treecell(p.getDescription()));
+//			proj.appendChild(new Treecell(p.getDescription()));
 			
 			Treechildren treeDev = new Treechildren();
 			itemProj.appendChild(treeDev);
@@ -166,7 +166,7 @@ public class DashboardController extends GenericForwardComposer {
 			treeChildren.appendChild(itemProd);
 			itemProd.appendChild(prod);
 			prod.appendChild(new Treecell(p.getProductName()));
-			prod.appendChild(new Treecell(p.getDescription()));
+//			prod.appendChild(new Treecell(p.getDescription()));
 			
 			Treechildren treeDev = new Treechildren();
 			itemProd.appendChild(treeDev);

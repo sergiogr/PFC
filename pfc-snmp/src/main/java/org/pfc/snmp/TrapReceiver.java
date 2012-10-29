@@ -69,7 +69,7 @@ public class TrapReceiver implements CommandResponder {
 
 	/**
 	 * This method will be called whenever a pdu is received on the given port
-	 * specified in the listen() method
+	 * specified in the init() method.
 	 */
 	public synchronized void processPdu(CommandResponderEvent cmdRespEvent) {
 		System.out.println("Received PDU...");

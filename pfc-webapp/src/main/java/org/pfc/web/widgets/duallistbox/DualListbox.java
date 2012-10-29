@@ -37,18 +37,18 @@ public class DualListbox extends Div implements IdSpace {
 	
 	@SuppressWarnings("rawtypes")
 	public void onClick$chooseBtn() {
-		Set set = choseOne();
+		Set set = choose();
 		Events.postEvent(new ChooseEvent(this, set));
 	}
 	
 	@SuppressWarnings("rawtypes")
 	public void onClick$removeBtn() {
-        Set set = unchooseOne();
+        Set set = unchoose();
         Events.postEvent(new ChooseEvent(this, set));
     }
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private Set choseOne() {
+	private Set choose() {
 		Set set = candidateLb.getSelectedItems();
         for (Object obj : new ArrayList(set)) {
             Object data = ((Listitem) obj).getValue();
@@ -60,14 +60,14 @@ public class DualListbox extends Div implements IdSpace {
 	
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private Set unchooseOne() {
+	private Set unchoose() {
 	     Set set = chosenLb.getSelectedItems();
 	     for (Object obj : new ArrayList(set)) {
 	    	 Object data = ((Listitem) obj).getValue();
 	    	 candidateModel.add(data);
 	    	 chosenDataModel.remove(data);  
 	     }
-	     return set;	// TODO Auto-generated method stub
+	     return set;
 	}
 	
 	 // Set Renderer of candidate list and chosen list (Used in Java)

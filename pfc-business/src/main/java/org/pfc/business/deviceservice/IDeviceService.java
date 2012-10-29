@@ -29,6 +29,8 @@ public interface IDeviceService {
     
     public Device findDeviceByName(String deviceName) throws InstanceNotFoundException;
     
+    public Device findDeviceByIpAddress(String ipAddress);
+    
     public List<Device> findDevicesByProject(Long projectId);
 
     public List<Device> findDevicesByProduct(Long productId);

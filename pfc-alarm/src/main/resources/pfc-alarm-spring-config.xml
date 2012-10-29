@@ -21,5 +21,9 @@
     <jaxws:client id="eventWSClient"
     	serviceClass="org.pfc.business.webservice.IEventWebService"
     	address="http://localhost:8080/pfc-business/EventWS" /> 
+    	
+    <jaxws:client id="deviceWSClient"
+    	serviceClass="org.pfc.business.webservice.IDeviceWebService"
+    	address="http://localhost:8080/pfc-business/DeviceWS" /> 
  	
 </beans>
